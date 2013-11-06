@@ -97,7 +97,7 @@ namespace Kalibri\Helper {
 				? self::$baseUrl
 				: str_replace('%d%', $subdomain, self::$baseDomainedUrl);
 			
-			return $root.( $path && $path[0] !== '/'? '/':'').str_replace( '//', '/', $path );
+			return $root.( $path && $path[0] !== '/' && $root[ strlen( $root )-1 ] != '/' ? '/':''). $path;
 		}
 
 //------------------------------------------------------------------------------------------------//
