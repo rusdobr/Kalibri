@@ -97,13 +97,13 @@ namespace Kalibri\Helper {
 				? self::$baseUrl
 				: str_replace('%d%', $subdomain, self::$baseDomainedUrl);
 			
-			return $root.( $path && $path[0] !== '/'? '/':'').$path;
+			return $root.( $path && $path[0] !== '/'? '/':'').str_replace( '//', '/', $path );
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public static function resource( $path = '' )
 		{
-			return self::$base.( $path && $path[0] !== '/'? '/':'' ).$path;
+			return self::$base.( $path && $path[0] == '/'? '':'/' ). str_replace( '//', '/', $path );
 		}
 
 //------------------------------------------------------------------------------------------------//

@@ -6,22 +6,15 @@ define('K_TIME', $_SERVER['REQUEST_TIME'] );
 define('K_DATE', date('Y-m-d', K_TIME ) );
 define('K_DATETIME', date('Y-m-d H:i:s', K_TIME) );
 
-define('K_ROOT', str_replace( '\\', '/', realpath( getcwd().'/../../' ) ).'/' );
+!defined('K_ROOT') && define('K_ROOT', str_replace( '\\', '/', realpath( dirname(__FILE__).'/../' ) ).'/' );
 
-// Add root folder into include path
-set_include_path( K_ROOT.PATH_SEPARATOR.get_include_path().PATH_SEPARATOR.K_ROOT.'dependencies' );
+// Add app and kalibri to include path
+set_include_path( realpath(K_APP_FOLDER.'../').PATH_SEPARATOR . K_ROOT.PATH_SEPARATOR . get_include_path());
 
 require_once('Kalibri/Kalibri.php');
 
-if( !defined('K_COMPILE_BASE') )
-{
-	define('K_COMPILE_BASE', false);
-}
-
-if( !defined('K_COMPILE_ROUTES') )
-{
-	define('K_COMPILE_ROUTES', false);
-}
+!defined('K_COMPILE_BASE') && define('K_COMPILE_BASE', false);
+!defined('K_COMPILE_ROUTES') && define('K_COMPILE_ROUTES', false);
 
 if( K_COMPILE_BASE || K_COMPILE_ROUTES )
 {
@@ -34,17 +27,10 @@ if( !K_COMPILE_BASE || !\Kalibri::compiler()->includeCached( \Kalibri\Utils\Comp
 	require_once('Kalibri/Autoload.php');
 	require_once('Kalibri/Application.php');
 	require_once('Kalibri/Config.php');
-	//require_once('Kalibri/Output.php');
-	//require_once('Kalibri/Logger/Base.php');
-	//require_once('Kalibri/View.php');
-	//require_once('Kalibri/View/Data.php');
 	require_once('Kalibri/Controller/Base.php');
-	//require_once('Kalibri/Helper/BaseInterface.php');
 	require_once('Kalibri/Uri.php');
 	require_once('Kalibri/Router.php');
 	require_once('Kalibri/Benchmark.php');
-	//require_once('Kalibri/Event/Dispatcher.php');
-	//require_once('Kalibri/Event.php');
 }
 
 // Register autoloader

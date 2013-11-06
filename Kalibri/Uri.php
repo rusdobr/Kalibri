@@ -47,7 +47,7 @@ namespace Kalibri {
 
 				$this->_uri = $requestUri;
 			}
-
+			
 			$this->_process();
 		}
 
@@ -63,7 +63,7 @@ namespace Kalibri {
 			 * This avoids having to deal with $_SERVER variables, which
 			 * can be unreliable in some environments
 			 */
-			if( is_array( $_GET ) && count( $_GET ) && strpos( key( $_GET ), '/') === 0 )
+			if( count( $_GET ) && strpos( key( $_GET ), '/') === 0 )
 			{
 				return $this->_uri = key( $_GET );
 			}
@@ -166,11 +166,11 @@ namespace Kalibri {
 			{
 				$uri = substr( $uri, 1, strlen( $uri ) );
 			}
-
+			
 			//Split uri to segments
 			$this->_segments = explode( '/', $uri );
 			//Check is URI was empty
-			if( strcmp( $this->_segments[0], '') == 0 )
+			if( $this->_segments[0] == '' )
 			{
 				//Set default uri and clear segments
 				$this->_uri = '/';

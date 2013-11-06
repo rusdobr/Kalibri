@@ -129,15 +129,9 @@ namespace Kalibri {
 			{
 				return $this;
 			}
-
-			//if( $this->checkRouteMap() )
-			//{
-			//	return $this;
-			//}
-
-			$this->_baseNamespace = $this->checkProjectBase();
-
-			$basePath = K_ROOT.$this->_baseNamespace.'/App/Controller/';
+			
+			$basePath = str_replace('//', '/', K_APP_FOLDER.'/App/Controller/' );
+			
 			$upper = '';
 			$segmentsCount = count( $this->_segments );
 
@@ -175,14 +169,6 @@ namespace Kalibri {
 			}
 
 			return $this;
-		}
-
-//------------------------------------------------------------------------------------------------//
-		public function checkRouteMap()
-		{
-			//\Kalibri::event()->triggerByName('checkMap');
-
-			return false;
 		}
 
 //------------------------------------------------------------------------------------------------//

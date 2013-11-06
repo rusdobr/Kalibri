@@ -4,7 +4,7 @@ namespace Kalibri\Model {
 
 	class User extends \Kalibri\Model\Active
 	{
-		protected $_tableName = 'user';
+		protected $_tableName = 'users';
 		protected $_keyField = 'user_id';
 		
 //------------------------------------------------------------------------------------------------//

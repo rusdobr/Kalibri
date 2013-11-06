@@ -1,9 +1,9 @@
 <?php
 
 return array(
-	'base'=>'http://'.$_SERVER['HTTP_HOST'].'/',
+	'base'=>'',
 	'entry'=>'',
-	'base-host'=>$_SERVER['HTTP_HOST'],
+	'base-host'=>'',
 	'permitted-uri-chars'=>'\w \d~%\.:_\-\?\=&',
 	'response'=>array(
 		'default'=>array(
