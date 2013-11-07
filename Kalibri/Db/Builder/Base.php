@@ -321,7 +321,7 @@ namespace Kalibri\Db\Builder {
 			{
 				foreach( $this->_data['fields'] as $field=>$value )
 				{
-					if( $value[0] !== '&' && $value !== '*' && !is_numeric( $field ) )
+					if( ( $value && $value[0] !== '&' && $value !== '*' && !is_numeric( $field ) ) || !$value )
 					{
 						$params[ ':'.$field ] = $value;
 					}
