@@ -64,7 +64,7 @@ namespace Kalibri {
 		 */
 		public function show( $message, $title = 'Error' )
 		{
-			\Kalibri::event()->triggerByName('genericError');
+			\Kalibri::event()->trigger('genericError');
 
 			@ob_end_clean();
 			\Kalibri::logger()->add( Logger::L_ERROR, $message);
@@ -87,7 +87,7 @@ namespace Kalibri {
 		 */
 		public function show404()
 		{
-			\Kalibri::event()->triggerByName('pageNotFoundError');
+			\Kalibri::event()->trigger('pageNotFoundError');
 
 			@ob_end_clean();
 			\Kalibri::logger()->add( Logger::L_ERROR, 'Page not found: '.\Kalibri::uri()->getUri() );

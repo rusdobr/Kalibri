@@ -53,7 +53,7 @@ return array(
 			'data'    => '\\Kalibri\\View\\Data',
 			'uri'     => '\\Kalibri\\Uri',
 			'logger'  => '\\Kalibri\\Logger\\Driver\\File',
-			'event'   => '\\Kalibri\\Event\\Dispatcher',
+			'event'   => '\\Kalibri\\Event',
 			'router'  => '\\Kalibri\\Router',
 			'auth'    => '\\Kalibri\\Auth',
 			'db'      => '\\Kalibri\\Db',

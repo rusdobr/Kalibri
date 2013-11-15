@@ -15,23 +15,11 @@ namespace Kalibri\Logger {
 
 		const DEFAULT_DATE_FOTRMAT = 'Y-m-d H:i:s';
 
-		/**
-		 * Stored messages
-		 *
-		 * @var array,array
-		 */
 		protected $_messages = array();
-
-		/**
-		 * @var array
-		 */
-		protected $_excludedLevels = array();
-
-		/**
-		 * @var array
-		 */
+		protected $_excludedLevels = array();		
 		protected $_options = array();
-
+		protected $_uniq;
+		
 //------------------------------------------------------------------------------------------------//
 		/**
 		 * Add new log message
@@ -85,6 +73,8 @@ namespace Kalibri\Logger {
 			{
 				$this->_options['date-format'] = self::DEFAULT_DATE_FOTRMAT;
 			}
+			
+			$this->_uniq = uniqid();
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -151,16 +141,9 @@ namespace Kalibri\Logger {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function excludeLevels( $levels )
+		public function excludeLevels( array $levels )
 		{
-			if( is_array( $levels ) )
-			{
-				$this->_excludedLevels = \array_merge( $this->_excludedLevels, $levels );
-			}
-			elseif( is_string( $levels ) )
-			{
-				$this->_excludedLevels[ $levels ] = true;
-			}
+			$this->_excludedLevels = \array_merge( $this->_excludedLevels, $levels );
 		}
 	}
 }

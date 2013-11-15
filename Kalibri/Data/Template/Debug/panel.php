@@ -155,7 +155,6 @@
 						<div><span class="record">Memory:</span> <?php echo number_format( $data['memory_used'] / 1024/1024, 2)?> Mb</div>
 						<div><span class="record">Starts:</span> <?php echo $data['starts']?></div>
 						<div><span class="record">Start offset:</span> <?php echo $data['start_offset']?></div>
-						<?php// var_dump( $data );?>
 					</div>
 				</li>
 				<?php endforeach ?>

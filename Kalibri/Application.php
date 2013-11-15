@@ -69,6 +69,10 @@ namespace Kalibri {
 			//header('Content-Length:'.ob_get_length());
 			//ob_end_flush();
 			
+			if( \Kalibri::is('event') ) {
+				\Kalibri::event()->trigger('before-shutdown');
+			}
+			
 			if( \Kalibri::config()->get('debug.show.panel') )
 			{	
 				$output = k_ob_get_end(false);

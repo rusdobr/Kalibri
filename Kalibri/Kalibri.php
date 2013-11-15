@@ -227,9 +227,9 @@ final class Kalibri
 	
 //------------------------------------------------------------------------------------------------//
 	/**
-	 * @return \Kalibri\Event\Dispatcher
+	 * @return \Kalibri\Event
 	 */
-	public static function &event( \Kalibri\Event\Dispatcher $app = null )
+	public static function &event( \Kalibri\Event $app = null )
 	{
 		if( $app )
 		{

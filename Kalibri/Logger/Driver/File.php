@@ -68,7 +68,7 @@ namespace Kalibri\Logger\Driver {
 
 			return true;
 		}
-
+		
 //------------------------------------------------------------------------------------------------//
 		public function clear()
 		{

@@ -1,6 +1,6 @@
 <?php
 /**
- * Kalibri Event class file
+ * Event dispatcher class file
  * 
  * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
  */
@@ -8,65 +8,55 @@
 namespace Kalibri {
 
 	/**
-	 * Event class represents simple event implementation. This class is an atom in 
-	 * event system of Kalibri framework
-	 * 
 	 * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
 	 * @version 0.1
 	 * @package Kalibri
+	 * @subpackage Event
 	 * @since 0.3
 	 */
 	class Event
 	{
-		/**
-		 * Link to class who owns this event
-		 * @var object
-		 */
-		protected $_parent;
-
-		/**
-		 * Event name
-		 * @var string
-		 */
-		protected $_name;
+		protected $_events;
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Event constructor
-		 * 
-		 * @param string $name Required to map handlers to appropriate events
-		 * @param object $parent Parent object instance
-		 */
-		public function __construct( $name, &$parent = null )
+		public function &registerHandler( $name, $function )
 		{
-			$this->_name = $name;
-
-			if( $parent )
+			if( !isset( $this->_events[ $name ] ) )
 			{
-				$this->_parent = &$parent;
+				$this->_events[ $name ] = array();
 			}
+
+			$this->_events[ $name ][] = &$function;
+
+			return $this;
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Get parent object of this event
-		 * 
-		 * @return mixed
-		 */
-		public function getParent()
+		public function &trigger( $eventName )
 		{
-			return $this->_parent;
+			
+			if( isset( $this->_events[ $eventName ] ) && ( $count = count( $this->_events[ $eventName ] ) ) )
+			{
+				for( $i = 0; $i < $count; $i++ )
+				{
+					$function = $this->_events[ $eventName ][ $i ];
+					$function();
+				}
+			}
+			
+			return $this;
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Get name of this event
-		 * 
-		 * @return string
-		 */
-		public function getName()
+		public function getEventsList()
 		{
-			return $this->_name;
+			return array_keys( $this->_events );
+		}
+
+//------------------------------------------------------------------------------------------------//
+		public function hasHandler( $eventName )
+		{
+			return isset( $this->_events[ $eventName ] );
 		}
 	}
 }
