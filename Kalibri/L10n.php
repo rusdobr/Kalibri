@@ -145,7 +145,7 @@ namespace Kalibri {
 			$appLocation = \Kalibri::app()->getLocation();
 
 			$locations = array(
-				$appLocation.'/../Kalibri/Data/Locale/'.$shortName.'/',
+				K_ROOT.'Kalibri/Data/Locale/'.$shortName.'/',
 				$appLocation.'/Locale/'.$shortName.'/'
 			);
 

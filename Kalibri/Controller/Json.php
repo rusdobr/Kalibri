@@ -14,6 +14,7 @@ namespace Kalibri\Controller {
 //------------------------------------------------------------------------------------------------//
 		public function _render( $asString = false )
 		{
+			header('Content-Type: application/json; charset=UTF-8');
 			$this->_isRendered = true;
 			$renderedResponse = json_encode( $this->response );
 

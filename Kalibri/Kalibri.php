@@ -2,6 +2,7 @@
 
 /**
  * @method \Kalibri\Db db() 
+ * @method \Kalibri\Cache cache()
  */
 final class Kalibri
 {
