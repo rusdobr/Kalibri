@@ -25,13 +25,23 @@ namespace Kalibri\Model {
 //------------------------------------------------------------------------------------------------//
 		public function delete( $keyValue )
 		{
-			$this->getQuery()->delete()->where( $this->_keyField, $keyValue )
-				->execute();
-//->limit(1)
-			$this->removeCache( $keyValue );
-			$this->removeCache('all');
+			$this->deleteBy($this->_keyField, $keyValue);
 		}
 
+//------------------------------------------------------------------------------------------------//
+		public function deleteBy( $field, $value )
+		{
+			$this->getQuery()->delete()->where( $field, $value )
+				->execute();
+			
+			if( $field == $this->_keyField )
+			{
+				$this->removeCache( $value );
+			}
+			
+			$this->removeCache('all');
+		}
+		
 //------------------------------------------------------------------------------------------------//
 		public function save( $data )
 		{
