@@ -82,8 +82,50 @@ namespace Kalibri\Model {
 				$sql = substr( $sql, 0, -1 ). '),';
 			}
 			
-			
 			$this->db()->execStatment( substr( $sql, 0, -1), $values );
+		}
+		
+//------------------------------------------------------------------------------------------------//
+		public function updateBatch( $data, $withTransaction = true )
+		{
+			$this->removeCache('all');
+			
+			$sql = 'UPDATE '.$this->_tableName.' SET ';
+			
+			foreach( array_keys( $data[0] ) as $field )
+			{
+				if( $field == $this->_keyField )
+				{
+					continue;
+				}
+				
+				$sql .= $field.'=:'.$field.', ';
+			}
+			
+			$stmt = $this->db()->prepare( substr( $sql, 0, -2 ). ' WHERE '.$this->_keyField.'=:'.$this->_keyField );
+			
+			if( $withTransaction )
+			{
+				$this->db()->beginTransaction();
+			}
+			
+			$params = array();
+			
+			foreach( $data as $record )
+			{
+				$params = array();
+				foreach( $record as $field=>$value )
+				{
+					$params[':'.$field] = $value;
+				}
+				
+				$stmt->execute( $params );
+			}
+			
+			if( $withTransaction )
+			{
+				$this->db()->commit();
+			}
 		}
 		
 //------------------------------------------------------------------------------------------------//
