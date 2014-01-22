@@ -68,7 +68,7 @@ namespace Kalibri\Model {
 			$values = array();
 			$i=0;
 			
-			$sql = 'insert into '.$this->_tableName. '('.implode( ', ',$fields ).') VALUES ';
+			$sql = 'INSERT INTO '.$this->_tableName. '('.implode( ', ',$fields ).') VALUES ';
 			
 			foreach( $data as $item )
 			{
