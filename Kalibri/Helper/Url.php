@@ -14,6 +14,7 @@ namespace Kalibri\Helper {
 
 		protected static $_isInitialized = false;
 
+        protected static $entry;
 		protected static $base;
 		protected static $baseUrl;
 		protected static $baseDomainedUrl;
@@ -21,34 +22,37 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function init( array $options = null )
 		{
-			if( !self::$_isInitialized )
-			{
-				if( !$options )
-				{
-					$options = \Kalibri::config()->get('resources');
-				}
+			if( self::$_isInitialized )
+            {
+                return;
+            }
 
-				self::$_imagesDir = $options['images'];
-				self::$_jsDir = $options['js'];
-				self::$_stylesDir = $options['styles'];
+            if( !$options )
+            {
+                $options = \Kalibri::config()->get('resources');
+            }
 
-				$config = \Kalibri::config()->getAll();
-				
-				self::$baseUrl = $config['base'].$config['entry'];
-				self::$baseDomainedUrl = 'http://%d%'.$config['base-host'].'/'.$config['entry'];
-				
-				if( $config['entry'][ strlen( $config['entry'] ) -1 ] == '/' )
-				{
-					self::$baseDomainedUrl = substr( self::$baseDomainedUrl, 0, -1 );
-					self::$baseUrl = substr( self::$baseUrl, 0, -1 );
-				}
-				
-				self::$base = $config['base'][ strlen( $config['base'] ) -1 ] == '/'
-					? substr( $config['base'], 0, -1)
-					: $config['base'] ;
-				
-				self::$_isInitialized = true;
-			}
+            self::$_imagesDir = $options['images'];
+            self::$_jsDir = $options['js'];
+            self::$_stylesDir = $options['styles'];
+
+            $config = \Kalibri::config()->getAll();
+
+            self::$base = $config['base'][ strlen( $config['base'] ) -1 ] == '/'
+                ? substr( $config['base'], 0, -1)
+                : $config['base'];
+
+            self::$entry = $config['entry'];
+            self::$baseUrl = self::$base.self::$entry;
+            self::$baseDomainedUrl = 'http://%d%'.$config['base-host'].'/'.$config['entry'];
+
+            if( self::$entry[ strlen( self::$entry ) -1 ] == '/' )
+            {
+                self::$baseDomainedUrl = substr( self::$baseDomainedUrl, 0, -1 );
+                self::$baseUrl = substr( self::$baseUrl, 0, -1 );
+            }
+
+            self::$_isInitialized = true;
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -93,10 +97,13 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function site( $path = '', $subdomain = null )
 		{
-			$root = $subdomain === null
-				? self::$baseUrl
-				: str_replace('%d%', $subdomain, self::$baseDomainedUrl);
-			
+            $root = 'http://'.$_SERVER['HTTP_HOST'].'/'.self::$entry;
+
+            if( $subdomain !== null )
+            {
+                $root = str_replace('%d%', $subdomain, self::$baseDomainedUrl);
+            }
+
 			$path = $path && $path[0] == '/'? substr($path, 1): $path;
 			
 			return $root.($root[strlen($root)-1] != '/'? '/': '').$path;

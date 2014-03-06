@@ -11,4 +11,9 @@ class Home extends \Kalibri\Controller\Page
 		 */
 		$this->page()->setContent("Hello World!");
 	}
+
+    public function about()
+    {
+        $this->autoFindView(true)->page()->setLayoutName('index');
+    }
 }

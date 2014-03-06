@@ -100,18 +100,21 @@ final class Kalibri
 	
 //------------------------------------------------------------------------------------------------//
 	/**
+     * Get instance of autoloader
+     *
+     * @param \Kalibri\Autoload $autoload
+     *
 	 * @return \Kalibri\Autoload
 	 */
-	public static function &autoload( \Kalibri\Autoload $app = null )
+	public static function &autoload( \Kalibri\Autoload $autoload = null )
 	{
-		if( $app )
+		if( $autoload )
 		{
-			self::$_data['autoload'] = $app;
+			self::$_data['autoload'] = $autoload;
 		}
-		
-		$return = isset( self::$_data['autoload'] )? self::$_data['autoload']: self::get('autoload'); 
-		
-		return $return;
+
+		$return = isset( self::$_data['autoload'] )? self::$_data['autoload']: self::get('autoload');
+     	return $return;
 	}
 	
 //------------------------------------------------------------------------------------------------//

@@ -9,7 +9,7 @@ define('K_DATETIME', date('Y-m-d H:i:s', K_TIME) );
 !defined('K_ROOT') && define('K_ROOT', str_replace( '\\', '/', realpath( dirname(__FILE__).'/../' ) ).'/' );
 
 // Add app and kalibri to include path
-set_include_path( realpath(K_APP_FOLDER.'../').PATH_SEPARATOR . K_ROOT.PATH_SEPARATOR . get_include_path());
+set_include_path( str_replace('\\', '/', realpath(K_APP_FOLDER.'../')).PATH_SEPARATOR . K_ROOT.PATH_SEPARATOR . get_include_path());
 
 require_once('Kalibri/Kalibri.php');
 
@@ -35,12 +35,11 @@ if( !K_COMPILE_BASE || !\Kalibri::compiler()->includeCached( \Kalibri\Utils\Comp
 
 // Register autoloader
 spl_autoload_register( function( $className ) {
-	
-	if( @include_once( str_replace( '\\', '/', $className ).'.php' ) )
+ 	if( @include_once( str_replace( '\\', '/', $className ).'.php' ) )
 	{
 		return true;
 	}
-	
+
 	// Not loaded eat, try to load helper
 	return \Kalibri::autoload()->helper( $className );
 });
