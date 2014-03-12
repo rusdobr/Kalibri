@@ -106,5 +106,47 @@ namespace Kalibri\Helper {
 
 			return trim( $str );
 		}
+
+//------------------------------------------------------------------------------------------------//
+        public static function underscoreToCamel( $text )
+        {
+            $result = '';
+
+            for( $i=0, $len = strlen( $text ); $i < $len; $i++ )
+            {
+                if( $text[$i] == '_' )
+                {
+                    if( isset( $text[ $i+1 ] ) && $text[ $i+1 ] != '_' )
+                    {
+                        $result .= strtoupper( $text[++$i] );
+                    }
+
+                    continue;
+                }
+
+                $result .= $text[$i];
+            }
+
+            return $result;
+        }
+
+//------------------------------------------------------------------------------------------------//
+        public static function camelToUnderscore( $text )
+        {
+            $result = '';
+
+            for( $i=0, $len = strlen($text); $i < $len; $i++ )
+            {
+                if( $text[ $i ] == strtoupper( $text[$i] ) )
+                {
+                    $result .= '_'.strtolower( $text[$i] );
+                    continue;
+                }
+
+                $result .= $text[$i];
+            }
+
+            return $result;
+        }
 	}
 }
