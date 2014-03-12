@@ -99,7 +99,11 @@ namespace Kalibri {
 
 			if( $this->_mode )
 			{
-				\Kalibri::config()->load( $this->_mode );
+				try
+				{
+					\Kalibri::config()->load( $this->_mode );
+				}
+				catch( \Exception $e ){}
 			}
 
 			// Set list of classes that will be auto inited on use

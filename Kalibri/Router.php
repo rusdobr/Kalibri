@@ -130,12 +130,10 @@ namespace Kalibri {
 				return $this;
 			}
 			
-			$basePath = str_replace('//', '/', K_APP_FOLDER.'/App/Controller/' );
-			
+			$basePath = str_replace('//', '/', K_APP_FOLDER.'/App/Controller/' );			
 			$upper = '';
-			$segmentsCount = count( $this->_segments );
 
-			for( $i=0; $i< $segmentsCount; $i++ )
+			for( $i=0, $segmentsCount = count( $this->_segments ); $i< $segmentsCount; $i++ )
 			{
 				if( $this->_segments[ $i ] !== '' && preg_match('/^[\w\d_]+$/', $this->_segments[ $i ] ) )
 				{

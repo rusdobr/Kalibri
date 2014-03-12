@@ -71,7 +71,7 @@ namespace Kalibri\Helper {
 
 				$str1 = '<span style="color: #000000"><table>';
 
-				foreach( explode( '<br />', $str ) as $l=>$line )
+				foreach( explode( '<br />', $str ) as $line )
 				{
 					//$str1 .= '<tr><td>'.($l+$firstLine).'</td><td>'.$line."</td></tr>\n";
 					$str1 .= $line."\n";

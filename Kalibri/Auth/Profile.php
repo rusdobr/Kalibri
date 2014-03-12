@@ -26,6 +26,7 @@ namespace Kalibri\Auth{
 		public function __set( $key, $value )
 		{
 			$this->_data[ $key ] = $value;
+			$this->notifyChanged( $key );
 		}
 		
 //------------------------------------------------------------------------------------------------//
@@ -39,6 +40,8 @@ namespace Kalibri\Auth{
 		{
 			$data = array();
 
+			$this->_changedFields = array_unique( $this->_changedFields );
+			
 			if( count( $this->_changedFields ) && $this->user_id )
 			{
 				$data['user_id'] = $this->user_id;
@@ -56,6 +59,19 @@ namespace Kalibri\Auth{
 		public function save()
 		{
 			\Kalibri::model('user')->save( $this->getSaveData() );
+		}
+		
+//------------------------------------------------------------------------------------------------//
+		protected function notifyChanged( $field )
+		{
+			if( is_array( $field ) )
+			{
+				$this->_changedFields = array_merge( $this->_changedFields, $field );
+			}
+			else
+			{
+				$this->_changedFields[] = $field;
+			}
 		}
 	}
 }

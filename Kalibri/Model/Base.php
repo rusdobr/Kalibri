@@ -31,7 +31,7 @@ namespace Kalibri\Model {
 		protected $_keyField;
 
 		/**
-		 * @var \Kalibri\Cache
+		 * @var \Kalibri\Cache\Driver\Memcache
 		 */
 		protected $_cache = null;
 
@@ -43,8 +43,7 @@ namespace Kalibri\Model {
 //------------------------------------------------------------------------------------------------//
 		public function __construct()
 		{
-			if( !$this->_tableName )
-			{
+			if( !$this->_tableName ) {
 				$this->_tableName = strtolower( 
 					str_replace( 
 						array( \Kalibri::app()->getNamespace().'\\App\\Model\\', 'Kalibri\\Model\\' ), 
@@ -68,8 +67,7 @@ namespace Kalibri\Model {
 		 */
 		protected function db()
 		{
-			if( !$this->_db )
-			{
+			if( !$this->_db ) {
 				$this->_db = \Kalibri::db()->getConnection( $this->_connectName );
 			}
 

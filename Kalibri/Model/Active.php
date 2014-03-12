@@ -6,7 +6,7 @@ namespace Kalibri\Model {
 	{
 
 		protected $_entityClass;
-
+		
 //------------------------------------------------------------------------------------------------//
 		public function insert( $data )
 		{
@@ -108,8 +108,6 @@ namespace Kalibri\Model {
 			{
 				$this->db()->beginTransaction();
 			}
-			
-			$params = array();
 			
 			foreach( $data as $record )
 			{
