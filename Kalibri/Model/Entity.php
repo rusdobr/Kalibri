@@ -2,16 +2,24 @@
 
 namespace Kalibri\Model
 {
+    use \Kalibri\Helper\Text;
+
 	abstract class Entity
 	{
-		protected $changed = array();
-		protected $modelName;
-		
+		protected $_changedFields = array();
+		protected $_modelName;
+
+        /**
+         * Enable or disable magic getters and setters
+         * @var bool
+         */
+        protected $_withMagic = true;
+
 		public function __construct( array $data = null )
 		{
-			if( !$this->modelName )
+			if( !$this->_modelName )
 			{
-				$this->modelName = strtolower(
+				$this->_modelName = strtolower(
 					str_replace( 
 						array( \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ), 
 						'', 
@@ -36,11 +44,11 @@ namespace Kalibri\Model
 		{
 			if( is_array( $field ) )
 			{
-				$this->changed = array_merge( $this->changed, array_flip( $field ) );
+				$this->_changedFields = array_merge( $this->_changedFields, array_flip( $field ) );
 			}
 			else
 			{
-				$this->changed[ $field ] = true;
+				$this->_changedFields[ $field ] = true;
 			}
 			
 			return $this;
@@ -53,9 +61,9 @@ namespace Kalibri\Model
 		 */
 		public function save()
 		{
-			\Kalibri::model( $this->modelName )->save( $this->getChangedData() );
+			\Kalibri::model( $this->_modelName )->save( $this->getChangedData() );
 			// reset change list
-			$this->changed = array();
+			$this->_changedFields = array();
 			
 			return $this;
 		}
@@ -71,7 +79,7 @@ namespace Kalibri\Model
 			
 			foreach( $data as $field=>$v )
 			{
-				if( !isset( $this->changed[ $field ] ) )
+				if( !isset( $this->_changedFields[ $field ] ) )
 				{
 					unset( $data[ $field ] );
 				}
@@ -79,14 +87,64 @@ namespace Kalibri\Model
 			
 			return $data;
 		}
-		
+
+        /**
+         * Called on each method request. Will try to find appropriete action for field.
+         *
+         * @param string $name Method name
+         * @param string $arguments Arguments passed to method
+         *
+         * @return mixed
+         */
+        public function __call( $name,  $arguments )
+        {
+            if( \method_exists( $this, $name ) && \is_callable( array( $this, $name ) ) )
+            {
+                return \call_user_func( array( &$this, $name ), $arguments );
+            }
+
+            if( !$this->_withMagic )
+            {
+                \Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+            }
+
+            $type = null;
+            $fieldName = null;
+
+            if( strpos( $name, 'get') === 0 || strpos($name, 'set') === 0 )
+            {
+                $type = substr( $name, 0, 3 );
+                $fieldName = substr( $name, 3 );
+                $fieldName = strtolower( $field_name[0] ).substr( $fieldName, 1 );
+            }
+
+            if( property_exists( $this, $fieldName ) )
+            {
+                switch( $type )
+                {
+                    case 'get':
+                        return $this->$fieldName;
+                    case 'set':
+                        $this->$fieldName = current( $arguments );
+                        $this->registerChanged( Text::camelToUnderscore( $fieldName ) );
+                        return $this;
+                }
+            }
+            else
+            {
+                \Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+            }
+
+            return null;
+        }
+
 		/**
 		 *	Data initialization
 		 *
 		 *	@param $data array Row data from db
 		 */
-		abstract public function initData( array $data );
-		
+        abstract public function initData( array $data );
+
 		/**
 		 *	Get all data as array. Format is $field=>$value
 		 *
