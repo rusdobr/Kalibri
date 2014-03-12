@@ -136,27 +136,25 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function title( $str, $separator = 'dash', $lowercase = FALSE )
 		{
+			$search		= '-';
+			$replace	= '_';
+
 			if ($separator == 'dash')
 			{
 				$search		= '_';
 				$replace	= '-';
 			}
-			else
-			{
-				$search		= '-';
-				$replace	= '_';
-			}
 
 			$trans = array(
-							'&\#\d+?;'				=> '',
-							'&\S+?;'				=> '',
-							'\s+'					=> $replace,
-							'[^a-z0-9\-\._]'		=> '',
-							$replace.'+'			=> $replace,
-							$replace.'$'			=> $replace,
-							'^'.$replace			=> $replace,
-							'\.+$'					=> ''
-						  );
+				'&\#\d+?;'				=> '',
+				'&\S+?;'				=> '',
+				'\s+'					=> $replace,
+				'[^a-z0-9\-\._]'		=> '',
+				$search.'+'			=> $replace,
+				$search.'$'			=> $replace,
+				'^'.$search			=> $replace,
+				'\.+$'					=> ''
+			);
 
 			$str = strip_tags( $str );
 

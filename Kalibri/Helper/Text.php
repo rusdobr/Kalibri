@@ -148,5 +148,22 @@ namespace Kalibri\Helper {
 
             return $result;
         }
+		
+//------------------------------------------------------------------------------------------------//
+		public static function plural( $value, array $forms )
+		{
+			return $value % 10 == 1 && $value % 100 != 11 
+				? $forms[0]
+				:( $value % 10 >= 2 && $value % 10 <= 4 && ( $value % 100 < 10 || $value % 100 >= 20 )
+					? $forms[1]
+					: $forms[2]
+				);
+		}
+		
+//------------------------------------------------------------------------------------------------//
+		public static function pluralWith( $value, array $forms )
+		{
+			return $value.' '.self::plural( $value, $forms );
+		}
 	}
 }

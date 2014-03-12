@@ -52,6 +52,11 @@ function tr( $key, array $params = null )
 	return \Kalibri::l10n()->tr( $key, $params );
 }
 
+function url( $path, $subdomain = null )
+{
+	return \Kalibri\Helper\Url::site( $path, $subdomain );
+}
+
 function k_ob_get_end( $flush = false )
 {
 	$output = ob_get_clean();
