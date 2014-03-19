@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @todo: Use new validation classes from Kalibri\Validation
+ */
 namespace Kalibri\Helper {
 
 	/**

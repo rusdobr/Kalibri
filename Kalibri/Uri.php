@@ -12,10 +12,11 @@ namespace Kalibri {
 	 * It tries to get them from $_GET, $_SERVER['PATH_INFO'], $_SERVER['QUERY_STRING'] and
 	 * $_SERVER['ORIG_PATH_INFO']. All this sources should garantee good routing segments.
 	 * 
-	 * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
 	 * @version 0.2
 	 * @package Kalibri
 	 * @since 0.1
+     *
+     * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class Uri
 	{

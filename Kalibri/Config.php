@@ -6,15 +6,15 @@
  */
 
 namespace Kalibri {
-
 	/**
 	 * Kalibri\Config responsible for reading main configuration files. It will look for appropriate 
-	 * config for current application mode (if any). 
-	 * 
-	 * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
-	 * @version 0.4
-	 * @package Kalibri
-	 * @since 0.1
+	 * config for current application mode (if any).
+
+     * @version 0.4
+     * @package Kalibri
+     * @since 0.1
+     *
+	 * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class Config
 	{

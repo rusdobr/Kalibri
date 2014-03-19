@@ -1,18 +1,13 @@
 <?php
-/**
- * Event dispatcher class file
- * 
- * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
- */
-
 namespace Kalibri {
 
 	/**
-	 * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
 	 * @version 0.1
 	 * @package Kalibri
 	 * @subpackage Event
 	 * @since 0.3
+     *
+     * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class Event
 	{

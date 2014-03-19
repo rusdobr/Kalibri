@@ -5,9 +5,11 @@ namespace Kalibri {
 	use \Kalibri\Helper\Highlight as Highlight;
 	use \Kalibri\Logger\Base as Logger;
 
-	/**
-	 * @package Kalibri
-	 */
+    /**
+     *  @package Kalibri
+     *
+     *  @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
+     */
 	class Error
 	{
 //------------------------------------------------------------------------------------------------//

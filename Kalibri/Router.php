@@ -10,11 +10,12 @@ namespace Kalibri {
 	/**
 	 * Router class process HTTP requests and call appropriate controller and his action.
 	 * Also checked routing maps to re-map requests. 
-	 * 
-	 * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
+	 *
 	 * @version 0.4
 	 * @package Kalibri
 	 * @since 0.1
+     *
+     * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class Router
 	{	

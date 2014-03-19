@@ -1,7 +1,11 @@
 <?php
 
 namespace Kalibri {
-
+    /**
+     *  @package Kalibri
+     *
+     *  @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
+     */
 	class Application
 	{
 		/**

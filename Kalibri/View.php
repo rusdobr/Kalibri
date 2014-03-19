@@ -5,7 +5,7 @@ namespace Kalibri {
 	/**
 	 * @package Kalibri
 	 *
-	 * @author <a href="@mailto:akostinenko@auragan.com">Alexander Kostinenko</a>
+	 * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class View
 	{

@@ -2,9 +2,11 @@
 
 namespace Kalibri {
 
-	/**
-	 * @package Kalibri
-	 */
+    /**
+     *  @package Kalibri
+     *
+     *  @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
+     */
 	class Benchmark
 	{
 		const RESULTS_MARK = '-RESULTS-';
