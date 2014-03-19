@@ -9,7 +9,7 @@ namespace Kalibri\View {
 	 * @package Kalibri
 	 * @subpackage View
 	 *
-	 * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostinenko</a>
+	 * @author <a href="mailto:kostinenko@gmail.com">Alexander Kostynenko</a>
 	 */
 	class Page
 	{
@@ -61,7 +61,14 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function setAlternativeViewLocation( $path )
+		/**
+		 *  Set additional views folder. Page can hold only one primary and one additional view location
+         *
+         * @param string $path
+         *
+         * @return \Kalibri\View\Page
+         */
+        public function setAlternativeViewLocation( $path )
 		{
 			$this->_alternativeViewLocation = $path;
 			return $this;
@@ -97,7 +104,9 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
-		 *
+         * Map list of vars to view. This is short alias to \Kalibri::data()->merge( $array )
+         *
+		 * @param array $array List of variables that should be mapped to view
 		 * @return \Kalibri\View\Page
 		 */
 		public function &assignArray( $array )
@@ -144,6 +153,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * Set content for current action. If provided will overlap view
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setContent( $content )
@@ -208,8 +219,7 @@ namespace Kalibri\View {
 //------------------------------------------------------------------------------------------------//
 		/**
 		 * Set default page title
-		 *
-		 * This title will be used if no title was providen.
+		 * This title will be used if no title was provided.
 		 *
 		 * @param string $default New default title
 		 *
@@ -231,7 +241,7 @@ namespace Kalibri\View {
 		{
 			if( $this->_layout instanceof \Kalibri\View\Layout )
 			{
-				// If layout instnce already created or passed just set new name for it
+				// If layout instance already created or passed just set new name for it
 				$this->_layout->setName( $name );
 			}
 			else
@@ -249,7 +259,6 @@ namespace Kalibri\View {
 		 * 
 		 * @return \Kalibri\View\Page
 		 */
-
 		public function &setLayout( \Kalibri\View\Layout $layout )
 		{
 			$this->_layout = $layout;
@@ -264,6 +273,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * Get current page layout
+         *
 		 * @return \Kalibri\View\Layout
 		 */
 		public function &getLayout()
@@ -273,6 +284,10 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * Init view with given name
+         *
+         * @param string $name View name
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setViewName( $name )
@@ -290,13 +305,22 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function getViewName()
+		/**
+		 *  Get current view name or null
+         *
+         *  @return string|null
+         */
+        public function getViewName()
 		{
 			return $this->_view instanceof \Kalibri\View? $this->_view->getName(): null; 
 		}
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * Set current view
+         *
+         * @param \Kalibri\View $view
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setView( \Kalibri\View $view )
@@ -323,9 +347,6 @@ namespace Kalibri\View {
 		 */
 		public function &setMeta( $name, $content )
 		{
-			$name = (string) $name;
-			$content = (string) $content;
-
 			$this->addResource(
 					'<meta name="'.$name.'" content="'.$content.'"/>',
 					\Kalibri\View::VAR_META,
@@ -422,13 +443,13 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
-		 * Get content of single or multiply public files.
+		 * Get content of single or multiply public files (any located in /Public/ folder).
 		 *
-		 * This method added to give programer easily embed multiply files like styles or scripts
-		 * to page. This will save requests time but disallow resources caching.
-		 * So this must be used only if you want to speed up single page that will be
-		 * cached on client side.
-		 *
+         * Easy method for getting content of multiple files like styles, scripts to embed them into page current page.
+         * Can be useful when you want decrease page load speed.
+         *
+         * @throws \Kalibri\Exception
+         *
 		 * @param string $path Path to public resource in folder that may be accessed thru the web
 		 * @param string $publicFolder Name of the public folder.
 		 *
@@ -443,22 +464,15 @@ namespace Kalibri\View {
 			{
 				foreach( $path as $file )
 				{
-					if( \file_exists( \PUBLIC_DIR.$publicFolder.'/'.$file ) )
-					{
-						$text .= \file_get_contents( \PUBLIC_DIR.$publicFolder.'/'.$file )."\n";
-					}
-					else
-					{
-						throw new \Kalibri\Exception('Resource not found for embedding '.$file.' in '.$publicFolder);
-					}
+                    $text .= $this->embedResource( $file, $publicFolder );
 				}
 			}
 			else
 			{
 				// Single file
-				if( \file_exists( \PUBLIC_DIR.$publicFolder.'/'.$path ) )
+				if( \file_exists( K_APP_FOLDER."Public/$publicFolder/$path" ) )
 				{
-					$text = \file_get_contents( \PUBLIC_DIR.$publicFolder.'/'.$path )."\n";
+					$text = \file_get_contents(K_APP_FOLDER."Public/$publicFolder/$path")."\n";
 				}
 				else
 				{
@@ -540,7 +554,7 @@ namespace Kalibri\View {
 			{
 				foreach( $link as $value )
 				{
-					$this->addStyle( $value );
+					$this->addStyle( $value, $media );
 				}
 			}
 			else
@@ -611,7 +625,7 @@ namespace Kalibri\View {
 		 */
 		public function &addScriptText( $text )
 		{
-			$this->addResource( '<script type="text/javascrit">'.$text.'</script>',	\Kalibri\View::VAR_SCRIPTS );
+			$this->addResource( '<script type="text/javascript">'.$text.'</script>',	\Kalibri\View::VAR_SCRIPTS );
 
 			return $this;
 		}
@@ -620,7 +634,7 @@ namespace Kalibri\View {
 		/**
 		 * Remove all assigned scripts
 		 *
-		 * @return Vively_Page
+		 * @return \Kalibri\View\Page
 		 */
 		public function clearScripts()
 		{
@@ -632,7 +646,7 @@ namespace Kalibri\View {
 		/**
 		 * Remove all assigned styles
 		 *
-		 * @return Vively_Page
+		 * @return \Kalibri\View\Page
 		 */
 		public function clearStyles()
 		{
@@ -692,14 +706,22 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function findView( $directory = null, $controller = null, $action = null )
+		/**
+         * Find view for current controller
+         *
+         * @param string $directory
+         * @param string $controller
+         * @param string $action
+         *
+         * @throws \Kalibri\Exception\View\NotFound
+         *
+         * @return string
+		 */
+        public function findView( $directory = null, $controller = null, $action = null )
 		{
-			if( !$directory && !$controller && !$action )
-			{
-				$directory = \Kalibri::router()->getDirectory();
-				$controller = \Kalibri::router()->getController();
-				$action = \Kalibri::router()->getAction();
-			}
+            $directory = $directory ?: \Kalibri::router()->getDirectory();
+            $controller = $controller ?: \Kalibri::router()->getController();
+            $action = $action ?: \Kalibri::router()->getAction();
 
 			//Is directory set to find in
 			if( \strcmp( $directory, '' ) !=0  )
