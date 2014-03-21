@@ -61,5 +61,21 @@ namespace Kalibri\Model {
 
             return new $this->_entityClass();
         }
+
+//------------------------------------------------------------------------------------------------//
+        public function getEntity( $id, $field = null )
+        {
+            if( is_object( $id ) )
+            {
+                return $id;
+            }
+
+            if( ( $data = parent::get( (int)$id, $field ) ) && is_array( $data ) )
+            {
+                $data = $this->toEntity( $data );
+            }
+
+            return $data;
+        }
     }
 }

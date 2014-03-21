@@ -254,6 +254,11 @@ namespace Kalibri\Model {
 //------------------------------------------------------------------------------------------------//
 		public function getEntity( $id, $field = null )
 		{
+            if( is_object( $id ) )
+            {
+                return $id;
+            }
+
 			if( ( $data = $this->get( (int)$id, $field ) ) )
 			{
 				$data = $this->toEntity( $data );

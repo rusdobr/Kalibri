@@ -115,7 +115,7 @@ namespace Kalibri\Model
             {
                 $type = substr( $name, 0, 3 );
                 $fieldName = substr( $name, 3 );
-                $fieldName = strtolower( $field_name[0] ).substr( $fieldName, 1 );
+                $fieldName = strtolower( $fieldName[0] ).substr( $fieldName, 1 );
             }
 
             if( property_exists( $this, $fieldName ) )
