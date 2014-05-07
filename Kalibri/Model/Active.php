@@ -47,6 +47,11 @@ namespace Kalibri\Model {
 		{
 			$this->removeCache('all');
 			
+			if( key_exists($this->_keyField, $data) && !$data[ $this->_keyField ] )
+			{
+				unset( $data[ $this->_keyField ] );
+			}
+			
 			if( isset( $data[ $this->_keyField ] ) )
 			{
 				$this->update( $data );

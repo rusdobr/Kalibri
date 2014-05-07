@@ -19,17 +19,17 @@ namespace Kalibri\Model {
 	{
 	    if( !$this->_modelName )
 	    {
-		$this->_modelName = strtolower(
-		    str_replace( 
-			array( \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ), 
-			'', 
-			get_class( $this ) 
-		));
+			$this->_modelName = strtolower(
+				str_replace( 
+				array( \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ), 
+				'', 
+				get_class( $this ) 
+			));
 	    }
 
 	    if( $data !== null )
 	    {
-		$this->initData( $data );
+			$this->initData( $data );
 	    }
 	}
 
@@ -42,16 +42,16 @@ namespace Kalibri\Model {
 	 */
 	public function registerChanged( $field )
 	{
-	    if( is_array( $field ) )
-	    {
-		$this->_changedFields = array_merge( $this->_changedFields, array_flip( $field ) );
-	    }
-	    else
-	    {
-		$this->_changedFields[ $field ] = true;
-	    }
+		if( is_array( $field ) )
+		{
+			$this->_changedFields = array_merge( $this->_changedFields, array_flip( $field ) );
+		}
+		else
+		{
+			$this->_changedFields[ $field ] = true;
+		}
 
-	    return $this;
+		return $this;
 	}
 
 	/**
@@ -61,11 +61,13 @@ namespace Kalibri\Model {
 	 */
 	public function save()
 	{
-	    \Kalibri::model( $this->_modelName )->save( $this->getChangedData() );
-	    // reset change list
-	    $this->_changedFields = array();
+		$key = Text::underscoreToCamel( \Kalibri::model($this->_modelName)->getKeyFieldName() );
+		$this->$$key = \Kalibri::model( $this->_modelName )->save( $this->getChangedData() );
+	
+		// reset change list
+		$this->_changedFields = array();
 
-	    return $this;
+		return $this;
 	}
 
 	/**
@@ -75,17 +77,17 @@ namespace Kalibri\Model {
 	 */
 	public function getChangedData()
 	{
-	    $data = $this->getAllData();
+		$data = $this->getAllData();
 
-	    foreach( $data as $field=>$v )
-	    {
-		if( !isset( $this->_changedFields[ $field ] ) )
+		foreach( $data as $field=>$v )
 		{
-		    unset( $data[ $field ] );
+			if( !isset( $this->_changedFields[ $field ] ) )
+			{
+				unset( $data[ $field ] );
+			}
 		}
-	    }
 
-	    return $data;
+		return $data;
 	}
 
 	/**
