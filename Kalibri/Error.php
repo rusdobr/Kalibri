@@ -131,5 +131,15 @@ namespace Kalibri {
 
 			exit();
 		}
+
+        public function showAccessDenied()
+        {
+            $this->show403();
+        }
+
+        public function showPageNotFound()
+        {
+            $this->show404();
+        }
 	}
 }
