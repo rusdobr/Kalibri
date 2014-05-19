@@ -124,5 +124,11 @@ namespace Kalibri\Model {
 				$this->_cache->remove( $this->_tableName.$params );
 			}
 		}
+
+//------------------------------------------------------------------------------------------------//
+		public function getKeyFieldName()
+		{
+			return $this->_keyField;
+		}
 	}
 }
