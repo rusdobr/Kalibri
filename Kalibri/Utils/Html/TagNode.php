@@ -29,7 +29,22 @@ namespace Kalibri\Utils\Html
 
 		public function hasClass( $class )
 		{
-			return in_array( $class, $this->classes );
+            if( is_array( $class ) )
+            {
+                foreach( $class as $value )
+                {
+                    if( $this->hasClass($value) )
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+			    return in_array( $class, $this->classes );
+            }
+
+            return false;
 		}
 		
 		public function getChilds()
@@ -52,21 +67,12 @@ namespace Kalibri\Utils\Html
 				$mode = $step;
 				$step = array_shift( $path );
 			}
-			
-			$pathLength = count( $fullPath );
-			$checkForId = $step[0] == '#';
-			$checkForClass = $step[0] == '.';
-			$checkForTag = !$checkForId && !$checkForClass;
-			$current = array();
-			
-			if( $checkForId || $checkForClass )
-			{
-				$step = substr( $step, 1 );
-			}
-			
-			if( ( $checkForTag && $step == $this->getName() ) 
-				|| ( $checkForId && $this->attr('id') == $step ) 
-				|| ( $checkForClass && $this->hasClass( $step ) ) )
+
+            $current = array();
+            $pathLength = count( $fullPath );
+            $conditions = Node::prepareConditions( $step );
+
+			if( $this->isConditionsSatisfied( $conditions ) )
 			{
 				if( $pathLength == 1 )
 				{
@@ -82,9 +88,7 @@ namespace Kalibri\Utils\Html
 			{
 				if( $child instanceof TagNode )
 				{
-					if( ( $checkForTag && $step == $child->getName() ) 
-						|| ( $checkForId && $child->attr('id') == $step ) 
-						|| ( $checkForClass && $child->hasClass( $step ) ) )
+					if( $child->isConditionsSatisfied( $conditions ) )
 					{
 						if( $pathLength == 1 )
 						{
@@ -118,7 +122,7 @@ namespace Kalibri\Utils\Html
 			return $current;
 		}
 
-		public function process()
+		public function process( Document &$document )
 		{
 			$tmp = null;
 			$position = 0;
@@ -143,7 +147,7 @@ namespace Kalibri\Utils\Html
 						$tmp = null;
 					}
 				}
-				elseif( $this->raw[ $position ] == '=' )
+				elseif( $this->raw[ $position ] == '=' && !$isAttributeValue )
 				{
 					$lastAttribute = $tmp;
 					$tmp = null;
@@ -179,26 +183,28 @@ namespace Kalibri\Utils\Html
 			{
 				if( isset( $this->attributes['id'] ) )
 				{
-					$this->document->registerId( $this->attributes['id'], $this );
+					$document->registerId( $this->attributes['id'], $this );
 				}
 
 				if( isset( $this->attributes['class'] ) )
 				{
 					$this->classes = explode( ' ', $this->attributes['class'] );
-					$this->document->registerClasses( $this->classes, $this );
+					$document->registerClasses( $this->classes, $this );
 				}
 			}
 
 			// is tag closed
-			if( $endsWith == '/>' || $this->document->isSelfClosing( $this->name ) )
+			if( $endsWith == '/>' || $document->isSelfClosing( $this->name ) )
 			{	
 				return;
 			}
 
-			$this->processChilds( $position );
+			$this->processChilds( $position, $document );
+
+            unset( $this->raw );
 		}
 
-		protected function processChilds( $position )
+		protected function processChilds( $position, Document &$document )
 		{
 			// limit childs count to 128
 			for( $i=0; $i<1024; $i++ )
@@ -229,11 +235,11 @@ namespace Kalibri\Utils\Html
 				// Look for childs
 				if( $this->raw[0] == '<' )
 				{
-					$this->childs[] = new TagNode( $this->raw, $this->document, $this );
+					$this->childs[] = new TagNode( $this->raw, $document, $this );
 				}
 				else
 				{
-					$this->childs[] = new TextNode( $this->raw, $this->document, $this );
+					$this->childs[] = new TextNode( $this->raw, $document, $this );
 				}
 			}
 		}

@@ -80,7 +80,7 @@ namespace Kalibri\Utils\Html
 				str_replace( array("\t", "\n", "\r"), array(' '), trim( $this->raw ) ) 
 			);
 
-			if( $this->raw[0] == '<' && $this->raw[1] == '!' ) 
+			if( $this->raw[0] == '<' && $this->raw[1] == '!' )
 			{
 				$this->doctype = substr( $this->raw, 0, strpos( $this->raw, '>')+1 );
 				$this->raw = substr( $this->raw, strlen( $this->doctype ) );
@@ -149,12 +149,43 @@ namespace Kalibri\Utils\Html
 
 		public function getElementsByTagName( $name )
 		{
-			return $this->root? $this->root->getElementsByTagName( $name ): null;
+			return $this->root? $this->root->getElementsByTagName( $name ): array();
 		}
 
-		public function getElementsByClass( $class )
+		/**
+		 *  Find multiple DOM elements matching class name.
+         *
+         * @param string|array $class Class to find. If array passed, matching element should contain all classes in the array
+         *
+         * @return \Kalibri\Utils\Html\TagNode[]
+         */
+        public function getElementsByClass( $class )
 		{
-			return isset( $this->classes[ $class ] )? $this->classes[ $class ]: null;
+			if( is_array( $class ) )
+            {
+                $elements = array();
+                $classToFind = count( $class )? current( $class ): null;
+
+                // Single class not found, so we can't find element matching all classes in the list
+                if( !$classToFind || !isset( $this->classes[ $name ] ) )
+                {
+                    return array();
+                }
+
+                foreach( $this->classes[ $classToFind ] as $candidat )
+                {
+                    // Match all other classes
+                    if( $candidat->hasClass( $class ) )
+                    {
+                        $elements[] = $candidat;
+                    }
+                }
+
+                return count( $elements )? $elements: array();
+            }
+
+            // Match single class
+            return isset( $this->classes[ $class ] )? $this->classes[ $class ]: array();
 		}
 
 		public function getIds()
@@ -170,45 +201,48 @@ namespace Kalibri\Utils\Html
 		public function find( $selector )
 		{
 			$selectors = explode(',', trim( $selector) );
-			$current = $found = array();
+			$current = $found = $elements = array();
 			
 			foreach( $selectors as $strPath )
 			{
 				$path = explode(' ', trim( $strPath ) );
-				
+                $firstStep = array_shift( $path );
+                $findChild = count( $path ) > 0;
+                $conditions = Node::prepareConditions( $firstStep );
 				$elements = array();
-				
-				if( $path[0][0] == '#' )
+
+                if( isset( $conditions['attr']['id'] ) )
 				{
-					$elements = array( $this->getElementById( substr( $path[0], 1) ) );
+					$elements = array( $this->getElementById( $conditions['attr']['id'] ));
 				}
-				elseif( $path[0][0] == '.' )
+				elseif( isset( $conditions['attr']['class'] ) )
 				{
-					$elements = $this->getElementsByClass( substr( $path[0], 1 ) );
+					$elements = $this->getElementsByClass( $conditions['attr']['class'] );
 				}
-				else
+				elseif( isset( $conditions['tag'] ) )
 				{
-					$elements = $this->getElementsByTagName( $path[0] );
+                    $elements = $this->getElementsByTagName( $conditions['tag'] );
 				}
-				
-				array_shift( $path );
-				
-				if( count( $path ) && count( $elements ) )
-				{
-					foreach( $elements as $element )
-					{
-						$found = $element->findBySelector( $path );
-						
-						if( count( $found ) )
-						{
-							$current = array_merge( $current, $found );
-						}
-					}
-				}
-				else
-				{
-					$current = $elements;
-				}
+
+                foreach( $elements as $element )
+                {
+                    if( $element->isConditionsSatisfied( $conditions ) )
+                    {
+                        if( $findChild )
+                        {
+                            $found = $element->findBySelector( $path );
+
+                            if( count( $found ) )
+                            {
+                                $current = array_merge( $current, $found );
+                            }
+                        }
+                        else
+                        {
+                            $current[] = $element;
+                        }
+                    }
+                }
 			}
 
 			return $current;
