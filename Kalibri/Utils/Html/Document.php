@@ -167,7 +167,7 @@ namespace Kalibri\Utils\Html
                 $classToFind = count( $class )? current( $class ): null;
 
                 // Single class not found, so we can't find element matching all classes in the list
-                if( !$classToFind || !isset( $this->classes[ $name ] ) )
+                if( !$classToFind || !isset( $this->classes[ $classToFind ] ) )
                 {
                     return array();
                 }

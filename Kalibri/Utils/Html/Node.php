@@ -22,6 +22,8 @@ namespace Kalibri\Utils\Html
          */
         protected $inParentIndex;
 
+        protected $isSelfClosing = false;
+
 		public function __construct( &$raw, Document &$document, Node &$parent = null )
 		{
 			$this->raw = &$raw;
@@ -34,6 +36,8 @@ namespace Kalibri\Utils\Html
             }
 
 			$this->process( $document );
+
+            $this->isSelfClosing = $document->isSelfClosing( $this->getName() );
 		}
 
         /**
@@ -199,5 +203,6 @@ namespace Kalibri\Utils\Html
 		abstract function getText();
 		abstract function process( Document &$document );
         abstract function getName();
+        abstract function toHtml();
 	}
 }

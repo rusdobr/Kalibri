@@ -21,6 +21,11 @@ namespace Kalibri\Utils\Html
 			return $this->text;
 		}
 
+        public function toHtml()
+        {
+            return $this->getText();
+        }
+
         public function getName()
         {
             return 'text';

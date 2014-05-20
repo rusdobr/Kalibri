@@ -27,6 +27,42 @@ namespace Kalibri\Utils\Html
 			}
 		}
 
+        public function toHtml()
+        {
+            $result = '<'.$this->getName();
+
+            foreach( $this->attributes as $name=>$value )
+            {
+                if( is_array( $value ) && count( $value ) )
+                {
+                    if( $name == 'style' )
+                    {
+                        $result .= ' style="'.implode(';', $value).'"';
+                        continue;
+                    }
+                    elseif( $name == 'class')
+                    {
+                        $result .= ' class="'.implode(' ', $value).'"';
+                        continue;
+                    }
+                }
+
+                $result .= " $name=\"$value\"";
+            }
+
+            if( !$this->isSelfClosing )
+            {
+                $result .= '>';
+            }
+
+            foreach( $this->childs as $child )
+            {
+                $result .= $child->toHtml();
+            }
+
+            return $result . ($this->isSelfClosing? ' />': "</{$this->name}>");
+        }
+
 		public function hasClass( $class )
 		{
             if( is_array( $class ) )
