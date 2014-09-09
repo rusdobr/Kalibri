@@ -237,13 +237,15 @@ namespace Kalibri\Db {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Add operation to where statement. This function helps construct complicated statements.
-		 * 
-		 * @param string $operation
-		 * 
-		 * @return \Kalibri\Db\Query
-		 */
+        /**
+         * Add operation to where statement. This function helps construct complicated statements.
+         *
+         * @param string $operation
+         *
+         * @throws \Kalibri\Exception\Invalid\Expression
+         *
+         * @return \Kalibri\Db\Query
+         */
 		public function add( $operation )
 		{
 			$operation = \strtolower( $operation );
@@ -278,14 +280,16 @@ namespace Kalibri\Db {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Add order by expression to query
-		 * 
-		 * @param string $field Field name
-		 * @param string $direction Order direction
-		 * 
-		 * @return \Kalibri\Db\Query
-		 */
+        /**
+         * Add order by expression to query
+         *
+         * @param string $field Field name
+         * @param string $direction Order direction
+         *
+         * @throws \Kalibri\Exception\Invalid\Param
+         *
+         * @return \Kalibri\Db\Query
+         */
 		public function orderBy( $field, $direction = self::ORDER_DIR_ASC )
 		{
 			if( $direction != self::ORDER_DIR_ASC && $direction != self::ORDER_DIR_DESC )

@@ -35,7 +35,7 @@ return array(
 		'min-password-length'=>4
 	),
 	'route'=>array(
-		'fetch-url-from'=>'clear-query',/*passible values: get, query*/
+		'fetch-url-from'=>'clear-query',/*possible values: get, query*/
 		'action-prefix'=>'',
 		'default'=>array(
 			'controller'=>'Home',

@@ -1,20 +1,19 @@
 <?php
 
-namespace Kalibri\Helper {
+namespace Kalibri\Helper;
 
-	class Ln implements \Kalibri\Helper\BaseInterface
-	{
-		public static function init( array $options = null ){}
+class Ln implements \Kalibri\Helper\BaseInterface
+{
+    public static function init( array $options = null ){}
 //------------------------------------------------------------------------------------------------//
-		public static function tr( $key, array $params = null )
-		{
-			return \Kalibri::l10n()->tr( $key, $params );
-		}
+    public static function tr( $key, array $params = null )
+    {
+        return \Kalibri::l10n()->tr( $key, $params );
+    }
 
 //------------------------------------------------------------------------------------------------//
-		public static function current( $short = true )
-		{
-			return \Kalibri::l10n()->getCurrent( $short );
-		}
-	}
+    public static function current( $short = true )
+    {
+        return \Kalibri::l10n()->getCurrent( $short );
+    }
 }

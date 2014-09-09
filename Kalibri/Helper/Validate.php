@@ -17,7 +17,7 @@ namespace Kalibri\Helper {
 		public static $_lastError;
 //------------------------------------------------------------------------------------------------//
 		/**
-		 * Check is var valid email adress
+		 * Check is var valid email address
 		 *
 		 * @param string $email
 		 *

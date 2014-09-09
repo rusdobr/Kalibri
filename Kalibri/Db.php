@@ -11,7 +11,7 @@ namespace Kalibri {
 	{
 		/**
 		 * Connected drivers list
-		 * @var arrat
+		 * @var array
 		 */
 		protected $_connections = array();
 

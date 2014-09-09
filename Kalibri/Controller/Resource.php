@@ -1,10 +1,9 @@
 <?php
 
-namespace Kalibri\Controller {
+namespace Kalibri\Controller;
 
-	/**
-	 * @package Kalibri
-	 * @subpackage Controller
-	 */
-	class Resource extends \Kalibri\Controller\Base {}
-}
+/**
+ * @package Kalibri
+ * @subpackage Controller
+ */
+class Resource extends \Kalibri\Controller\Base {}

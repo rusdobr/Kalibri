@@ -4,7 +4,7 @@ return array(
 	'Login'   =>'Логин',
 	'Password'=>'Пароль',
 	'E-mail'  =>'E-mail',
-	'May be used for password reseting'=>'Может быть использовано для восстановления пароля',
+	'May be used for password resetting'=>'Может быть использовано для восстановления пароля',
 	'Phone num.'=>'Номер телефона',
 	'Birthdate' =>'День рождения',
 	'Format'  =>'Формат', 

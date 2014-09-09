@@ -37,7 +37,7 @@ namespace Kalibri\Controller {
 		/**
 		 * Render page and send output
 		 * 
-		 * @param bool $asSring Option to get rendered page as string without outputting
+		 * @param bool $asString Option to get rendered page as string without outputting
 		 * 
 		 * @return mixed
 		 */

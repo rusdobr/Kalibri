@@ -140,7 +140,9 @@ namespace Kalibri\Utils\Html
 		}
 
 		/**
-		 *	@return Node
+         * @param string $id
+		 *
+         * @return \Kalibri\Utils\Html\Node
 		 */
 		public function getElementById( $id )
 		{

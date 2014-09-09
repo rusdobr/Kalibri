@@ -47,26 +47,26 @@ namespace Kalibri {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Get current language
-		 * 
-		 * @param string $shortName
-		 * 
-		 * @return string
-		 */
+        /**
+         * Get current language
+         *
+         * @param bool $short
+         *
+         * @return string
+         */
 		public function getCurrent( $short = true )
 		{
 			return $short ? $this->_currentLang : $this->_languages[ $this->_currentLang ];
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Get language short name by it's long name
-		 * 
-		 * @parm string $language
-		 * 
-		 * @return string|null
-		 */
+        /**
+         * Get language short name by it's long name
+         *
+         * @param string $fullName
+         *
+         * @return string|null
+         */
 		public function getShortName( $fullName = null )
 		{
 			foreach( $this->_languages as $short=>$full )

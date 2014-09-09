@@ -176,6 +176,8 @@ namespace Kalibri {
 		 */
 		public function render( $asString = false, $path = null )
 		{
+            $output = null;
+
 			if( !empty( $this->_name ) )
 			{
 				if( $this->isExists( $this->_name, $path ) )

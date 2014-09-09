@@ -1,9 +1,8 @@
 <?php
 
-namespace Kalibri\Helper {
+namespace Kalibri\Helper;
 	
-	interface BaseInterface
-	{
-		public static function init( array $options = null );
-	}
+interface BaseInterface
+{
+    public static function init( array $options = null );
 }

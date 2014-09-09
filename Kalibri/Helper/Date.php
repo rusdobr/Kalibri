@@ -26,7 +26,7 @@ namespace Kalibri\Helper {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public static function isToday( $timstamp )
+		public static function isToday( $timestamp )
 		{
 			static $today;
 
@@ -35,7 +35,7 @@ namespace Kalibri\Helper {
 				$today = strtotime( date('Y-m-d') );
 			}
 
-			return $timstamp > $today && $timstamp < $today + self::SEC_IN_DAY;
+			return $timestamp > $today && $timestamp < $today + self::SEC_IN_DAY;
 		}
 
 //------------------------------------------------------------------------------------------------//

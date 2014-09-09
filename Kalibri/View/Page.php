@@ -3,7 +3,7 @@
 namespace Kalibri\View {
 
 	/**
-	 * Main page class. Used to make abstration of html documented generated to end user.
+	 * Main page class. Used to make abstraction of html documented generated to end user.
 	 * Allow managing styles, scripts, meta data, content, etc ...
 	 *
 	 * @package Kalibri
@@ -154,6 +154,8 @@ namespace Kalibri\View {
 //------------------------------------------------------------------------------------------------//
 		/**
          * Set content for current action. If provided will overlap view
+         *
+         * @param string $content
          *
 		 * @return \Kalibri\View\Page
 		 */
@@ -343,6 +345,9 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string $name
+         * @param string $content
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMeta( $name, $content )
@@ -371,6 +376,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string $value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaContentType( $value )
@@ -382,9 +389,11 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * @return \Kalibri\View\Page
-		 */
+        /**
+         * @param string $value
+         *
+         * @return \Kalibri\View\Page
+         */
 		public function &setMetaContentLanguage( $value )
 		{
 			$this->setMeta('Content-Language', $value );
@@ -393,6 +402,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string $value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaRefresh( $value )
@@ -403,6 +414,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string @value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaExpires( $value )
@@ -413,6 +426,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string $value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaCacheControl( $value )
@@ -423,6 +438,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string @value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaDescription( $value )
@@ -433,6 +450,8 @@ namespace Kalibri\View {
 
 //------------------------------------------------------------------------------------------------//
 		/**
+         * @param string $value
+         *
 		 * @return \Kalibri\View\Page
 		 */
 		public function &setMetaKeywords( $value )

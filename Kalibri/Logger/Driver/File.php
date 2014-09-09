@@ -34,7 +34,7 @@ namespace Kalibri\Logger\Driver {
 					'level'=>$level,
 					'msg'=>$message,
 					'class'=>$class,
-					'date'=>\date( self::DEFAULT_DATE_FOTRMAT )
+					'date'=>\date( self::DEFAULT_DATE_FORMAT )
 				);
 
 				return true;

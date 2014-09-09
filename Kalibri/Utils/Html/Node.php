@@ -149,11 +149,11 @@ namespace Kalibri\Utils\Html
                 list( $step, $conditions['attr']['id'] ) = explode( '#', $step );
             }
 
-            if( $step[0] == '#' )
+			if( $step && $step[0] == '#' )
             {
                 $conditions['attr']['id'] = substr( $step, 1 );
             }
-            elseif( $step[0] == '.' )
+            elseif( $step && $step[0] == '.' )
             {
                 if( isset( $conditions['attr']['class'] ) )
                 {
@@ -187,7 +187,7 @@ namespace Kalibri\Utils\Html
                 {
                     if( $name == 'class' )
                     {
-                        $result && $this->hasClass( $value );
+                        $result = $result && $this->hasClass( $value );
                     }
                     else
                     {

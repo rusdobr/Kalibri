@@ -15,12 +15,14 @@ namespace Kalibri\View {
 		protected $_data = array();
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Set single value in storage
-		 * 
-		 * @param string $key Key name
-		 * @param mixed $value Value to fill with
-		 */
+        /**
+         * Set single value in storage
+         *
+         * @param string $key Key name
+         * @param mixed $value Value to fill with
+         *
+         * @return $this
+         */
 		public function set( $key, $value )
 		{
 			$this->_data[ $key ] = $value;

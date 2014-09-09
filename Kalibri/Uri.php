@@ -10,7 +10,7 @@ namespace Kalibri {
 	/**
 	 * Kalibri\Uri class responsible for getting routing segments for Router class.
 	 * It tries to get them from $_GET, $_SERVER['PATH_INFO'], $_SERVER['QUERY_STRING'] and
-	 * $_SERVER['ORIG_PATH_INFO']. All this sources should garantee good routing segments.
+	 * $_SERVER['ORIG_PATH_INFO']. All this sources should guarantee good routing segments.
 	 * 
 	 * @version 0.2
 	 * @package Kalibri

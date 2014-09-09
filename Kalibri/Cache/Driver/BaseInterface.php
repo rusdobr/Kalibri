@@ -26,6 +26,7 @@ namespace Kalibri\Cache\Driver {
 		 * 
 		 * @param string $key Key to associate value
 		 * @param mixed $value Value to store
+         * @param int $expire
 		 * 
 		 * @return null
 		 */

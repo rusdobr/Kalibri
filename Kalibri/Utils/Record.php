@@ -42,7 +42,7 @@ namespace Kalibri\Utils {
 		
 //------------------------------------------------------------------------------------------------//
 		/**
-		 * Init function must initialze all available fields.
+		 * Init function must initialize all available fields.
 		 * Setter will not create new field!
 		 *
 		 * @param array $data
@@ -75,32 +75,32 @@ namespace Kalibri\Utils {
 			}
 
 			$type = '';
-			$field_name = '';
+			$fieldName = '';
 
 			if( \strpos( $name, 'get') === 0 || \strpos($name, 'set') === 0 )
 			{
 				$type = \substr( $name, 0, 3 );
-				$field_name = \substr( $name, 3 );
-				$field_name = \strtolower( $field_name[0] ).substr( $field_name, 1 );
+				$fieldName = \substr( $name, 3 );
+				$fieldName = \strtolower( $fieldName[0] ).substr( $fieldName, 1 );
 			}
 			elseif( \strpos( $name, 'is' ) === 0 )
 			{
 				$type = 'is';
-				$field_name = \substr( $name, 2 );
-				$field_name = \strtolower( $field_name[0] ).substr( $field_name, 1 );
+				$fieldName = \substr( $name, 2 );
+				$fieldName = \strtolower( $fieldName[0] ).substr( $fieldName, 1 );
 			}
 
-			if( property_exists( $this, $field_name ) )
+			if( property_exists( $this, $fieldName ) )
 			{
 				switch( $type )
 				{
 					case 'is' :
-						return $this->__is( $field_name, current( $arguments ) );
+						return $this->__is( $fieldName, current( $arguments ) );
 					case 'get':
-						return $this->__get( $field_name );
+						return $this->__get( $fieldName );
 
 					case 'set':
-						return $this->__set( $field_name, current( $arguments ) );
+						return $this->__set( $fieldName, current( $arguments ) );
 				}
 			}
 			else

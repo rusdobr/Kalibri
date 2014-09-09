@@ -57,12 +57,12 @@ namespace Kalibri\Utils {
 
 			if( !( $isCompiledExists = file_exists( $location = $this->getLocation( $name ) ) ) )
 			{
-				$includedeFiles = get_included_files();
+				$includedFiles = get_included_files();
 
 				// Remove first 4 files (index, _init, Kalibri, Compiler )
-				$includedeFiles = array_slice( $includedeFiles, 4 );
+				$includedFiles = array_slice( $includedFiles, 4 );
 
-				foreach( $includedeFiles as $file )
+				foreach( $includedFiles as $file )
 				{
 					if( in_array( $file, $this->_skipped ) || strpos( $file, '/Helper/' ) !== false || strpos( $file, '/Config/' ) !== false )
 					{
@@ -80,7 +80,7 @@ namespace Kalibri\Utils {
 						$this->skip( $file );
 
 						// Drop comments, new lines and put content into "compiled" file
-						exec("cat $file | php -w | sed 's/<?php//g' >> $location", $output);
+						exec("cat $file | php -w | sed 's/<?php//g' >> $location");
 						//  file_put_contents( $location, str_replace( array('<?php', '<?', '? >'), '', file_get_contents( $file ) ), FILE_APPEND);
 
 						$isCompiledExists = true;

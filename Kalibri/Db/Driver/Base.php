@@ -5,7 +5,7 @@ namespace Kalibri\Db\Driver {
 	abstract class Base
 	{
 		/**
-		 * Databse connection link resource
+		 * Database connection link resource
 		 */
 		protected $_link = null;
 		protected $_config = null;
@@ -22,21 +22,26 @@ namespace Kalibri\Db\Driver {
 		abstract public function connect();
 		abstract public function disconnect();
 
-		/**
-		 * @return Kalibri\Db\Result\Base
-		 */
+        /**
+         * @param string $sql
+         *
+         * @return \Kalibri\Db\Result\Base
+         */
 		abstract public function query( $sql );
 
 		/**
 		 * @param \Kalibri\Db\Query $query
 		 * 
-		 * @return Kalibri\Db\Result\Base
+		 * @return \Kalibri\Db\Result\Base
 		 */
 		abstract public function exec( \Kalibri\Db\Query $query );
 
-		/**
-		 * @return Kalibri\Db\Result\Base
-		 */
+        /**
+         * @param $query
+         * @param array $params
+         *
+         * @return \Kalibri\Db\Result\Base
+         */
 		abstract public function execStatment( $query, array $params = null );
 
 		abstract public function lastInsertId();
@@ -50,9 +55,10 @@ namespace Kalibri\Db\Driver {
 		abstract public function escape( $string );
 		abstract public function affectedRows();
 
-		/**
-		 * @return \Kalibri\Db\Builder\Mysql
-		 */
+        /**
+         * @throws \Kalibri\Db\Exception
+         * @return \Kalibri\Db\Builder\Mysql
+         */
 		public function getBuilder()
 		{
 			if( !$this->_builderClass )
@@ -72,9 +78,9 @@ namespace Kalibri\Db\Driver {
 
 //------------------------------------------------------------------------------------------------//
 		/**
-		 * Create instance of Query bulder
+		 * Create instance of Query bulider
 		 * 
-		 * @return Kalibri\Db\Query
+		 * @return \Kalibri\Db\Query
 		 */
 		public function getQuery()
 		{

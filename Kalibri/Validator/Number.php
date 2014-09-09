@@ -92,7 +92,6 @@ namespace Kalibri\Validator
 
             $withParamCount = count( $withParam );
             $normalized = array();
-            $added = false;
 
             foreach( $rules as $rule )
             {

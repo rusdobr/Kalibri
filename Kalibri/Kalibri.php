@@ -1,8 +1,9 @@
 <?php
 
 /**
+ * @method \Kalibri\L10n l10n()
  * @method \Kalibri\Db db() 
- * @method \Kalibri\Cache cache()
+ * @method \Kalibri\Cache\Driver\Memcache cache()
  */
 final class Kalibri
 {
@@ -296,12 +297,13 @@ final class Kalibri
 	}
 	
 //------------------------------------------------------------------------------------------------//
-	/**
-	 * @param string $instance
-	 * @param \Kalibri\Model\Base
-	 * 
-	 * @return \Kalibri\Model\Active
-	 */
+    /**
+     * @param $name
+     * @param Kalibri\Model\Base $class
+     * @throws Exception
+     *
+     * @return \Kalibri\Model\Active
+     */
 	public static function model( $name, \Kalibri\Model\Base $class = null )
 	{
 		if( $class )

@@ -1,11 +1,11 @@
 <?php
 
-namespace Kalibri\Model {
+namespace Kalibri\Model;
 
-    use \Kalibri\Helper\Text;
+use \Kalibri\Helper\Text;
 
-    abstract class Entity
-    {
+abstract class Entity
+{
 	protected $_changedFields = array();
 	protected $_modelName;
 
@@ -102,39 +102,39 @@ namespace Kalibri\Model {
 	{
 	    if( \method_exists( $this, $name ) && \is_callable( array( $this, $name ) ) )
 	    {
-		return \call_user_func( array( &$this, $name ), $arguments );
+		    return \call_user_func( array( &$this, $name ), $arguments );
 	    }
 
 	    if( !$this->_withMagic )
 	    {
-		\Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+		    \Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
 	    }
 
 	    $type = null;
 	    $fieldName = null;
 
-	    if( strpos( $name, 'get') === 0 || strpos($name, 'set') === 0 )
+	    if( strpos($name, 'get') === 0 || strpos($name, 'set') === 0 )
 	    {
-		$type = substr( $name, 0, 3 );
-		$fieldName = substr( $name, 3 );
-		$fieldName = strtolower( $fieldName[0] ).substr( $fieldName, 1 );
+            $type = substr( $name, 0, 3 );
+            $fieldName = substr( $name, 3 );
+            $fieldName = strtolower( $fieldName[0] ).substr( $fieldName, 1 );
 	    }
 
 	    if( property_exists( $this, $fieldName ) )
 	    {
-		switch( $type )
-		{
-		    case 'get':
-			return $this->$fieldName;
-		    case 'set':
-			$this->$fieldName = current( $arguments );
-			$this->registerChanged( Text::camelToUnderscore( $fieldName ) );
-			return $this;
-		}
+            switch( $type )
+            {
+                case 'get':
+                return $this->$fieldName;
+                case 'set':
+                $this->$fieldName = current( $arguments );
+                $this->registerChanged( Text::camelToUnderscore( $fieldName ) );
+                return $this;
+            }
 	    }
 	    else
 	    {
-		\Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+	    	\Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
 	    }
 
 	    return null;
@@ -153,5 +153,4 @@ namespace Kalibri\Model {
 	 *  @return array
 	 */
 	abstract public function getAllData();
-    }
 }

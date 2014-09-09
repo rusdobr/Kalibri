@@ -14,7 +14,7 @@ namespace Kalibri {
 	{
 //------------------------------------------------------------------------------------------------//
 		/**
-		 * Show ecxception screen
+		 * Show exception screen
 		 *
 		 * @param \Exception $exception
 		 */

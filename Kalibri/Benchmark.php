@@ -17,11 +17,13 @@ namespace Kalibri {
 		private $_marks = array();
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Start benchmark point
-		 *
-		 * @param string name
-		 */
+        /**
+         * Start benchmark point
+         *
+         * @param $name
+         * @param string $comment
+         * @internal param \Kalibri\name $string
+         */
 		public function start( $name, $comment = null )
 		{
 			if( !isset( $this->_marks[ $name ] ) )
@@ -78,7 +80,6 @@ namespace Kalibri {
 		 * Get single benchmark point or full points list
 		 *
 		 * @param string $name
-		 * @param int $decimals
 		 *
 		 * @return array
 		 */
@@ -111,6 +112,8 @@ namespace Kalibri {
 		 * Get all marks. Allmost the same as Kalibri\Benchmark::get(TRUE)
 		 * but point will not autocomplete
 		 *
+         * @param bool @stopAll
+         *
 		 * @return array
 		 */
 		public function getMarks( $stopAll = false )

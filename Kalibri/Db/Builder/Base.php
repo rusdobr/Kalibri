@@ -34,9 +34,9 @@ namespace Kalibri\Db\Builder {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * @return &array
-		 */
+        /**
+         * @return array
+         */
 		public function getData()
 		{
 			return $this->_data;

@@ -132,7 +132,6 @@ namespace Kalibri {
 			}
 			
 			$basePath = str_replace('//', '/', K_APP_FOLDER.'/App/Controller/' );			
-			$upper = '';
 
 			for( $i=0, $segmentsCount = count( $this->_segments ); $i< $segmentsCount; $i++ )
 			{

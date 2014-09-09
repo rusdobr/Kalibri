@@ -13,7 +13,7 @@ namespace Kalibri\Logger {
 		const L_INFO    = 'Info';
 		const L_EXCEPTION = 'Exception';
 
-		const DEFAULT_DATE_FOTRMAT = 'Y-m-d H:i:s';
+		const DEFAULT_DATE_FORMAT = 'Y-m-d H:i:s';
 
 		protected $_messages = array();
 		protected $_excludedLevels = array();		
@@ -71,7 +71,7 @@ namespace Kalibri\Logger {
 			// Set default date format if skipped in config
 			if( !isset( $this->_options['date-format'] ) )
 			{
-				$this->_options['date-format'] = self::DEFAULT_DATE_FOTRMAT;
+				$this->_options['date-format'] = self::DEFAULT_DATE_FORMAT;
 			}
 			
 			$this->_uniq = uniqid();

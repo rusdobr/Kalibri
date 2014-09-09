@@ -24,7 +24,7 @@ namespace Kalibri {
 		 * Can load classes with folder name as prefix or classes without prefix in application
 		 * classes folder.
 		 *
-		 * So you can name app clases as Default_Class_Name or Class_Name.
+		 * So you can name app classes as Default_Class_Name or Class_Name.
 		 * Note: In application sources you can use ONLY declared in class def. name.
 		 *
 		 * @param string $className
