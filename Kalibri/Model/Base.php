@@ -15,7 +15,7 @@ namespace Kalibri\Model {
 		/**
 		 * @var string $tableName
 		 */
-		protected $_tableName;
+		protected $tableName;
 
 		/**
 		 * @var \Kalibri\Db
@@ -26,9 +26,9 @@ namespace Kalibri\Model {
 		 * Assigned connection name
 		 * @var string
 		 */
-		protected $_connectName;
+		protected $connectName;
 
-		protected $_keyField;
+		protected $keyField;
 
 		/**
 		 * @var \Kalibri\Cache\Driver\Memcache
@@ -43,8 +43,8 @@ namespace Kalibri\Model {
 //------------------------------------------------------------------------------------------------//
 		public function __construct()
 		{
-			if( !$this->_tableName ) {
-				$this->_tableName = strtolower( 
+			if( !$this->tableName ) {
+				$this->tableName = strtolower(
 					str_replace( 
 						array( \Kalibri::app()->getNamespace().'\\App\\Model\\', 'Kalibri\\Model\\' ), 
 						'', 
@@ -52,11 +52,11 @@ namespace Kalibri\Model {
 				));
 			}
 
-			$this->_keyField = $this->_keyField ?: $this->_tableName.'_id';
+			$this->keyField = $this->keyField ?: $this->tableName.'_id';
 			$this->_cache = \Kalibri::cache();
 
 			// Register model
-			\Kalibri::model( $this->_tableName, $this );
+			\Kalibri::model( $this->tableName, $this );
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -68,7 +68,7 @@ namespace Kalibri\Model {
 		protected function db()
 		{
 			if( !$this->_db ) {
-				$this->_db = \Kalibri::db()->getConnection( $this->_connectName );
+				$this->_db = \Kalibri::db()->getConnection( $this->connectName );
 			}
 
 			return $this->_db;
@@ -80,32 +80,32 @@ namespace Kalibri\Model {
 		 */
 		public function getQuery()
 		{
-			return $this->db()->getQuery()->from( $this->_tableName )
-					->setConnectionName( $this->_connectName );
+			return $this->db()->getQuery()->from( $this->tableName )
+					->setConnectionName( $this->connectName );
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public function getCache( $key )
 		{
-			return $this->_cache->get( $this->_tableName.$key );
+			return $this->_cache->get( $this->tableName.$key );
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public function setCache( $key, $value, $expire = 0 )
 		{
-			return $this->_cache->set( $this->_tableName.$key, $value, $expire );
+			return $this->_cache->set( $this->tableName.$key, $value, $expire );
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public function removeCache( $key )
 		{
-			return $this->_cache->remove( $this->_tableName.$key );
+			return $this->_cache->remove( $this->tableName.$key );
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public function flushCache( $params = null )
 		{
-			$this->_cache->remove( $this->_tableName.'all' );
+			$this->_cache->remove( $this->tableName.'all' );
 
 			if( is_array( $params ) && count( $this->_cacheKeys ) )
 			{
@@ -116,19 +116,19 @@ namespace Kalibri\Model {
 						$key = str_replace( $param, $value, $key );
 					}
 
-					$this->_cache->remove( $this->_tableName.$key );
+					$this->_cache->remove( $this->tableName.$key );
 				}
 			}
 			else
 			{
-				$this->_cache->remove( $this->_tableName.$params );
+				$this->_cache->remove( $this->tableName.$params );
 			}
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public function getKeyFieldName()
 		{
-			return $this->_keyField;
+			return $this->keyField;
 		}
 	}
 }
