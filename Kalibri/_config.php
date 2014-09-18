@@ -30,12 +30,9 @@ return array(
 	),
 	'auth'=>array(
 		'salt'=>'sdD&4G!-*@gfS',
-		'profile'=>'\\Kalibri\\Auth\\Profile',
-		'login-field'=>'email',
 		'min-password-length'=>4
 	),
 	'route'=>array(
-		'fetch-url-from'=>'clear-query',/*possible values: get, query*/
 		'action-prefix'=>'',
 		'default'=>array(
 			'controller'=>'Home',

@@ -45,21 +45,21 @@ namespace Kalibri\Model {
 
 //--------------------------------------------------------------------------------------------------------------------//
         /**
-         *  Get empty entity/ Can be handy in row creation
+         *  Get empty entity. Can be handy in row creation
          *
          * @return \Kalibri\Model\Entity
          */
         public function getEmpty()
         {
-            if( !$this->_entityClass )
+            if( !$this->entityClass )
             {
                 $class = get_class( $this );
                 $pos = strrpos( $class, '\\' );
 
-                $this->_entityClass = substr( $class, 0, $pos ).'\\Entity'.substr( $class, $pos );
+                $this->entityClass = substr( $class, 0, $pos ).'\\Entity'.substr( $class, $pos );
             }
 
-            return new $this->_entityClass();
+            return new $this->entityClass();
         }
 
 //------------------------------------------------------------------------------------------------//
