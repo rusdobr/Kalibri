@@ -70,6 +70,30 @@ namespace Kalibri\Utils {
 //------------------------------------------------------------------------------------------------//
 		public static function toJSON( $obj )
 		{
+            if( is_array($obj) )
+            {
+                $result = array();
+
+                foreach($obj as $key=>$item)
+                {
+                    if( is_object($item) && method_exists($item, 'toArray'))
+                    {
+                        $result[$key] = $item->toArray();
+                    }
+                    else
+                    {
+                        $result[$key] = self::toArray($item);
+                    }
+                }
+
+                return json_encode($result);
+            }
+
+            if( is_object($obj) && method_exists($obj, 'toArray'))
+            {
+                return json_encode($obj->toArray());
+            }
+
 			if( is_object( $obj ) || is_array( $obj ) )
 			{
 				$obj = self::toArray( $obj );

@@ -156,6 +156,8 @@ class Uri
         if( strpos($uri, '/') !== false )
         {
             $this->segments = explode('/', $uri);
+        } else {
+            $this->segments[] = $uri;
         }
     }
 

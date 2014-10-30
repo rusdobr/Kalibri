@@ -6,6 +6,7 @@
  * @method \Kalibri\Cache\Driver\Memcache cache()
  * @method \Kalibri\Uri uri()
  * @method \Kalibri\Error error()
+ * @method \Kalibri\Auth auth()
  */
 final class Kalibri
 {
@@ -68,7 +69,7 @@ final class Kalibri
 		{
 			self::$data[ $name ] = current( $arguments );
 		}
-		
+
 		return self::get( $name );
 	}
 	
@@ -146,7 +147,7 @@ final class Kalibri
      * @param Kalibri\Model\Base $class
      * @throws Exception
      *
-     * @return \Kalibri\Model\Active
+     * @return \Kalibri\Model\ActiveEntity
      */
 	public static function model( $name, \Kalibri\Model\Base $class = null )
 	{

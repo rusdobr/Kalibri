@@ -57,7 +57,13 @@ namespace Kalibri\Db {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function &select( $fields = self::FIELD_ANY, $asField = '' )
+		/**
+		 * @param array|string $fields
+         * @param array|string $asField
+         *
+         * @return \Kalibri\Db\Query
+         */
+        public function &select( $fields = self::FIELD_ANY, $asField = '' )
 		{
 			$this->_data['function'] = self::F_SELECT;
 

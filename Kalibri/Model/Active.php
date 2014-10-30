@@ -201,8 +201,13 @@ class Active extends Base
     }
 
 //------------------------------------------------------------------------------------------------//
-    public function toEntity( array $data )
+    public function toEntity( array $data = null )
     {
+        if( $data === null )
+        {
+            return null;
+        }
+
         return new $this->entityClass( $data );
     }
 
