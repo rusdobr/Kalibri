@@ -5,14 +5,18 @@ namespace Kalibri\Model\Entity;
 /**
  * @method int getProfileId()
  * @method string getFirstName()
- * @method string getSecondName()
+ * @method string getLastName()
  * @method string getLogin()
  * @method string getPassword()
  * @method int getBirthday()
  * @method int getBanFlag()
  * @method string getBanReason()
  * @method int getRole()
- * @methof int getRegisteredAt()
+ * @method int getRegisteredAt()
+ * @method \Kalibri\Model\Entity\Profile setFirstName()
+ * @method \Kalibri\Model\Entity\Profile setLastName()
+ * @method \Kalibri\Model\Entity\Profile setBirthday()
+ * @method \Kalibri\Model\Entity\Profile setNickname()
  */
 class Profile extends \Kalibri\Model\Entity
 {
@@ -34,6 +38,7 @@ class Profile extends \Kalibri\Model\Entity
      */
     public function initData(array $data)
     {
+        $this->profileId  = $data['profile_id'];
         $this->login      = $data['login'];
         $this->password   = $data['password'];
         $this->firstName  = $data['first_name'];

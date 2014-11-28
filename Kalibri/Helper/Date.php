@@ -39,36 +39,56 @@ namespace Kalibri\Helper {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public static function secondsToTime( $seconds )
+		public static function secondsToDate( $seconds )
 		{
-			$time = array(
-				self::SEC_IN_YEAR=>'y', 
-				self::SEC_IN_MONTH=>'m', 
-				self::SEC_IN_WEEK=>'w', 
-				self::SEC_IN_DAY=>'d', 
-				self::SEC_IN_HOUR=>'h', 
-				self::SEC_IN_MINUTE=>'m'
-			);
+            $diff = (new \DateTime())->diff((new \DateTime())->modify("+{$seconds} seconds"));
+            $result = [];
 
-			$result = '';
+            if($diff->m) {
+                $result[] = Text::pluralWith($diff->m, [tr('month'), tr('months'), tr('months')]);
+            }
 
-			foreach( $time as $sec=>$label )
-			{
-				if( $seconds >= $sec )
-				{
-					$tmp = floor( $seconds / $sec );
-					$seconds -= ceil( $tmp * $sec );
-					$result .= $tmp.$label.' ';
-				}
-			}
+            if($diff->d) {
+                $result[] = Text::pluralWith($diff->d, [tr('day'), tr('days'), tr('days')]);
+            }
 
-			if( $seconds > 0 )
-			{
-				$result .= $seconds.'s';
-			}
+            return implode(' ', $result);
+        }
 
-			return $result;
-		}
+        public function secondsToTime($seconds)
+        {
+            $time = array(
+                self::SEC_IN_YEAR  => [tr('year'), tr('years'), tr('years')],
+                self::SEC_IN_MONTH => [tr('month'), tr('months'), tr('months')],
+                self::SEC_IN_WEEK  => [tr('week'), tr('weeks'), tr('weeks')],
+                self::SEC_IN_DAY   => [tr('day'), tr('days'), tr('days')],
+                self::SEC_IN_HOUR  => [tr('hour'), tr('hours'), tr('hours')],
+                self::SEC_IN_MINUTE=> [tr('minute'), tr('minutes'), tr('minutes')]
+            );
+
+            $result = '';
+
+            foreach( $time as $sec=>$label )
+            {
+                if( $seconds >= $sec )
+                {
+                    $tmp = floor( $seconds / $sec );
+                    $seconds -= ceil( $tmp * $sec );
+                    if(is_array($label)) {
+                        $result .= $tmp . ' '.Text::plural($tmp, $label) . ' ';
+                    } else {
+                        $result .= $tmp . $label . ' ';
+                    }
+                }
+            }
+
+            if( $seconds > 0 )
+            {
+                $result .= $seconds.'s';
+            }
+
+            return $result;
+        }
 
 //------------------------------------------------------------------------------------------------//
 		public static function ageFromStr( $date )

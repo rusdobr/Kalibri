@@ -8,9 +8,14 @@ class Profile extends ActiveEntity
 {
 
 //------------------------------------------------------------------------------------------------//
+    /**
+     * @param string $login
+     *
+     * @return \Kalibri\Model\Entity\Profile
+     */
     public function getByLogin( $login )
     {
-        return $this->getBy($login, 'login');
+        return $this->toEntity( $this->getBy($login, 'login') );
     }
 
 //------------------------------------------------------------------------------------------------//

@@ -118,4 +118,10 @@ class Auth
     {
         return (bool)preg_match( '/^[\w\d\@_\.]{4,255}$/', $login );
     }
+
+//------------------------------------------------------------------------------------------------//
+    public function getModel()
+    {
+        return $this->model;
+    }
 }
