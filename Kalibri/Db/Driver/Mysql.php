@@ -58,7 +58,7 @@ namespace Kalibri\Db\Driver {
 				}
 				else
 				{
-					$this->_link = new \PDO("mysql:host={$this->_config['host']};dbname={$this->_config['name']};port=".
+                	$this->_link = new \PDO("{$this->_config['driver']}:host={$this->_config['host']};dbname={$this->_config['name']};port=".
 						(isset( $this->_config['port'] )? $this->_config['port']: 3306), 
 							$this->_config['user'], $this->_config['password']);
 

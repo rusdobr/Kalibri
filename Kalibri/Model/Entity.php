@@ -8,6 +8,7 @@ abstract class Entity
 {
 	protected $_changedFields = array();
 	protected $_modelName;
+    protected $_primaryName;
 
 	/**
 	 *  Enable or disable magic getters and setters
@@ -27,11 +28,30 @@ abstract class Entity
 			));
 	    }
 
+        if(!$this->_primaryName)
+        {
+            $this->_primaryName = Text::underscoreToCamel( \Kalibri::model($this->_modelName)->getKeyFieldName() );
+        }
+
 	    if( $data !== null )
 	    {
 			$this->initData( $data );
 	    }
 	}
+
+
+    public function getPrimaryValue()
+    {
+        return $this->{$this->_primaryName};
+    }
+
+
+    public function setPrimaryValue($value)
+    {
+        $this->{$this->_primaryName} = $value;
+        return $this;
+    }
+
 
 	/**
 	 *  Mark field as changed
@@ -61,9 +81,8 @@ abstract class Entity
 	 */
 	public function save()
 	{
-		$key = Text::underscoreToCamel( \Kalibri::model($this->_modelName)->getKeyFieldName() );
-		$this->$$key = \Kalibri::model( $this->_modelName )->save( $this->getChangedData() );
-	
+		$this->setPrimaryValue(\Kalibri::model( $this->_modelName )->save( $this->getChangedData() ));
+
 		// reset change list
 		$this->_changedFields = array();
 
@@ -78,6 +97,8 @@ abstract class Entity
 	public function getChangedData()
 	{
 		$data = $this->getAllData();
+
+        $this->_changedFields[\Kalibri::model($this->_modelName)->getKeyFieldName()] = true;
 
 		foreach( $data as $field=>$v )
 		{

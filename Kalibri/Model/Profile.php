@@ -15,7 +15,7 @@ class Profile extends ActiveEntity
      */
     public function getByLogin( $login )
     {
-        return $this->getBy($login, 'login');
+        return $this->toEntity( $this->getBy($login, 'login') );
     }
 
 //------------------------------------------------------------------------------------------------//
