@@ -47,7 +47,7 @@ class File implements BaseInterface {
     public function set($key, $value, $expire = 0)
     {
         $expire = $expire == 0? \Kalibri\Helper\Date::SEC_IN_YEAR: $expire;
-        file_put_contents($this->path($key), (time() + $expire).serialize($value));
+        file_put_contents($this->path($key), (time() + $expire)."\n".serialize($value));
     }
 
     /**
