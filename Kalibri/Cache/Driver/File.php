@@ -7,10 +7,7 @@ class File implements BaseInterface {
     /**
      * Construct cache driver
      */
-    public function __construct(array $config = null)
-    {
-        // TODO: Implement __construct() method.
-    }
+    public function __construct(array $config = null){}
 
     /**
      * Get value from cache engine by string key
