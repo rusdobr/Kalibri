@@ -126,8 +126,6 @@ class Uri
      */
     protected function process()
     {
-
-
         $indexPage = \Kalibri::config()->get('entry');
         $indexPage = strlen($indexPage) && $indexPage[0] != '/'? '/'.$indexPage: $indexPage;
         $uri = str_replace( $indexPage, '', $this->uri );
@@ -146,6 +144,7 @@ class Uri
         }
 
         $uri = $uri == ''? '/': $uri;
+
         //Check is URI valid
         if( !$this->isValidUri( $uri ) )
         {
@@ -153,6 +152,7 @@ class Uri
         }
 
         //Remove first slash
+        $this->uri = $uri;
         $uri = $uri[0] == '/' && strlen( $uri ) > 1? substr( $uri, 1, strlen( $uri ) ): $uri;
 
         //if( strpos($uri, '/') !== false )
