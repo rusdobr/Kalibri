@@ -40,7 +40,7 @@ spl_autoload_register( function( $className ) {
 		return true;
 	}
 
-	// Not loaded eat, try to load helper
+	// Not loaded yet, try to load helper
 	return \Kalibri::autoload()->helper( $className );
 });
 

@@ -17,6 +17,8 @@ namespace Kalibri\Model\Entity;
  * @method \Kalibri\Model\Entity\Profile setLastName()
  * @method \Kalibri\Model\Entity\Profile setBirthday()
  * @method \Kalibri\Model\Entity\Profile setNickname()
+ * @method \Kalibri\Model\Entity\Profile setLogin()
+ * @method \Kalibri\Model\Entity\Profile setPassword()
  */
 class Profile extends \Kalibri\Model\Entity
 {

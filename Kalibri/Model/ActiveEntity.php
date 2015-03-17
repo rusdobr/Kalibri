@@ -70,7 +70,7 @@ namespace Kalibri\Model {
                 return $id;
             }
 
-            if( ( $data = parent::get( (int)$id, $field ) ) && is_array( $data ) )
+            if( ( $data = parent::getBy( $id, $field ) ) && is_array( $data ) )
             {
                 $data = $this->toEntity( $data );
             }

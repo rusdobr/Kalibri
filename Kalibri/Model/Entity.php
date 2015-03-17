@@ -98,7 +98,9 @@ abstract class Entity
 	{
 		$data = $this->getAllData();
 
-        $this->_changedFields[\Kalibri::model($this->_modelName)->getKeyFieldName()] = true;
+		if($this->getPrimaryValue()) {
+			$this->_changedFields[\Kalibri::model($this->_modelName)->getKeyFieldName()] = true;
+		}
 
 		foreach( $data as $field=>$v )
 		{
@@ -146,11 +148,11 @@ abstract class Entity
             switch( $type )
             {
                 case 'get':
-                return $this->$fieldName;
+                	return $this->$fieldName;
                 case 'set':
-                $this->$fieldName = current( $arguments );
-                $this->registerChanged( Text::camelToUnderscore( $fieldName ) );
-                return $this;
+					$this->$fieldName = current( $arguments );
+					$this->registerChanged( Text::camelToUnderscore( $fieldName ) );
+					return $this;
             }
 	    }
 	    else

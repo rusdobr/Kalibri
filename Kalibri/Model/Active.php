@@ -21,7 +21,7 @@ class Active extends Base
             $this->getQuery()->insert( $data )->execute( $this->connectName );
             $this->removeCache('all');
 
-            return true;//return $this->db()->lastInsertId();
+            return $this->db()->lastInsertId();
         } catch( \Exception $e ) {
             throw $e;
         }
@@ -140,6 +140,16 @@ class Active extends Base
 
 //------------------------------------------------------------------------------------------------//
     public function getBy( $id, $field = null )
+    {
+        $field = $field?: $this->keyField;
+
+        return $this->db()->execStatment("select * from {$this->tableName} where $field=:id", array(
+            ':id'=>$id
+        ))->fetchAndClose();
+    }
+
+//------------------------------------------------------------------------------------------------//
+    public function getSingleBy( $field, $id )
     {
         $field = $field?: $this->keyField;
 

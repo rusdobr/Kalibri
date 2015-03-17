@@ -25,7 +25,7 @@ class File implements BaseInterface {
             list($expiration, $content) = $this->splitContent(file_get_contents($path));
 
             if($this->isExpired($expiration)) {
-                unlink($path);
+                @unlink($path);
                 return null;
             }
 
@@ -75,7 +75,12 @@ class File implements BaseInterface {
      */
     public function remove($key)
     {
-        unlink($this->path($key));
+        $path = $this->path($key);
+
+        if(file_exists($path))
+        {
+            unlink($path);
+        }
     }
 
     private function isExpired($expiration)

@@ -15,12 +15,14 @@ class Profile extends ActiveEntity
      */
     public function getByLogin( $login )
     {
-        return $this->toEntity( $this->getBy($login, 'login') );
+        $result = $this->getBy($login, 'login');
+        return is_array($result)? $this->toEntity( $result ): null;
     }
 
 //------------------------------------------------------------------------------------------------//
     public function register( ProfileEntity $data )
     {
+
         if( $data->getLogin() && $data->getPassword() )
         {
             $this->insert( $data );

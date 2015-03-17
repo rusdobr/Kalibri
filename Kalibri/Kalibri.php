@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @method \Kalibri\L10n l10n()
- * @method \Kalibri\Db db() 
- * @method \Kalibri\Cache\Driver\Memcache cache()
- * @method \Kalibri\Uri uri()
- * @method \Kalibri\Error error()
- * @method \Kalibri\Auth auth()
+ * @static @method \Kalibri\L10n l10n()
+ * @static @method \Kalibri\Db db()
+ * @static @method \Kalibri\Cache\Driver\Memcache cache()
+ * @static @method \Kalibri\Uri uri()
+ * @static @method \Kalibri\Error error()
+ * @static @method \Kalibri\Auth auth()
  */
 final class Kalibri
 {
