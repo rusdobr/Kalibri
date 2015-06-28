@@ -10,24 +10,24 @@
  */
 final class Kalibri
 {
-	protected static $data = array();
-	protected static $autoClasses = array();
-	protected static $models = array();
-	
+	protected static $data        = [];
+	protected static $autoClasses = [];
+	protected static $models      = [];
+
 //------------------------------------------------------------------------------------------------//
 	/**
 	 * Set value
-	 * 
+	 *
 	 * @param string $alias
 	 * @param mixed $instance
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public static function set( $alias, $instance )
 	{
 		return self::$data[ $alias ] = $instance;
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	public static function &get( $alias, $initClass = null )
 	{
@@ -43,9 +43,9 @@ final class Kalibri
 				self::$data[ $alias ] = new self::$autoClasses[ $alias ];
 			}
 		}
-		
+
 		$return = isset( self::$data[ $alias ] )? self::$data[ $alias ]: null;
-		
+
 		return $return;
 	}
 
@@ -61,7 +61,7 @@ final class Kalibri
 	{
 		return isset( self::$data[ $alias ] ) && self::$data[ $alias ] !== null;
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	public static function __callStatic( $name, array $arguments )
 	{
@@ -72,25 +72,25 @@ final class Kalibri
 
 		return self::get( $name );
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	/**
 	 * Set list of classes that will be auto inited on first use
-	 * 
+	 *
 	 * @param array $list
-	 * 
+	 *
 	 * @return null
 	 */
 	public static function setAutoInitClasses( $list )
 	{
 		self::$autoClasses = $list;
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	/**
      * @param \Kalibri\Application $app
      *
-	 * @return \Kalibri\Application 
+	 * @return \Kalibri\Application
 	 */
 	public static function &app( \Kalibri\Application $app = null )
 	{
@@ -98,12 +98,12 @@ final class Kalibri
 		{
 			self::$data['app'] = $app;
 		}
-		
+
 		$return = isset( self::$data['app'] )? self::$data['app']: self::get('app');
-		
+
 		return $return;
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	/**
      * @param \Kalibri\Config $config
@@ -116,9 +116,9 @@ final class Kalibri
 		{
 			self::$data['config'] = $config;
 		}
-		
+
 		$return = isset( self::$data['config'] )? self::$data['config']: self::get('config');
-		
+
 		return $return;
 	}
 
@@ -135,12 +135,12 @@ final class Kalibri
 		{
 			self::$data['controller'] = $controller;
 		}
-		
+
 		$return = isset( self::$data['controller'] )? self::$data['controller']: self::get('controller');
-				
+
 		return $return;
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
     /**
      * @param $name
@@ -155,19 +155,19 @@ final class Kalibri
 		{
 			return self::$models[ $name ] = $class;
 		}
-		
+
 		if( !isset( self::$models[ $name ] ) )
 		{
 			$className = self::app()->getNamespace().'\\App\\Model\\'.ucfirst( $name );
 			$kalibriClassName = '\\Kalibri\\Model\\'.\ucfirst( $name );
-			
+
 			if( class_exists( $className, true ) )
 			{
 				return self::$models[ $name ] = new $className;
 			}
 			elseif( class_exists( $kalibriClassName, true ) )
 			{
-				
+
 				return self::$models[ $name ] = new $kalibriClassName;
 			}
 			else
@@ -175,10 +175,10 @@ final class Kalibri
 				throw new \Exception("Can't load model '$className'");
 			}
 		}
-		
+
 		return self::$models[ $name ];
 	}
-	
+
 //------------------------------------------------------------------------------------------------//
 	public static function tmp( $fileName = null )
 	{

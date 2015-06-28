@@ -13,7 +13,7 @@ class RegExp extends Base {
 
     public function validate($value)
     {
-        return (bool)preg_match($this->regexp, $value);
+        return (bool)preg_match('/'.$this->regexp.'/', $value);
     }
 
     public function error()

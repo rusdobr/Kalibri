@@ -12,23 +12,32 @@ namespace Kalibri\Model {
          *
          * @return \Kalibri\Model\Entity[]
          */
-        public function arrayToEntities( array $rows )
+        public function arrayToEntities( $rows )
         {
+            $result = [];
+
             if( is_array( $rows ) )
             {
                 foreach( $rows as $key=>$row )
                 {
-                    $rows[ $key ] = $this->toEntity( $row );
+                    $result[ $key ] = $this->toEntity( $row );
                 }
             }
 
-            return $rows;
+            return $result;
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
         public function get( $id )
         {
             return $this->getEntity( $id );
+        }
+
+//--------------------------------------------------------------------------------------------------------------------//
+        public function getSingleBy( $field, $id )
+        {
+            $result = parent::getSingleBy($field, $id);
+            return $result? $this->toEntity($result): null;
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -40,7 +49,8 @@ namespace Kalibri\Model {
 //--------------------------------------------------------------------------------------------------------------------//
         public function getAllBy( $field, $value )
         {
-            return $this->arrayToEntities( parent::getAllBy( $field, $value ) );
+            $result = parent::getAllBy( $field, $value );
+            return $result? $this->arrayToEntities( $result ): null;
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -76,6 +86,19 @@ namespace Kalibri\Model {
             }
 
             return $data;
+        }
+
+//------------------------------------------------------------------------------------------------//
+        public function getBy( $id, $field = null )
+        {
+            $result = parent::getBy($id, $field);
+
+            if( $result )
+            {
+                return $this->toEntity($result);
+            }
+
+            return false;
         }
     }
 }

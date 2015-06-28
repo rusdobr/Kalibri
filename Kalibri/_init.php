@@ -47,9 +47,9 @@ spl_autoload_register( function( $className ) {
 \Kalibri::config( new \Kalibri\Config() );
 \Kalibri::benchmark( new \Kalibri\Benchmark() )->start('kalibri-total');
 
-function tr( $key, array $params = null )
+function tr( $key, array $params = null, $language = null )
 {
-	return \Kalibri::l10n()->tr( $key, $params );
+	return \Kalibri::l10n()->tr( $key, $params, $language );
 }
 
 function url( $path, $subdomain = null )

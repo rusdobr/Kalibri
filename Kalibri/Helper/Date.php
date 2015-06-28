@@ -28,14 +28,7 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function isToday( $timestamp )
 		{
-			static $today;
-
-			if( !$today )
-			{
-				$today = strtotime( date('Y-m-d') );
-			}
-
-			return $timestamp > $today && $timestamp < $today + self::SEC_IN_DAY;
+            return date('Y-m-d', $timestamp) == date('Y-m-d');
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -55,7 +48,8 @@ namespace Kalibri\Helper {
             return implode(' ', $result);
         }
 
-        public function secondsToTime($seconds)
+//------------------------------------------------------------------------------------------------//
+        public static function secondsToTime($seconds, $short = false)
         {
             $time = array(
                 self::SEC_IN_YEAR  => [tr('year'), tr('years'), tr('years')],
@@ -74,11 +68,9 @@ namespace Kalibri\Helper {
                 {
                     $tmp = floor( $seconds / $sec );
                     $seconds -= ceil( $tmp * $sec );
-                    if(is_array($label)) {
-                        $result .= $tmp . ' '.Text::plural($tmp, $label) . ' ';
-                    } else {
-                        $result .= $tmp . $label . ' ';
-                    }
+
+                    $prefix = $short? Text::plural($tmp, $label)[0]: Text::plural($tmp, $label);
+                    $result .= $tmp .  " $prefix ";
                 }
             }
 

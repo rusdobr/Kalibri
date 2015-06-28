@@ -1,11 +1,13 @@
 <?php
 /**
  * Kalibri Router class file
- * 
+ *
  * @author Alexander Kostinenko aka tenebras <kostinenko@gmail.com>
  */
 
 namespace Kalibri;
+
+use \Kalibri\Exception\Page\NotFound;
 
 /**
  * Router class process HTTP requests and call appropriate controller and his action.
@@ -23,13 +25,13 @@ class Router
      * Url segments that points to current dir, controller, action
      * @var array
      */
-    protected $_segments = array();
+    protected $_segments = [];
 
     /**
      * Params that will be passed to controller action
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * Controller to call
@@ -57,9 +59,9 @@ class Router
     public function __construct()
     {
         // Load routing options and set default route
-        $this->_options = \Kalibri::config()->get('route');
-        $this->_controller = $this->_options['default']['controller'];
-        $this->_action = $this->_options['default']['action'];
+        $this->_options       = \Kalibri::config()->get('route');
+        $this->_controller    = $this->_options['default']['controller'];
+        $this->_action        = $this->_options['default']['action'];
         $this->_baseNamespace = \Kalibri::app()->getNamespace();
     }
 
@@ -161,7 +163,7 @@ class Router
                 }
                 else
                 {
-                    \Kalibri::error()->show404();
+                    \Kalibri::error()->showPageNotFound();
                 }
             }
         }
@@ -211,7 +213,6 @@ class Router
             {
                 $actionName = $this->_action.$this->_options['action-prefix'];
 
-                //\Kalibri::logger()->add( Logger::L_DEBUG, 'Use controller: '.$controllerPath);
                 /** @var $controller \Kalibri\Controller\Page*/
                 $controller = new $controllerName();
 
@@ -222,43 +223,42 @@ class Router
                 if( \method_exists( $controller, '_remap' ) )
                 {
                     \call_user_func_array(
-                            array( $controller, '_remap' ),
-                            array( $actionName, $this->_params )
+                            [$controller, '_remap'],
+                            [$actionName, $this->_params]
                     );
                 }
                 //If Method exists call it and pass params
                 elseif( \is_callable("{$controllerName}::{$actionName}") )
                 {
                     \call_user_func_array(
-                        array( $controller, $actionName ),
+                        [$controller, $actionName],
                         $this->_params
                     );
                 }
                 else
                 {
-                    throw new \Kalibri\Exception\Page\NotFound();
+                    throw new NotFound();
                 }
 
                 // Check is controller already rendered by hand, if not render it
                 if( !$controller->isRendered() )
                 {
-                    \call_user_func_array( array( $controller, '_render'), array() );
+                    \call_user_func_array( [ $controller, '_render'], [] );
                 }
 
                 return $this;
             }
         }
-        catch( \Kalibri\Exception\Page\NotFound $e )
+        catch( NotFound $e )
         {
-            \Kalibri::error()->show404();
+            \Kalibri::error()->showPageNotFound();
         }
         catch( \Exception $e )
         {
-            //Exception in page controller
             \Kalibri::error()->showException( $e );
         }
 
-        \Kalibri::error()->show404();
+        \Kalibri::error()->showPageNotFound();
 
         return $this;
     }

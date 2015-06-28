@@ -2,13 +2,15 @@
 
 namespace Kalibri\Model;
 
+use JsonSerializable;
 use \Kalibri\Helper\Text;
 
-abstract class Entity
+abstract class Entity implements JsonSerializable
 {
-	protected $_changedFields = array();
+	protected $_changedFields = [];
 	protected $_modelName;
     protected $_primaryName;
+    protected $_forceInsert = false;
 
 	/**
 	 *  Enable or disable magic getters and setters
@@ -22,7 +24,7 @@ abstract class Entity
 	    {
 			$this->_modelName = strtolower(
 				str_replace( 
-				array( \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ), 
+				[ \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ],
 				'', 
 				get_class( $this ) 
 			));
@@ -81,10 +83,16 @@ abstract class Entity
 	 */
 	public function save()
 	{
-		$this->setPrimaryValue(\Kalibri::model( $this->_modelName )->save( $this->getChangedData() ));
+        $primary = null;
+        $model = \Kalibri::model($this->_modelName);
 
-		// reset change list
-		$this->_changedFields = array();
+        $primary = $this->_forceInsert
+            ? $model->insert($this->getChangedData())
+            : $model->save($this->getChangedData());
+
+        $this->setPrimaryValue($primary);
+        // reset change list
+		$this->_changedFields = [];
 
 		return $this;
 	}
@@ -123,9 +131,9 @@ abstract class Entity
 	 */
 	public function __call( $name,  $arguments )
 	{
-	    if( \method_exists( $this, $name ) && \is_callable( array( $this, $name ) ) )
+	    if( \method_exists( $this, $name ) && \is_callable( [ $this, $name ] ) )
 	    {
-		    return \call_user_func( array( &$this, $name ), $arguments );
+		    return \call_user_func( [ &$this, $name ], $arguments );
 	    }
 
 	    if( !$this->_withMagic )
@@ -162,6 +170,24 @@ abstract class Entity
 
 	    return null;
 	}
+
+    public function forceInsert($value)
+    {
+        $this->_forceInsert = $value;
+        return $this;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    function jsonSerialize()
+    {
+        return $this->getAllData();
+    }
 
 	/**
 	 *  Data initialization

@@ -19,7 +19,7 @@ class Auth
      * Local cache for profiles
      * @var array
      */
-    protected $profiles = array();
+    protected $profiles = [];
 
     /**
      * @var \Kalibri\Model\Profile
@@ -38,12 +38,17 @@ class Auth
     {
         if( $this->isValidLogin( $login ) )
         {
-            /**@var $profile \Kalibri\Model\Entity\Profile**/
+            /** @var $profile \Kalibri\Model\Entity\Profile */
             $profile = $this->model->getByLogin( $login );
             $password = $this->encryptPassword( $rawPassword );
 
             if( $profile && $profile->getPassword() === $password )
             {
+                if(session_status() == PHP_SESSION_NONE)
+                {
+                    session_start();
+                }
+
                 $this->myProfileId = $_SESSION['user-id'] = $profile->getProfileId();
                 $this->profiles[ $this->myProfileId ] = $profile;
 
@@ -63,6 +68,10 @@ class Auth
 
         if( $profile )
         {
+            if(session_status()== PHP_SESSION_NONE)
+            {
+                session_start();
+            }
             $this->myProfileId = $_SESSION['user-id'] = $profile->getProfileId();
             return true;
         }

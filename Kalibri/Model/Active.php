@@ -178,7 +178,7 @@ class Active extends Base
 //------------------------------------------------------------------------------------------------//
     public function getAllBy( $field, $value )
     {
-        $result = $this->getQuery()->select()->where( $field, $value )->execute()->fetchAll();
+        $result = $this->getQuery()->select()->where( $field, $value )->execute()->fetchAllAndClose();
 
         return $result;
     }

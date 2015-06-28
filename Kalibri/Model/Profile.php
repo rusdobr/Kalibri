@@ -15,8 +15,7 @@ class Profile extends ActiveEntity
      */
     public function getByLogin( $login )
     {
-        $result = $this->getBy($login, 'login');
-        return is_array($result)? $this->toEntity( $result ): null;
+        return $this->getSingleBy('login', $login);
     }
 
 //------------------------------------------------------------------------------------------------//
