@@ -102,8 +102,18 @@ namespace Kalibri\Utils\Html
             return $this->parent;
         }
 
-		public function attr( $name )
+		public function attr( $name, $value = false)
 		{
+            if( $value !== false ) {
+                if( $value === null ) {
+                    unset($this->attributes[$name]);
+                } else {
+                    $this->attributes[$name] = $value;
+                }
+
+                return $this;
+            }
+
 			return is_array( $this->attributes ) && isset( $this->attributes[ $name ] )
 				? $this->attributes[ $name ]
 				: null;

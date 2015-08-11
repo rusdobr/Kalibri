@@ -11,7 +11,12 @@ namespace Kalibri\Utils\Html
 		{
 			return $this->name;
 		}
-		
+
+        public function setName($name) {
+            $this->name = $name;
+            return $this;
+        }
+
 		public function getText()
 		{
 			if( $this->childs )
@@ -63,6 +68,14 @@ namespace Kalibri\Utils\Html
             return $result . ($this->isSelfClosing? ' />': "</{$this->name}>");
         }
 
+        public function setClasses(array $classes)
+        {
+            $this->classes = $classes;
+            $this->attributes['class'] = implode(' ', $classes);
+
+            return $this;
+        }
+
 		public function hasClass( $class )
 		{
             if( is_array( $class ) )
@@ -82,19 +95,19 @@ namespace Kalibri\Utils\Html
 
             return false;
 		}
-		
+
 		public function getChilds()
 		{
 			return $this->childs;
 		}
-		
+
 		public function findBySelector( array $path, $mode = null )
 		{
 			if( !count( $path ) )
 			{
 				return array();
 			}
-			
+
 			$fullPath = $path;
 			$step = array_shift( $path );
 
@@ -119,7 +132,7 @@ namespace Kalibri\Utils\Html
 					$current = array_merge( $current, $this->findBySelector( $path, $mode ) );
 				}
 			}
-			
+
 			foreach( $this->childs as $child )
 			{
 				if( $child instanceof TagNode )
@@ -141,7 +154,7 @@ namespace Kalibri\Utils\Html
 					}
 				}
 			}
-			
+
 			return $current;
 		}
 
@@ -149,7 +162,7 @@ namespace Kalibri\Utils\Html
 		{
 			$selectors = explode(',', trim( $selector) );
 			$current = array();
-		
+
 			foreach( $selectors as $strPath )
 			{
 				$current = array_merge( $current, $this->findBySelector( explode(' ', trim( $strPath ) ) ) );
@@ -169,7 +182,7 @@ namespace Kalibri\Utils\Html
 			{
 				$position++;
 
-				if( ( $this->raw[ $position ] == ' ' && !$isAttributeValue ) || $this->raw[ $position ] == '>' 
+				if( ( $this->raw[ $position ] == ' ' && !$isAttributeValue ) || $this->raw[ $position ] == '>'
 					|| ( !$isAttributeValue && $this->raw[ $position ] == '/' ) )
 				{
 					if( !$tmp )
@@ -231,7 +244,7 @@ namespace Kalibri\Utils\Html
 
 			// is tag closed
 			if( $endsWith == '/>' || $document->isSelfClosing( $this->name ) )
-			{	
+			{
 				return;
 			}
 
