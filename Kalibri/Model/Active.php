@@ -170,8 +170,6 @@ class Active extends Base
             $query->limit( $count, $offset );
         }
 
-        var_dump($query->execute());exit();
-
         $result = $query->execute()->fetchAll();
 
         return $result;
