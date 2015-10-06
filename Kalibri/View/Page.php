@@ -644,7 +644,12 @@ namespace Kalibri\View {
 		 */
 		public function &addScriptText( $text )
 		{
-			$this->addResource( '<script type="text/javascript">'.$text.'</script>',	\Kalibri\View::VAR_SCRIPTS );
+			if(strpos($text, '<script') === false)
+			{
+				$text = '<script type="text/javascript">'.$text.'</script>';
+			}
+
+			$this->addResource( $text, \Kalibri\View::VAR_SCRIPTS );
 
 			return $this;
 		}

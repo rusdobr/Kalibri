@@ -90,7 +90,12 @@ abstract class Entity implements JsonSerializable
             ? $model->insert($this->getChangedData())
             : $model->save($this->getChangedData());
 
-        $this->setPrimaryValue($primary);
+
+		if(!$this->getPrimaryValue())
+		{
+			$this->setPrimaryValue($primary);
+		}
+
         // reset change list
 		$this->_changedFields = [];
 

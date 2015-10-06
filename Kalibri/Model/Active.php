@@ -170,6 +170,8 @@ class Active extends Base
             $query->limit( $count, $offset );
         }
 
+        var_dump($query->execute());exit();
+
         $result = $query->execute()->fetchAll();
 
         return $result;
@@ -251,7 +253,7 @@ class Active extends Base
         return $data;
     }
 
-//------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
     public function getLastId()
     {
         $result = $this->getQuery()
@@ -262,5 +264,19 @@ class Active extends Base
                 ->fetchAndClose();
 
         return $result? $result[$this->keyField]: null;
+    }
+
+//--------------------------------------------------------------------------------------------------------------------//
+    function getAllWithPrimaryAsKey()
+    {
+        $result = [];
+        $dbResult = $this->getAll();
+
+        foreach($dbResult as $row)
+        {
+            $result[ $row[$this->keyField] ] = $row;
+        }
+
+        return $result;
     }
 }

@@ -21,6 +21,7 @@ class File implements BaseInterface {
     public function get($key)
     {
         $path = $this->path($key);
+
         if(file_exists($path)) {
             list($expiration, $content) = $this->splitContent(file_get_contents($path));
 

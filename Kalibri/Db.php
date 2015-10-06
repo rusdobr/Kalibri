@@ -138,7 +138,7 @@ class Db
 	/**
 	 * Create instance of Query bulder
 	 *
-	 * @return Kalibri\Db\Query
+	 * @return \Kalibri\Db\Query
 	 */
 	public function getQuery()
 	{

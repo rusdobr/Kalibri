@@ -97,7 +97,7 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function site( $path = '', $subdomain = null )
 		{
-            $root = '//'.$_SERVER['HTTP_HOST'].'/'.self::$entry;
+            $root = self::$baseUrl;
 
             if( $subdomain !== null )
             {

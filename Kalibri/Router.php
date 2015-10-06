@@ -133,6 +133,7 @@ class Router
             return $this;
         }
 
+
         $basePath = str_replace('//', '/', K_APP_FOLDER.'/App/Controller/' );
 
         for( $i=0, $segmentsCount = count( $this->_segments ); $i< $segmentsCount; $i++ )
@@ -150,6 +151,7 @@ class Router
                 {
                     $this->_controller = $upper;
 
+
                     if( isset( $this->_segments[ ++$i ] ) && !empty( $this->_segments[ $i ] ) )
                     {
                         $this->_action = \strtolower( $this->_segments[ $i ] );
@@ -157,6 +159,7 @@ class Router
                         if( isset( $this->_segments[ ++$i ] ) )
                         {
                             $this->_params = \array_slice( $this->_segments, $i );
+
                             return $this;
                         }
                     }

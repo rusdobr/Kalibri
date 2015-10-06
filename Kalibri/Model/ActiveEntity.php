@@ -72,7 +72,7 @@ namespace Kalibri\Model {
             return new $this->entityClass();
         }
 
-//------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
         public function getEntity( $id, $field = null )
         {
             if( is_object( $id ) )
@@ -88,7 +88,8 @@ namespace Kalibri\Model {
             return $data;
         }
 
-//------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
         public function getBy( $id, $field = null )
         {
             $result = parent::getBy($id, $field);
@@ -99,6 +100,20 @@ namespace Kalibri\Model {
             }
 
             return false;
+        }
+
+//--------------------------------------------------------------------------------------------------------------------//
+        function getAllWithPrimaryAsKey()
+        {
+            $result = [];
+            $dbResult = $this->getAll();
+
+            foreach($dbResult as $row)
+            {
+                $result[ $row->getPrimaryValue() ] = $row;
+            }
+
+            return $result;
         }
     }
 }
