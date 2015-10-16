@@ -255,11 +255,11 @@ namespace Kalibri\Utils\Html
 
 		protected function processChilds( $position, Document &$document )
 		{
-			// limit childs count to 128
-			for( $i=0; $i<1024; $i++ )
+			// limit childs count to 10000
+			for( $i=0; $i<10000; $i++ )
 			{
 				//Skip white spaces between tags
-				if( $this->raw[0] == ' ' )
+				if( $this->raw && $this->raw[0] == ' ' )
 				{
 					$this->raw = ltrim( $this->raw );
 				}
