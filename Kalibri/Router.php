@@ -138,7 +138,7 @@ class Router
 
         for( $i=0, $segmentsCount = count( $this->_segments ); $i< $segmentsCount; $i++ )
         {
-            if( $this->_segments[ $i ] !== '' && preg_match('/^[\w\d_]+$/', $this->_segments[ $i ] ) )
+            if( $this->_segments[ $i ] !== '' && preg_match('/^[\w_]+$/', $this->_segments[ $i ] ) )
             {
                 $upper = \ucfirst( $this->_segments[ $i ] );
 
@@ -231,7 +231,7 @@ class Router
                     );
                 }
                 //If Method exists call it and pass params
-                elseif( \is_callable("{$controllerName}::{$actionName}") )
+                elseif( \is_callable([$controller, $actionName]) )
                 {
                     \call_user_func_array(
                         [$controller, $actionName],

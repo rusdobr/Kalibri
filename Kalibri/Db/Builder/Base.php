@@ -62,7 +62,7 @@ namespace Kalibri\Db\Builder {
 					$fields .= ', ';
 				}
 
-				if( $field[0] == '&' )
+				if( ((string)$field)[0] === '&' )
 				{
 					$field = substr( $field, 1);
 				}
@@ -92,7 +92,7 @@ namespace Kalibri\Db\Builder {
 			foreach( $this->_data['fields'] as $field=>$value )
 			{
 				$fields[] = "$field";
-				if( !strlen( $value ) || $value[0] !== '&' )
+				if( $value == '' || ((string)$value)[0] !== '&' )
 				{
 					$values[] = ':'.$field;
 				}
@@ -116,7 +116,7 @@ namespace Kalibri\Db\Builder {
 
 			foreach( $this->_data['fields'] as $field=>$value )
 			{
-				if( !strlen( $value ) || $value[0] !== '&' )
+				if( $value == '' || ((string)$value)[0] !== '&' )
 				{
 					$values[] = "$field=:$field";
 				}
@@ -193,7 +193,7 @@ namespace Kalibri\Db\Builder {
 		protected function addParam( $key, $value )
 		{
 			if( isset( $this->_params[ $key ] ) ) {
-				$key .= '_'.mt_rand(0, 1000);
+				$key .= '_'.random_int(0, 1000);
 				return $this->addParam( $key, $value );
 			}
 
@@ -321,7 +321,7 @@ namespace Kalibri\Db\Builder {
 			{
 				foreach( $this->_data['fields'] as $field=>$value )
 				{
-					if( ( $value && $value[0] !== '&' && $value !== '*' && !is_numeric( $field ) ) || !$value )
+					if( ( $value && !is_numeric( $field ) && ((string)$value)[0] !== '&' && $value !== '*' ) || !$value )
 					{
 						$params[ ':'.$field ] = $value;
 					}

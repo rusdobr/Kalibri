@@ -45,11 +45,11 @@ class Profile extends \Kalibri\Model\Entity
         $this->password   = $data['password'];
         $this->firstName  = $data['first_name'];
         $this->lastName   = $data['last_name'];
-        $this->birthday   = strtotime($data['birthday']);
+        $this->birthday   = $data['birthday'] ? strtotime($data['birthday']) : null;
         $this->banFlag    = (int)$data['ban_flag'];
         $this->banReason  = $data['ban_reason'];
         $this->role       = (int)$data['role'];
-        $this->registeredAt = strtotime($data['registered_at']);
+        $this->registeredAt = $data['registered_at'] ? strtotime($data['registered_at']): null;
     }
 
     /**
