@@ -13,12 +13,12 @@ namespace Kalibri\Model\Entity;
  * @method string getBanReason()
  * @method int getRole()
  * @method int getRegisteredAt()
- * @method \Kalibri\Model\Entity\Profile setFirstName()
- * @method \Kalibri\Model\Entity\Profile setLastName()
- * @method \Kalibri\Model\Entity\Profile setBirthday()
- * @method \Kalibri\Model\Entity\Profile setNickname()
- * @method \Kalibri\Model\Entity\Profile setLogin()
- * @method \Kalibri\Model\Entity\Profile setPassword()
+ * @method \Kalibri\Model\Entity\Profile setFirstName($firstName)
+ * @method \Kalibri\Model\Entity\Profile setLastName($lastName)
+ * @method \Kalibri\Model\Entity\Profile setBirthday($birthDay)
+ * @method \Kalibri\Model\Entity\Profile setNickname($nickName)
+ * @method \Kalibri\Model\Entity\Profile setLogin($login)
+ * @method \Kalibri\Model\Entity\Profile setPassword($password)
  */
 class Profile extends \Kalibri\Model\Entity
 {
