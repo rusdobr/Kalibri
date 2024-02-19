@@ -4,10 +4,11 @@ namespace Kalibri\Logger\Driver {
 
 	class File extends \Kalibri\Logger\Base
 	{
-		const DEFAULT_LOGS_PATH = '../../logs/';
+		public const DEFAULT_LOGS_PATH = '../../logs/';
 
 //------------------------------------------------------------------------------------------------//
-		public function init( array $options = null )
+		#[\Override]
+  public function init( array $options = null ): void
 		{
 			parent::init( $options );
 
@@ -19,7 +20,8 @@ namespace Kalibri\Logger\Driver {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function add( $level, $message, $class = null )
+		#[\Override]
+  public function add( $level, $message, $class = null )
 		{
 			// Is this message should be stored
 			if( !isset( $this->_excludedLevels[ $level ] ) )
@@ -27,15 +29,10 @@ namespace Kalibri\Logger\Driver {
 				// Is class instance passed
 				if( $class !== null && \is_object( $class ) )
 				{
-					$class = \get_class( $class );
+					$class = $class::class;
 				}
 
-				$this->_messages[] = array(
-					'level'=>$level,
-					'msg'=>$message,
-					'class'=>$class,
-					'date'=>\date( self::DEFAULT_DATE_FORMAT )
-				);
+				$this->_messages[] = ['level'=>$level, 'msg'=>$message, 'class'=>$class, 'date'=>\date( self::DEFAULT_DATE_FORMAT )];
 
 				return true;
 			}
@@ -45,7 +42,8 @@ namespace Kalibri\Logger\Driver {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function write()
+		#[\Override]
+  public function write()
 		{
 			// Skip empty log saving
 			if( !count( $this->_messages ) )
@@ -62,7 +60,7 @@ namespace Kalibri\Logger\Driver {
 			
 			if( ($fResource = @\fopen( $this->_options['path'].'k'.\date('Y-m-d').'.log', 'a' )) !== null )
 			{
-				\fwrite( $fResource, $this->getAsString() );
+				\fwrite( $fResource, (string) $this->getAsString() );
 				\fclose( $fResource );
 			}
 
@@ -70,9 +68,10 @@ namespace Kalibri\Logger\Driver {
 		}
 		
 //------------------------------------------------------------------------------------------------//
-		public function clear()
+		#[\Override]
+  public function clear(): void
 		{
-			$this->_messages = array();
+			$this->_messages = [];
 		}
 	}
 }

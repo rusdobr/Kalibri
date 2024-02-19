@@ -4,12 +4,13 @@ namespace Kalibri\Helper {
 
 	class Highlight implements \Kalibri\Helper\BaseInterface
 	{
-		public static function init( array $options = null ){}
+		#[\Override]
+  public static function init( array $options = null ){}
 //------------------------------------------------------------------------------------------------//
 		public static function php( $code, $lines_number = 0, $firstLine = 0, $currentLine = 0 )
 		{
 			if( !is_array( $code) )
-				$code = explode("\n", $code);
+				$code = explode("\n", (string) $code);
 
 			$count_lines = count( $code );
 
@@ -38,13 +39,13 @@ namespace Kalibri\Helper {
 		{
 			// The highlight string function encodes and highlights
 			// brackets so we need them to start raw
-			$str = str_replace(array('&lt;', '&gt;'), array('<', '>'), $str);
+			$str = str_replace(['&lt;', '&gt;'], ['<', '>'], (string) $str);
 
 			// Replace any existing PHP tags to temporary markers so they don't accidentally
 			// break the string out of PHP, and thus, thwart the highlighting.
 
-			$str = str_replace(array('<?', '?>', '<%', '%>', '\\', '</script>'),
-								array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'), $str);
+			$str = str_replace(['<?', '?>', '<%', '%>', '\\', '</script>'],
+								['phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'], $str);
 
 			// The highlight_string function requires that the text be surrounded
 			// by PHP tags, which we will remove later
@@ -59,8 +60,8 @@ namespace Kalibri\Helper {
 			//$str = preg_replace('/<span style="color: #[A-Z0-9]+"\><\/span>/i', '', $str);
 
 			// Replace our markers back to PHP tags.
-			$str = str_replace(array('phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'),
-								array('&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'), $str);
+			$str = str_replace(['phptagopen', 'phptagclose', 'asptagopen', 'asptagclose', 'backslashtmp', 'scriptclose'],
+								['&lt;?', '?&gt;', '&lt;%', '%&gt;', '\\', '&lt;/script&gt;'], (string) $str);
 
 			//var_dump( $str );exit();
 
@@ -95,7 +96,7 @@ namespace Kalibri\Helper {
 
 			if ($phrase != '')
 			{
-				return preg_replace('/('.preg_quote($phrase, '/').')/i', $tag_open."\\1".$tag_close, $str);
+				return preg_replace('/('.preg_quote((string) $phrase, '/').')/i', $tag_open."\\1".$tag_close, (string) $str);
 			}
 
 			return $str;

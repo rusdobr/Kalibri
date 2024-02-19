@@ -8,7 +8,7 @@ namespace Kalibri\Utils\Html
 		/**
 		 *	@var array
 		 */
-		protected $attributes = array();
+		protected $attributes = [];
         /**
          *	@var Node
          */
@@ -16,7 +16,7 @@ namespace Kalibri\Utils\Html
         /**
          *	@var array
          */
-        protected $childs = array();
+        protected $childs = [];
         /**
          * @var int
          */
@@ -60,7 +60,7 @@ namespace Kalibri\Utils\Html
 
 		public function getChild( $index )
 		{
-			return isset( $this->childs[ $index ] )? $this->childs[ $index ]: null;
+			return $this->childs[ $index ] ?? null;
 		}
 
 		public function getChilds()
@@ -70,7 +70,7 @@ namespace Kalibri\Utils\Html
 
 		public function getElementsByTagName( $name )
 		{
-			$list = array();
+			$list = [];
 			
 			if( $this instanceof TagNode )
 			{
@@ -133,19 +133,17 @@ namespace Kalibri\Utils\Html
          */
         public static function prepareConditions( $step )
         {
-            $match = array();
-            $conditions = array(
-                'attr'=>array()
-            );
+            $match = [];
+            $conditions = ['attr'=>[]];
 
-            if( strpos( $step, '[' ) !== false && preg_match('/(.+)\[(.+)=["\'](.+)["\']\]/', $step, $match) )
+            if( str_contains( $step, '[' ) && preg_match('/(.+)\[(.+)=["\'](.+)["\']\]/', $step, $match) )
             {
                 $step = $match[1];
                 $conditions['attr'][ $match[2] ] = $match[3];
             }
 
             // Tag with class or only classes chain
-            if( strpos( $step, '.' ) !== false )
+            if( str_contains( $step, '.' ) )
             {
                 $parts = explode( '.', $step );
                 $step = array_shift( $parts );
@@ -156,7 +154,7 @@ namespace Kalibri\Utils\Html
             // Tag with ID
             if( strpos( $step, '#' ) )
             {
-                list( $step, $conditions['attr']['id'] ) = explode( '#', $step );
+                [$step, $conditions['attr']['id']] = explode( '#', $step );
             }
 
 			if( $step && $step[0] == '#' )
@@ -171,7 +169,7 @@ namespace Kalibri\Utils\Html
                 }
                 else
                 {
-                    $conditions['attr']['class'] = array( substr( $step, 1 ) );
+                    $conditions['attr']['class'] = [substr( $step, 1 )];
                 }
             }
             else

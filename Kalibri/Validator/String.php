@@ -9,7 +9,8 @@ namespace Kalibri\Validator {
      */
     class String extends Base
     {
-        public static function validate( $value, array $rules = null )
+        #[\Override]
+        public static function validate( $value, array $rules = null ): void
         {
             trigger_error('String validation not implemented');
         }

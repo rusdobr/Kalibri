@@ -28,12 +28,14 @@ namespace Kalibri\Model {
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function get( $id )
         {
             return $this->getEntity( $id );
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function getSingleBy( $field, $id )
         {
             $result = parent::getSingleBy($field, $id);
@@ -41,12 +43,14 @@ namespace Kalibri\Model {
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function getAll( $count = null, $offset = null )
         {
             return $this->arrayToEntities( parent::getAll( $count, $offset ) );
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function getAllBy( $field, $value )
         {
             $result = parent::getAllBy( $field, $value );
@@ -63,7 +67,7 @@ namespace Kalibri\Model {
         {
             if( !$this->entityClass )
             {
-                $class = get_class( $this );
+                $class = static::class;
                 $pos = strrpos( $class, '\\' );
 
                 $this->entityClass = substr( $class, 0, $pos ).'\\Entity'.substr( $class, $pos );
@@ -73,6 +77,7 @@ namespace Kalibri\Model {
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function getEntity( $id, $field = null )
         {
             if( is_object( $id ) )
@@ -90,6 +95,7 @@ namespace Kalibri\Model {
 
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         public function getBy( $id, $field = null )
         {
             $result = parent::getBy($id, $field);
@@ -103,6 +109,7 @@ namespace Kalibri\Model {
         }
 
 //--------------------------------------------------------------------------------------------------------------------//
+        #[\Override]
         function getAllWithPrimaryAsKey()
         {
             $result = [];

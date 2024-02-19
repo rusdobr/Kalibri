@@ -20,7 +20,8 @@ namespace Kalibri\Helper {
 		protected static $baseDomainedUrl;
 		
 //------------------------------------------------------------------------------------------------//
-		public static function init( array $options = null )
+		#[\Override]
+  public static function init( array $options = null ): void
 		{
 			if( self::$_isInitialized )
             {
@@ -38,15 +39,15 @@ namespace Kalibri\Helper {
 
             $config = \Kalibri::config()->getAll();
 
-            self::$base = $config['base'][ strlen( $config['base'] ) -1 ] == '/'
-                ? substr( $config['base'], 0, -1)
+            self::$base = $config['base'][ strlen( (string) $config['base'] ) -1 ] == '/'
+                ? substr( (string) $config['base'], 0, -1)
                 : $config['base'];
 
             self::$entry = $config['entry'];
             self::$baseUrl = self::$base.self::$entry;
             self::$baseDomainedUrl = 'http://%d%'.$config['base-host'].'/'.$config['entry'];
 
-            if( self::$entry[ strlen( self::$entry ) -1 ] == '/' )
+            if( self::$entry[ strlen( (string) self::$entry ) -1 ] == '/' )
             {
                 self::$baseDomainedUrl = substr( self::$baseDomainedUrl, 0, -1 );
                 self::$baseUrl = substr( self::$baseUrl, 0, -1 );
@@ -56,9 +57,9 @@ namespace Kalibri\Helper {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public static function setImagesDir( $path )
+		public static function setImagesDir( $path ): void
 		{
-			if( !empty( $path ) && $path[ strlen( $path )-1 ] !== '/' )
+			if( !empty( $path ) && $path[ strlen( (string) $path )-1 ] !== '/' )
 			{
 				$path .= '/';
 			}
@@ -73,9 +74,9 @@ namespace Kalibri\Helper {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public static function setStylesDir( $path )
+		public static function setStylesDir( $path ): void
 		{
-			if( !empty( $path ) && $path[ strlen( $path )-1 ] !== '/' )
+			if( !empty( $path ) && $path[ strlen( (string) $path )-1 ] !== '/' )
 			{
 				$path .= '/';
 			}
@@ -84,9 +85,9 @@ namespace Kalibri\Helper {
 		}
 		
 //------------------------------------------------------------------------------------------------//
-		public static function setScriptsDir( $path )
+		public static function setScriptsDir( $path ): void
 		{
-			if( !empty( $path ) && $path[ strlen( $path )-1 ] !== '/' )
+			if( !empty( $path ) && $path[ strlen( (string) $path )-1 ] !== '/' )
 			{
 				$path .= '/';
 			}
@@ -101,18 +102,18 @@ namespace Kalibri\Helper {
 
             if( $subdomain !== null )
             {
-                $root = str_replace('%d%', $subdomain, self::$baseDomainedUrl);
+                $root = str_replace('%d%', $subdomain, (string) self::$baseDomainedUrl);
             }
 
-			$path = $path && $path[0] == '/'? substr($path, 1): $path;
+			$path = $path && $path[0] == '/'? substr((string) $path, 1): $path;
 			
-			return $root.($root[strlen($root)-1] != '/'? '/': '').$path;
+			return $root.($root[strlen((string) $root)-1] != '/'? '/': '').$path;
 		}
 
 //------------------------------------------------------------------------------------------------//
 		public static function resource( $path = '' )
 		{
-			return self::$base.( $path && $path[0] == '/'? '':'/' ). str_replace( '//', '/', $path );
+			return self::$base.( $path && $path[0] == '/'? '':'/' ). str_replace( '//', '/', (string) $path );
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -145,47 +146,35 @@ namespace Kalibri\Helper {
 				$replace	= '-';
 			}
 
-			$trans = array(
-				'&\#\d+?;'				=> '',
-				'&\S+?;'				=> '',
-				'\s+'					=> $replace,
-				'[^a-z0-9\-\._]'		=> '',
-				$search.'+'			=> $replace,
-				$search.'$'			=> $replace,
-				'^'.$search			=> $replace,
-				'\.+$'					=> ''
-			);
+			$trans = ['&\#\d+?;'				=> '', '&\S+?;'				=> '', '\s+'					=> $replace, '[^a-z0-9\-\._]'		=> '', $search.'+'			=> $replace, $search.'$'			=> $replace, '^'.$search			=> $replace, '\.+$'					=> ''];
 
-			$str = strip_tags( $str );
+			$str = strip_tags( (string) $str );
 
 			foreach( $trans as $key=>$val )
 			{
-				$str = preg_replace("#".$key."#i", $val, $str);
+				$str = preg_replace("#".$key."#i", $val, (string) $str);
 			}
 
 			if ($lowercase === TRUE)
 			{
-				$str = strtolower($str);
+				$str = strtolower((string) $str);
 			}
 
-			return trim( stripslashes( $str ) );
+			return trim( stripslashes( (string) $str ) );
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public static function redirect( $uri = '', $method = 'location', $httpResponseCode = 302 )
+		public static function redirect( $uri = '', $method = 'location', $httpResponseCode = 302 ): void
 		{
-			if( ! preg_match('#^https?://#i', $uri) )
+			if( ! preg_match('#^https?://#i', (string) $uri) )
 			{
 				$uri = self::site( $uri );
 			}
 
-			switch( $method )
-			{
-				case 'refresh'	: header("Refresh:0;url=$uri");
-					break;
-				default			: header("Location: $uri", true, $httpResponseCode);
-					break;
-			}
+			match ($method) {
+       'refresh' => header("Refresh:0;url=$uri"),
+       default => header("Location: $uri", true, $httpResponseCode),
+   };
 			exit;
 		}
 

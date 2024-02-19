@@ -12,7 +12,7 @@ namespace Kalibri\View {
 		 * Stored data
 		 * @var array
 		 */
-		protected $_data = array();
+		protected $_data = [];
 
 //------------------------------------------------------------------------------------------------//
         /**
@@ -23,7 +23,7 @@ namespace Kalibri\View {
          *
          * @return $this
          */
-		public function set( $key, $value )
+		public function set( $key, mixed $value )
 		{
 			$this->_data[ $key ] = $value;
 			return $this;
@@ -38,20 +38,19 @@ namespace Kalibri\View {
 		 * 
 		 * @return mixed
 		 */
-		public function get( $key, $default = null )
+		public function get( $key, mixed $default = null )
 		{
-			return isset( $this->_data[ $key ] )? $this->_data[ $key ]: $default;
+			return $this->_data[ $key ] ?? $default;
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * Merge current view data with new one
-		 * 
-		 * @param array $data
-		 * 
-		 * @return \Kalibri\View\Data 
-		 */
-		public function merge( array $data )
+  /**
+   * Merge current view data with new one
+   *
+   *
+   * @return \Kalibri\View\Data
+   */
+  public function merge( array $data )
 		{
 			$this->_data = \array_merge( $this->_data, $data );
 			return $this;	

@@ -4,8 +4,8 @@ namespace Kalibri\Cache\Driver;
 
 class Memcache implements BaseInterface
 {
-    const DEFAULT_PORT = 11211;
-    const DEFAULT_HOST = 'localhost';
+    public const DEFAULT_PORT = 11211;
+    public const DEFAULT_HOST = 'localhost';
 
     /**
      * @var Memcache
@@ -15,7 +15,7 @@ class Memcache implements BaseInterface
     /**
      * @var array
      */
-    protected $_local = array();
+    protected $_local = [];
 
 //------------------------------------------------------------------------------------------------//
     public function __construct( array $config = null )
@@ -30,7 +30,7 @@ class Memcache implements BaseInterface
                 $server['host'],
                 $server['port'],
                 true,
-                isset( $server['weight'] )? $server['weight']: 1
+                $server['weight'] ?? 1
             );
         }
     }
@@ -39,6 +39,7 @@ class Memcache implements BaseInterface
     /**
      * @see \Kalibri\Cache\BaseInterface::clear();
      */
+    #[\Override]
     public function clear()
     {
         return $this->_memcache->flush();
@@ -48,6 +49,7 @@ class Memcache implements BaseInterface
     /**
      * @see \Kalibri\Cache\BaseInterface::get();
      */
+    #[\Override]
     public function get( $key )
     {
         if( isset( $this->_local[ $key ] ) ) {
@@ -71,6 +73,7 @@ class Memcache implements BaseInterface
     /**
      * @see \Kalibri\Cache\BaseInterface::set();
      */
+    #[\Override]
     public function set( $key, $value, $expire = 0 )
     {
         if( \Kalibri::config()->get('debug.log.is-enabled', false) )
@@ -80,7 +83,7 @@ class Memcache implements BaseInterface
 
         if( !$this->_memcache->replace( $key, $value, MEMCACHE_COMPRESSED, $expire ) )
         {
-            $this->_memcache->set( $key, $value, MEMCACHE_COMPRESSED, $expire );
+            $this->_memcache->set( $key, $value, MEMCACHE_COMPRESSED );
         }
 
         $this->_local[ $key ] = $value;
@@ -89,6 +92,7 @@ class Memcache implements BaseInterface
     }
 
 //------------------------------------------------------------------------------------------------//
+    #[\Override]
     public function remove( $key )
     {
         if( \Kalibri::config()->get('debug.log.is-enabled', false) )

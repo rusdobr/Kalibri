@@ -10,6 +10,7 @@ namespace Kalibri\Helper;
  */
 class Text implements \Kalibri\Helper\BaseInterface
 {
+    #[\Override]
     public static function init( array $options = null ){}
 
 //------------------------------------------------------------------------------------------------//
@@ -56,22 +57,22 @@ class Text implements \Kalibri\Helper\BaseInterface
             return $str;
         }
 
-        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+        $str = preg_replace("/\s+/", ' ', str_replace(["\r\n", "\r", "\n"], ' ', $str));
 
-        if (strlen($str) <= $n)
+        if (strlen((string) $str) <= $n)
         {
             return $str;
         }
 
         $out = "";
-        foreach (explode(' ', trim($str)) as $val)
+        foreach (explode(' ', trim((string) $str)) as $val)
         {
             $out .= $val.' ';
 
             if (strlen($out) >= $n)
             {
                 $out = trim($out);
-                return (strlen($out) == strlen($str)) ? $out : $out.$end_char;
+                return (strlen($out) == strlen((string) $str)) ? $out : $out.$end_char;
             }
         }
     }
@@ -96,15 +97,15 @@ class Text implements \Kalibri\Helper\BaseInterface
         {
             if ($replacement != '')
             {
-                $str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", $str);
+                $str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote((string) $badword, '/')).")({$delim})/i", "\\1{$replacement}\\3", (string) $str);
             }
             else
             {
-                $str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote($badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", $str);
+                $str = preg_replace("/({$delim})(".str_replace('\*', '\w*?', preg_quote((string) $badword, '/')).")({$delim})/ie", "'\\1'.str_repeat('#', strlen('\\2')).'\\3'", (string) $str);
             }
         }
 
-        return trim( $str );
+        return trim( (string) $str );
     }
 
 //------------------------------------------------------------------------------------------------//
@@ -112,13 +113,13 @@ class Text implements \Kalibri\Helper\BaseInterface
     {
         $result = '';
 
-        for( $i=0, $len = strlen( $text ); $i < $len; $i++ )
+        for( $i=0, $len = strlen( (string) $text ); $i < $len; $i++ )
         {
             if( $text[$i] == '_' )
             {
                 if( isset( $text[ $i+1 ] ) && $text[ $i+1 ] != '_' )
                 {
-                    $result .= strtoupper( $text[++$i] );
+                    $result .= strtoupper( (string) $text[++$i] );
                 }
 
                 continue;
@@ -135,11 +136,11 @@ class Text implements \Kalibri\Helper\BaseInterface
     {
         $result = '';
 
-        for( $i=0, $len = strlen($text); $i < $len; $i++ )
+        for( $i=0, $len = strlen((string) $text); $i < $len; $i++ )
         {
-            if( $text[ $i ] == strtoupper( $text[$i] ) )
+            if( $text[ $i ] == strtoupper( (string) $text[$i] ) )
             {
-                $result .= '_'.strtolower( $text[$i] );
+                $result .= '_'.strtolower( (string) $text[$i] );
                 continue;
             }
 

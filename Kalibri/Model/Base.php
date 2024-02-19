@@ -38,7 +38,7 @@ namespace Kalibri\Model {
 		/**
 		 * @var array
 		 */
-		protected $_cacheKeys = array();
+		protected $_cacheKeys = [];
 
 //------------------------------------------------------------------------------------------------//
 		public function __construct()
@@ -46,9 +46,9 @@ namespace Kalibri\Model {
 			if( !$this->tableName ) {
 				$this->tableName = strtolower(
 					str_replace( 
-						array( \Kalibri::app()->getNamespace().'\\App\\Model\\', 'Kalibri\\Model\\' ), 
+						[\Kalibri::app()->getNamespace().'\\App\\Model\\', 'Kalibri\\Model\\'], 
 						'', 
-						get_class( $this ) 
+						static::class 
 				));
 			}
 
@@ -103,7 +103,7 @@ namespace Kalibri\Model {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function flushCache( $params = null )
+		public function flushCache( $params = null ): void
 		{
 			$this->_cache->remove( $this->tableName.'all' );
 
@@ -113,7 +113,7 @@ namespace Kalibri\Model {
 				{
 					foreach( $params as $param=>$value )
 					{
-						$key = str_replace( $param, $value, $key );
+						$key = str_replace( $param, $value, (string) $key );
 					}
 
 					$this->_cache->remove( $this->tableName.$key );

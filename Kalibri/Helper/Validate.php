@@ -11,8 +11,8 @@ namespace Kalibri\Helper {
 	 */
 	class Validate
 	{
-		const RULE_FIELDS = 0;
-		const RULE_OPERATION = 1;
+		public const RULE_FIELDS = 0;
+		public const RULE_OPERATION = 1;
 
 		public static $_lastError;
 //------------------------------------------------------------------------------------------------//
@@ -104,7 +104,7 @@ namespace Kalibri\Helper {
 		 */
 		public static function int( $int, $min = null, $max = null )
 		{
-			$options = array();
+			$options = [];
 
 			if( $min !== null )
 			{
@@ -129,10 +129,10 @@ namespace Kalibri\Helper {
 
 			if( !is_array( $rule[ self::RULE_FIELDS ] ) )
 			{
-				$fields = array( $rule[ self::RULE_FIELDS ] );
+				$fields = [$rule[ self::RULE_FIELDS ]];
 			}
 
-			self::$_lastError = array();
+			self::$_lastError = [];
 
 			switch( $rule[ self::RULE_OPERATION ] )
 			{
@@ -144,7 +144,7 @@ namespace Kalibri\Helper {
 						{
 							if( !isset( $data[ $field ]['value'] ) || empty( $data[ $field ]['value'] ) )
 							{
-								self::$_lastError[] = tr("Field :name is required\n", array( 'name'=>$field ));
+								self::$_lastError[] = tr("Field :name is required\n", ['name'=>$field]);
 							}
 						}
 					break;
@@ -157,10 +157,7 @@ namespace Kalibri\Helper {
 								|| $data[ $field ]['value'] != $data[ $rule['with'] ]['value']
 							)
 							{
-								self::$_lastError[] = tr("Field :name1 and :name2 not equal", array(
-									'name1'=>$field,
-									'name2'=>$rule['with']
-								));
+								self::$_lastError[] = tr("Field :name1 and :name2 not equal", ['name1'=>$field, 'name2'=>$rule['with']]);
 							}
 						}
 					break;

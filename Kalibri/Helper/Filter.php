@@ -8,6 +8,7 @@ namespace Kalibri\Helper;
  */
 class filter implements \Kalibri\Helper\BaseInterface
 {
+    #[\Override]
     public static function init( array $options = null ){}
 
 //------------------------------------------------------------------------------------------------//
@@ -59,7 +60,7 @@ class filter implements \Kalibri\Helper\BaseInterface
     }
 
 //------------------------------------------------------------------------------------------------//
-    public static function regexp( $regexp )
+    public static function regexp( $regexp ): void
     {
         /**
          * @todo FILTER REGEXP

@@ -4,18 +4,17 @@ namespace Kalibri\Form\Field\Rule;
 
 class RegExp extends Base {
 
-    protected $regexp;
-
-    public function __construct($regexp)
+    public function __construct(protected $regexp)
     {
-        $this->regexp = $regexp;
     }
 
+    #[\Override]
     public function validate($value)
     {
-        return (bool)preg_match('/'.$this->regexp.'/', $value);
+        return (bool)preg_match('/'.$this->regexp.'/', (string) $value);
     }
 
+    #[\Override]
     public function error()
     {
         return tr("Field doesn't match required format");

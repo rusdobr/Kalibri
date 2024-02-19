@@ -9,7 +9,7 @@ namespace Kalibri\Validator {
      */
     class Base
     {
-        protected $_rules = array();
+        protected $_rules = [];
         protected $_value;
         protected $_isValidated = false;
         protected $_isValid = false;
@@ -58,8 +58,8 @@ namespace Kalibri\Validator {
 
         public function isValid( $value = null, array $rules = null )
         {
-            $this->setValue( $value !== null? $value: $this->_value );
-            $this->setRules( $rules !== null? $rules: $this->_rules );
+            $this->setValue( $value ?? $this->_value );
+            $this->setRules( $rules ?? $this->_rules );
 
             if( $this->_isValidated )
             {
@@ -71,7 +71,7 @@ namespace Kalibri\Validator {
             return $this->_isValid = static::validate( $this->_value, $this->_rules );
         }
 
-        public static function validate( $value, array $rules = null )
+        public static function validate( $value, array $rules = null ): void
         {
             trigger_error('Validator not implemented');
         }

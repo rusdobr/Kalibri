@@ -47,7 +47,7 @@ namespace Kalibri\Utils {
 		 *
 		 * @param array $data
 		 */
-		public function initData( $data = NULL )
+		public function initData( $data = NULL ): void
 		{
 			if( is_array( $data ) )
 			{
@@ -69,21 +69,21 @@ namespace Kalibri\Utils {
 		 */
 		public function __call( $name,  $arguments )
 		{
-			if( \method_exists( $this, $name ) && \is_callable( array( $this, $name ) ) )
+			if( \method_exists( $this, $name ) && \is_callable( [$this, $name] ) )
 			{
-				return \call_user_func( array( &$this, $name ), $arguments );
+				return \call_user_func( [&$this, $name], $arguments );
 			}
 
 			$type = '';
 			$fieldName = '';
 
-			if( \strpos( $name, 'get') === 0 || \strpos($name, 'set') === 0 )
+			if( str_starts_with($name, 'get') || str_starts_with($name, 'set') )
 			{
 				$type = \substr( $name, 0, 3 );
 				$fieldName = \substr( $name, 3 );
 				$fieldName = \strtolower( $fieldName[0] ).substr( $fieldName, 1 );
 			}
-			elseif( \strpos( $name, 'is' ) === 0 )
+			elseif( str_starts_with($name, 'is') )
 			{
 				$type = 'is';
 				$fieldName = \substr( $name, 2 );
@@ -105,7 +105,7 @@ namespace Kalibri\Utils {
 			}
 			else
 			{
-				\Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+				\Kalibri::error()->show( 'Method not available: '.static::class.'::'.$name );
 			}
 
 			return null;
@@ -121,7 +121,7 @@ namespace Kalibri\Utils {
 		 */
 		public function __get( $name )
 		{
-			return isset( $this->$name )? $this->$name: null;
+			return $this->$name ?? null;
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -133,7 +133,7 @@ namespace Kalibri\Utils {
 		 *
 		 * @return mixed
 		 */
-		public function __set( $name, $value )
+		public function __set( $name, mixed $value )
 		{
 			if( isset( $this->$name ) )
 			{

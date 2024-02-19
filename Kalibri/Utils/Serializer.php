@@ -25,7 +25,7 @@ namespace Kalibri\Utils {
 			}
 			elseif( is_object( $obj ) )
 			{
-				$class_name = get_class( $obj );
+				$class_name = $obj::class;
 				if( preg_match( '/^O:\d+:.+?:(\d+:\{.*)$/', serialize( $obj ), $match ) )
 				{
 					$obj = unserialize( 'a:'.$match[1] );
@@ -37,19 +37,19 @@ namespace Kalibri\Utils {
 						// Remove protected property flag \0*\0
 						if( $key[1] == "*" )
 						{
-							$key = substr( $key, 3 );
+							$key = substr( (string) $key, 3 );
 						}
 
 						// Remove private property flag \0CLASS_NAME\0
-						if( strpos( $key, $class_name ) )
+						if( strpos( (string) $key, $class_name ) )
 						{
-							$key = substr( $key, strlen( $class_name ) + 2 );
+							$key = substr( (string) $key, strlen( $class_name ) + 2 );
 						}
 
 						// Remove leading '_'
 						if( $key[0] == '_' )
 						{
-							$key = substr($key, 1);
+							$key = substr((string) $key, 1);
 						}
 
 						unset( $obj[ $key1 ] );
@@ -72,7 +72,7 @@ namespace Kalibri\Utils {
 		{
             if( is_array($obj) )
             {
-                $result = array();
+                $result = [];
 
                 foreach($obj as $key=>$item)
                 {
@@ -115,7 +115,7 @@ namespace Kalibri\Utils {
 
 			if( !empty( $rootNodeName ) )
 			{
-				$subNodeName = substr( $rootNodeName, 0, strlen( $rootNodeName )-1 );
+				$subNodeName = substr( (string) $rootNodeName, 0, strlen( (string) $rootNodeName )-1 );
 			}
 
 			if( is_array( $obj ) )
@@ -136,7 +136,7 @@ namespace Kalibri\Utils {
 						if( !$returnHTMLValues )
 						{
 							// Escape html/xml tags
-							$value = htmlentities( $value );
+							$value = htmlentities( (string) $value );
 						}
 						else
 						{

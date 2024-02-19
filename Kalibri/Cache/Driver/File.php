@@ -18,12 +18,13 @@ class File implements BaseInterface {
      *
      * @return mixed Stored value
      */
+    #[\Override]
     public function get($key)
     {
         $path = $this->path($key);
 
         if(file_exists($path)) {
-            list($expiration, $content) = $this->splitContent(file_get_contents($path));
+            [$expiration, $content] = $this->splitContent(file_get_contents($path));
 
             if($this->isExpired($expiration)) {
                 @unlink($path);
@@ -45,7 +46,8 @@ class File implements BaseInterface {
      *
      * @return null
      */
-    public function set($key, $value, $expire = 0)
+    #[\Override]
+    public function set($key, $value, $expire = 0): void
     {
         $expire = $expire == 0? \Kalibri\Helper\Date::SEC_IN_YEAR: $expire;
         file_put_contents($this->path($key), (time() + $expire)."\n".serialize($value));
@@ -56,7 +58,8 @@ class File implements BaseInterface {
      *
      * @return null
      */
-    public function clear()
+    #[\Override]
+    public function clear(): void
     {
         foreach(glob(\Kalibri::app()->getLocation().'Data/cache/*') as $file)
         {
@@ -74,7 +77,8 @@ class File implements BaseInterface {
      *
      * @return null
      */
-    public function remove($key)
+    #[\Override]
+    public function remove($key): void
     {
         $path = $this->path($key);
 
@@ -96,11 +100,8 @@ class File implements BaseInterface {
 
     private function splitContent($content)
     {
-        $firstNewLine = strpos($content, "\n");
+        $firstNewLine = strpos((string) $content, "\n");
 
-        return array(
-            substr($content, 0, $firstNewLine),
-            substr($content, $firstNewLine+1)
-        );
+        return [substr((string) $content, 0, $firstNewLine), substr((string) $content, $firstNewLine+1)];
     }
 }

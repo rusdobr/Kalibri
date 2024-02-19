@@ -30,7 +30,7 @@ interface BaseInterface
 	 *
 	 * @return null
 	 */
-	public function set( $key, $value, $expire = 0 );
+	public function set( $key, mixed $value, $expire = 0 );
 //------------------------------------------------------------------------------------------------//
 	/**
 	 * Clear the whole storage

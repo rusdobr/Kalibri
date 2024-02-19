@@ -4,14 +4,14 @@ namespace Kalibri\Utils {
 
 	class Compiler
 	{
-		const BASE_FILE_NAME = 'base';
-		const CACHE_FOLDER = 'Data/Cache/';
+		public const BASE_FILE_NAME = 'base';
+		public const CACHE_FOLDER = 'Data/Cache/';
 
-		const NAME_BASE = 'base';
-		const NAME_ROUTE = 'route';
+		public const NAME_BASE = 'base';
+		public const NAME_ROUTE = 'route';
 
 		protected $_routeName;
-		protected $_skipped = array();
+		protected $_skipped = [];
 
 //------------------------------------------------------------------------------------------------//
 		public function getLocation( $name = self::NAME_ROUTE )
@@ -36,7 +36,7 @@ namespace Kalibri\Utils {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function skip( $file )
+		public function skip( $file ): void
 		{
 			$this->_skipped[] = $file;
 		}
@@ -51,7 +51,7 @@ namespace Kalibri\Utils {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function compile( $name = null )
+		public function compile( $name = null ): void
 		{
 			$name = $name ?: self::BASE_FILE_NAME;
 
@@ -64,13 +64,13 @@ namespace Kalibri\Utils {
 
 				foreach( $includedFiles as $file )
 				{
-					if( in_array( $file, $this->_skipped ) || strpos( $file, '/Helper/' ) !== false || strpos( $file, '/Config/' ) !== false )
+					if( in_array( $file, $this->_skipped ) || str_contains( $file, '/Helper/' ) || str_contains( $file, '/Config/' ) )
 					{
 						continue;
 					}
 
 					if( $name == self::NAME_BASE 
-						|| ( $name == self::NAME_ROUTE && strpos($file, '_compiled.php') === false ) )
+						|| ( $name == self::NAME_ROUTE && !str_contains($file, '_compiled.php') ) )
 					{
 						if( !$isCompiledExists )
 						{
