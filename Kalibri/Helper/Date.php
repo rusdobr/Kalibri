@@ -7,15 +7,16 @@ namespace Kalibri\Helper {
 	 */
 	class Date implements \Kalibri\Helper\BaseInterface
 	{
-		const SEC_IN_YEAR  = 31536000;
-		const SEC_IN_MONTH = 2592000;
-		const SEC_IN_WEEK  = 604800;
-		const SEC_IN_DAY   = 86400;
-		const SEC_IN_HOUR  = 3600;
-		const SEC_IN_MINUTE= 60;
-		const SEC_IN_HALF_HOUR = 1800;
+		public const SEC_IN_YEAR  = 31536000;
+		public const SEC_IN_MONTH = 2592000;
+		public const SEC_IN_WEEK  = 604800;
+		public const SEC_IN_DAY   = 86400;
+		public const SEC_IN_HOUR  = 3600;
+		public const SEC_IN_MINUTE= 60;
+		public const SEC_IN_HALF_HOUR = 1800;
 
-		public static function init( array $options = null ){}
+		#[\Override]
+  public static function init( array $options = null ){}
 
 //------------------------------------------------------------------------------------------------//
 		public static function dateOrTime( $timestamp, $dateFormat = 'd.m.Y', $timeFormat = 'H:i' )
@@ -51,14 +52,7 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
         public static function secondsToTime($seconds, $short = false)
         {
-            $time = array(
-                self::SEC_IN_YEAR  => [tr('year'), tr('years'), tr('years')],
-                self::SEC_IN_MONTH => [tr('month'), tr('months'), tr('months')],
-                self::SEC_IN_WEEK  => [tr('week'), tr('weeks'), tr('weeks')],
-                self::SEC_IN_DAY   => [tr('day'), tr('days'), tr('days')],
-                self::SEC_IN_HOUR  => [tr('hour'), tr('hours'), tr('hours')],
-                self::SEC_IN_MINUTE=> [tr('minute'), tr('minutes'), tr('minutes')]
-            );
+            $time = [self::SEC_IN_YEAR  => [tr('year'), tr('years'), tr('years')], self::SEC_IN_MONTH => [tr('month'), tr('months'), tr('months')], self::SEC_IN_WEEK  => [tr('week'), tr('weeks'), tr('weeks')], self::SEC_IN_DAY   => [tr('day'), tr('days'), tr('days')], self::SEC_IN_HOUR  => [tr('hour'), tr('hours'), tr('hours')], self::SEC_IN_MINUTE=> [tr('minute'), tr('minutes'), tr('minutes')]];
 
             $result = '';
 
@@ -85,7 +79,7 @@ namespace Kalibri\Helper {
 //------------------------------------------------------------------------------------------------//
 		public static function ageFromStr( $date )
 		{
-			return floor( ( K_TIME - strtotime( $date ) ) / self::SEC_IN_YEAR );
+			return floor( ( K_TIME - strtotime( (string) $date ) ) / self::SEC_IN_YEAR );
 		}
 
 //------------------------------------------------------------------------------------------------//

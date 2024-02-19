@@ -4,6 +4,7 @@ namespace Kalibri\Helper;
 
 class Ln implements \Kalibri\Helper\BaseInterface
 {
+    #[\Override]
     public static function init( array $options = null ){}
 //------------------------------------------------------------------------------------------------//
     public static function tr( $key, array $params = null )

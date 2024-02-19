@@ -4,11 +4,11 @@ namespace Kalibri\Auth{
 
 	class Profile
 	{
-		const ROLE_GENERAL = 0;
-		const ROLE_ADMIN = 1;
+		public const ROLE_GENERAL = 0;
+		public const ROLE_ADMIN = 1;
 
-		protected $_data = array();
-		protected $_changedFields = array();
+		protected $_data = [];
+		protected $_changedFields = [];
 		
 //------------------------------------------------------------------------------------------------//
 		public function __construct( array $data = null )
@@ -19,7 +19,7 @@ namespace Kalibri\Auth{
 //------------------------------------------------------------------------------------------------//
 		public function __get( $key )
 		{
-			return isset( $this->_data[ $key ] )? $this->_data[ $key ]: null;
+			return $this->_data[ $key ] ?? null;
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -38,7 +38,7 @@ namespace Kalibri\Auth{
 //------------------------------------------------------------------------------------------------//
 		public function getSaveData()
 		{
-			$data = array();
+			$data = [];
 
 			$this->_changedFields = array_unique( $this->_changedFields );
 			
@@ -56,7 +56,7 @@ namespace Kalibri\Auth{
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function save()
+		public function save(): void
 		{
 			\Kalibri::model('user')->save( $this->getSaveData() );
 		}

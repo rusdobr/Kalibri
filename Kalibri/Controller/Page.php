@@ -17,7 +17,8 @@ namespace Kalibri\Controller {
 		protected $_page = null;
 
 //------------------------------------------------------------------------------------------------//
-		public function _render( $asString = false )
+		#[\Override]
+  public function _render( $asString = false )
 		{
 			if( $this->_autoFindView && $this->page()->getViewName() == null )
 			{

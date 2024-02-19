@@ -38,18 +38,19 @@ class Profile extends \Kalibri\Model\Entity
      *
      * @param $data array Row data from db
      */
-    public function initData(array $data)
+    #[\Override]
+    public function initData(array $data): void
     {
         $this->profileId  = $data['profile_id'];
         $this->login      = $data['login'];
         $this->password   = $data['password'];
         $this->firstName  = $data['first_name'];
         $this->lastName   = $data['last_name'];
-        $this->birthday   = $data['birthday'] ? strtotime($data['birthday']) : null;
+        $this->birthday   = $data['birthday'] ? strtotime((string) $data['birthday']) : null;
         $this->banFlag    = (int)$data['ban_flag'];
         $this->banReason  = $data['ban_reason'];
         $this->role       = (int)$data['role'];
-        $this->registeredAt = $data['registered_at'] ? strtotime($data['registered_at']): null;
+        $this->registeredAt = $data['registered_at'] ? strtotime((string) $data['registered_at']): null;
     }
 
     /**
@@ -57,20 +58,10 @@ class Profile extends \Kalibri\Model\Entity
      *
      * @return array
      */
+    #[\Override]
     public function getAllData()
     {
-        return array(
-            'profile_id' => $this->profileId,
-            'login'      => $this->login,
-            'password'   => $this->password,
-            'first_name' => $this->firstName,
-            'last_name'  => $this->lastName,
-            'birthday'   => date('Y-m-d', $this->birthday),
-            'ban_flag'   => (int)$this->banFlag,
-            'ban_reason' => $this->banReason,
-            'role'       => (int)$this->role,
-            'registered_at'=> date('Y-m-d H:i:s', $this->registeredAt)
-        );
+        return ['profile_id' => $this->profileId, 'login'      => $this->login, 'password'   => $this->password, 'first_name' => $this->firstName, 'last_name'  => $this->lastName, 'birthday'   => date('Y-m-d', $this->birthday), 'ban_flag'   => (int)$this->banFlag, 'ban_reason' => $this->banReason, 'role'       => (int)$this->role, 'registered_at'=> date('Y-m-d H:i:s', $this->registeredAt)];
     }
 
     /**

@@ -6,17 +6,19 @@ namespace Kalibri\Utils\Html
 	{
 		protected $text;
 
-		public function process( Document &$document )
+		#[\Override]
+  public function process( Document &$document ): void
 		{
-			$pos = strpos( $this->raw, '<' );
+			$pos = strpos( (string) $this->raw, '<' );
 
-			$this->text = substr( $this->raw, 0, $pos );
-			$this->raw = substr( $this->raw, $pos );
+			$this->text = substr( (string) $this->raw, 0, $pos );
+			$this->raw = substr( (string) $this->raw, $pos );
             unset( $this->document );
             unset( $this->raw );
 		}
 
-		public function getText()
+		#[\Override]
+  public function getText()
 		{
 			return $this->text;
 		}
@@ -27,17 +29,20 @@ namespace Kalibri\Utils\Html
             return $this;
         }
 
+        #[\Override]
         public function toHtml()
         {
             return ' '.$this->getText().' ';
         }
 
+        #[\Override]
         public function getName()
         {
             return 'text';
         }
 
-		public function dump()
+		#[\Override]
+  public function dump()
 		{
 			return '<li>'.$this->text.'</li>';
 		}

@@ -7,6 +7,7 @@ namespace Kalibri\Helper;
  */
 class Debug implements \Kalibri\Helper\BaseInterface
 {
+    #[\Override]
     public static function init( array $options = null ){}
 
 //------------------------------------------------------------------------------------------------//

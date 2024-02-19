@@ -5,9 +5,10 @@ namespace Kalibri\Utils\Html
 	class TagNode extends Node
 	{
 		protected $name;
-		protected $classes = array();
+		protected $classes = [];
 
-		public function getName()
+		#[\Override]
+  public function getName()
 		{
 			return $this->name;
 		}
@@ -17,7 +18,8 @@ namespace Kalibri\Utils\Html
             return $this;
         }
 
-		public function getText()
+		#[\Override]
+  public function getText()
 		{
 			if( $this->childs )
 			{
@@ -32,6 +34,7 @@ namespace Kalibri\Utils\Html
 			}
 		}
 
+        #[\Override]
         public function toHtml()
         {
             $result = '<'.$this->getName();
@@ -96,7 +99,8 @@ namespace Kalibri\Utils\Html
             return false;
 		}
 
-		public function getChilds()
+		#[\Override]
+  public function getChilds()
 		{
 			return $this->childs;
 		}
@@ -105,19 +109,19 @@ namespace Kalibri\Utils\Html
 		{
 			if( !count( $path ) )
 			{
-				return array();
+				return [];
 			}
 
 			$fullPath = $path;
 			$step = array_shift( $path );
 
-			if( in_array( $step, array(' ', '>', '+') ) )
+			if( in_array( $step, [' ', '>', '+'] ) )
 			{
 				$mode = $step;
 				$step = array_shift( $path );
 			}
 
-            $current = array();
+            $current = [];
             $pathLength = count( $fullPath );
             $conditions = Node::prepareConditions( $step );
 
@@ -160,8 +164,8 @@ namespace Kalibri\Utils\Html
 
 		public function find( $selector )
 		{
-			$selectors = explode(',', trim( $selector) );
-			$current = array();
+			$selectors = explode(',', trim( (string) $selector) );
+			$current = [];
 
 			foreach( $selectors as $strPath )
 			{
@@ -171,7 +175,8 @@ namespace Kalibri\Utils\Html
 			return $current;
 		}
 
-		public function process( Document &$document )
+		#[\Override]
+  public function process( Document &$document ): void
 		{
 			$tmp = null;
 			$position = 0;
@@ -207,7 +212,7 @@ namespace Kalibri\Utils\Html
 					{
 						if( !is_array( $this->attributes ) )
 						{
-							$this->attributes = array();
+							$this->attributes = [];
 						}
 
 						$this->attributes[ $lastAttribute ] = $tmp;
@@ -226,7 +231,7 @@ namespace Kalibri\Utils\Html
 			}
 
 			$endsWith = $this->raw[ $position -1 ].$this->raw[ $position ];
-			$this->raw = substr( $this->raw, $position+1 );
+			$this->raw = substr( (string) $this->raw, $position+1 );
 
 			if( count( $this->attributes ) )
 			{
@@ -237,7 +242,7 @@ namespace Kalibri\Utils\Html
 
 				if( isset( $this->attributes['class'] ) )
 				{
-					$this->classes = explode( ' ', $this->attributes['class'] );
+					$this->classes = explode( ' ', (string) $this->attributes['class'] );
 					$document->registerClasses( $this->classes, $this );
 				}
 			}
@@ -261,7 +266,7 @@ namespace Kalibri\Utils\Html
 				//Skip white spaces between tags
 				if( $this->raw && $this->raw[0] == ' ' )
 				{
-					$this->raw = ltrim( $this->raw );
+					$this->raw = ltrim( (string) $this->raw );
 				}
 
 				if( !$this->raw )
@@ -272,13 +277,13 @@ namespace Kalibri\Utils\Html
 				// is next tag closed, just skip it
 				if( $this->raw[0] == '<' && $this->raw[1] == '/')
 				{
-					$this->raw = substr( $this->raw, strpos( $this->raw, '>' )+1 );
+					$this->raw = substr( (string) $this->raw, strpos( (string) $this->raw, '>' )+1 );
 					return;
 				}
 
 				if( !is_array( $this->childs ) )
 				{
-					$this->childs = array();
+					$this->childs = [];
 				}
 
 				// Look for childs
@@ -293,7 +298,8 @@ namespace Kalibri\Utils\Html
 			}
 		}
 
-		public function dump()
+		#[\Override]
+  public function dump()
 		{
 			$str = '<li><strong>'.$this->name.'</strong>'.
 				( isset( $this->attributes['id'] )? '#'.$this->attributes['id']:'' ).

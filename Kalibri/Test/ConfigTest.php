@@ -36,7 +36,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers Kalibri\Config::get
 	 */
-	public function testGet()
+	public function testGet(): void
 	{
 		$this->assertEquals(
 				null
@@ -49,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @covers Kalibri\Config::get
 	 */
-	public function testGet2()
+	public function testGet2(): void
 	{
 		$this->assertEquals(
 				true
@@ -61,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 	 * @covers Kalibri\Config::load
 	 * @todo   Implement testLoad().
 	 */
-	public function testLoad()
+	public function testLoad(): void
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(

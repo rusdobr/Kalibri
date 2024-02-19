@@ -31,7 +31,7 @@ namespace Kalibri\View {
 		/**
 		 * @var array
 		 */
-		protected $_pageTitleConfig = array();
+		protected $_pageTitleConfig = [];
 
 		protected $_alternativeViewLocation;
 
@@ -44,18 +44,18 @@ namespace Kalibri\View {
 			$data = \Kalibri::data();
 
 			// Init page data
-			$data->merge( array(
-				/* Set default content */
-				\Kalibri\View::VAR_CONTENT => $data->get( \Kalibri\View::VAR_CONTENT, ''),
-				/* Set constructed page title */
-				\Kalibri\View::VAR_TITLE =>   $data->get( \Kalibri\View::VAR_TITLE, $this->_pageTitleConfig['default'] ),
-				/* Empty meta tags */
-				\Kalibri\View::VAR_META =>    $data->get( \Kalibri\View::VAR_META, array() ),
-				/* Empty scripts list */
-				\Kalibri\View::VAR_SCRIPTS => $data->get( \Kalibri\View::VAR_SCRIPTS, array() ),
-				/* Empty styles list */
-				\Kalibri\View::VAR_STYLES =>  $data->get( \Kalibri\View::VAR_STYLES, array() )
-			));
+			$data->merge( [
+       /* Set default content */
+       \Kalibri\View::VAR_CONTENT => $data->get( \Kalibri\View::VAR_CONTENT, ''),
+       /* Set constructed page title */
+       \Kalibri\View::VAR_TITLE =>   $data->get( \Kalibri\View::VAR_TITLE, $this->_pageTitleConfig['default'] ),
+       /* Empty meta tags */
+       \Kalibri\View::VAR_META =>    $data->get( \Kalibri\View::VAR_META, [] ),
+       /* Empty scripts list */
+       \Kalibri\View::VAR_SCRIPTS => $data->get( \Kalibri\View::VAR_SCRIPTS, [] ),
+       /* Empty styles list */
+       \Kalibri\View::VAR_STYLES =>  $data->get( \Kalibri\View::VAR_STYLES, [] ),
+   ]);
 
 			$this->setMetaContentType( $this->_contentType );
 		}
@@ -83,7 +83,7 @@ namespace Kalibri\View {
 		 *
 		 * @magic
 		 */
-		public function __set( $name, $value )
+		public function __set( $name, mixed $value )
 		{
 			\Kalibri::data()->set( $name, $value );
 		}
@@ -256,12 +256,10 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-		 * @param \Kalibri\View\Layout $layout
-		 * 
-		 * @return \Kalibri\View\Page
-		 */
-		public function &setLayout( \Kalibri\View\Layout $layout )
+  /**
+   * @return \Kalibri\View\Page
+   */
+  public function &setLayout( \Kalibri\View\Layout $layout )
 		{
 			$this->_layout = $layout;
 			return $this;
@@ -318,14 +316,13 @@ namespace Kalibri\View {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		/**
-         * Set current view
-         *
-         * @param \Kalibri\View $view
-         *
-		 * @return \Kalibri\View\Page
-		 */
-		public function &setView( \Kalibri\View $view )
+  /**
+   * Set current view
+   *
+   *
+   * @return \Kalibri\View\Page
+   */
+  public function &setView( \Kalibri\View $view )
 		{
 			$this->_view = $view;
 
@@ -371,7 +368,7 @@ namespace Kalibri\View {
 
 			$meta = \Kalibri::data()->get( \Kalibri\View::VAR_META );
 
-			return isset( $meta[ $name ] ) ? $meta[ $name ]: $default;
+			return $meta[ $name ] ?? $default;
 		}
 
 //------------------------------------------------------------------------------------------------//
@@ -508,11 +505,11 @@ namespace Kalibri\View {
 		 */
 		public function &addResource( $text, $container, $key = null )
 		{
-			$key = $key ?: md5( $text );
+			$key = $key ?: md5( (string) $text );
 
 			if( \is_array( \Kalibri::data()->get( $container ) ) )
 			{
-				\Kalibri::data()->set( $container, \array_merge( \Kalibri::data()->get( $container ), array( $key=>$text) ));
+				\Kalibri::data()->set( $container, \array_merge( \Kalibri::data()->get( $container ), [$key=>$text] ));
 			}
 			else
 			{
@@ -644,7 +641,7 @@ namespace Kalibri\View {
 		 */
 		public function &addScriptText( $text )
 		{
-			if(strpos($text, '<script') === false)
+			if(!str_contains($text, '<script'))
 			{
 				$text = '<script type="text/javascript">'.$text.'</script>';
 			}
@@ -662,7 +659,7 @@ namespace Kalibri\View {
 		 */
 		public function clearScripts()
 		{
-			\Kalibri::data()->set( \Kalibri\View::VAR_SCRIPTS, array() );
+			\Kalibri::data()->set( \Kalibri\View::VAR_SCRIPTS, [] );
 
 			return $this;
 		}
@@ -674,7 +671,7 @@ namespace Kalibri\View {
 		 */
 		public function clearStyles()
 		{
-			\Kalibri::data()->set( \Kalibri\View::VAR_STYLES, array() );
+			\Kalibri::data()->set( \Kalibri\View::VAR_STYLES, [] );
 
 			return $this;
 		}
@@ -748,7 +745,7 @@ namespace Kalibri\View {
             $action = $action ?: \Kalibri::router()->getAction();
 
 			//Is directory set to find in
-			if( \strcmp( $directory, '' ) !=0  )
+			if( \strcmp( (string) $directory, '' ) !=0  )
 			{
 				if( $this->getView()->isExists("$directory/$controller/$action", $this->_alternativeViewLocation) )
 				{

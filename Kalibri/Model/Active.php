@@ -28,13 +28,13 @@ class Active extends Base
     }
 
 //------------------------------------------------------------------------------------------------//
-    public function delete( $keyValue )
+    public function delete( $keyValue ): void
     {
         $this->deleteBy($this->keyField, $keyValue);
     }
 
 //------------------------------------------------------------------------------------------------//
-    public function deleteBy( $field, $value )
+    public function deleteBy( $field, $value ): void
     {
         $this->getQuery()->delete()->where( $field, $value )
             ->execute();
@@ -61,10 +61,10 @@ class Active extends Base
     }
 
 //------------------------------------------------------------------------------------------------//
-    public function insertBatch( $data )
+    public function insertBatch( $data ): void
     {
         $fields = array_keys( $data[0] );
-        $values = array();
+        $values = [];
         $i=0;
 
         $sql = 'INSERT INTO '.$this->tableName. '('.implode( ', ',$fields ).') VALUES ';
@@ -85,7 +85,7 @@ class Active extends Base
     }
 
 //------------------------------------------------------------------------------------------------//
-    public function updateBatch( $data, $withTransaction = true )
+    public function updateBatch( $data, $withTransaction = true ): void
     {
         $sql = 'UPDATE '.$this->tableName.' SET ';
 
@@ -108,7 +108,7 @@ class Active extends Base
 
         foreach( $data as $record )
         {
-            $params = array();
+            $params = [];
             foreach( $record as $field=>$value )
             {
                 $params[':'.$field] = $value;
@@ -128,9 +128,7 @@ class Active extends Base
     {
         if( ( $result = $this->getCache( $id ) ) === null )
         {
-            $result = $this->db()->execStatment("select * from {$this->tableName} where {$this->keyField}=:id limit 1", array(
-                ':id'=>$id
-            ))->fetchAndClose();
+            $result = $this->db()->execStatment("select * from {$this->tableName} where {$this->keyField}=:id limit 1", [':id'=>$id])->fetchAndClose();
 
             $this->setCache( $id, $result, \Kalibri\Helper\Date::SEC_IN_MINUTE*5 );
         }
@@ -143,9 +141,7 @@ class Active extends Base
     {
         $field = $field?: $this->keyField;
 
-        return $this->db()->execStatment("select * from {$this->tableName} where $field=:id", array(
-            ':id'=>$id
-        ))->fetchAndClose();
+        return $this->db()->execStatment("select * from {$this->tableName} where $field=:id", [':id'=>$id])->fetchAndClose();
     }
 
 //------------------------------------------------------------------------------------------------//
@@ -153,9 +149,7 @@ class Active extends Base
     {
         $field = $field?: $this->keyField;
 
-        return $this->db()->execStatment("select * from {$this->tableName} where $field=:id limit 1", array(
-            ':id'=>$id
-        ))->fetchAndClose();
+        return $this->db()->execStatment("select * from {$this->tableName} where $field=:id limit 1", [':id'=>$id])->fetchAndClose();
     }
 
 //------------------------------------------------------------------------------------------------//
@@ -226,7 +220,7 @@ class Active extends Base
     {
         if( !$this->entityClass )
         {
-            $class = get_class( $this );
+            $class = static::class;
             $pos = strrpos( $class, '\\' );
 
             $this->entityClass = substr( $class, 0, $pos ).'\\Entity'.substr( $class, $pos );
@@ -243,7 +237,7 @@ class Active extends Base
             return $id;
         }
 
-        if( ( $data = $this->get( (int)$id, $field ) ) )
+        if( ( $data = $this->get( (int)$id ) ) )
         {
             $data = $this->toEntity( $data );
         }

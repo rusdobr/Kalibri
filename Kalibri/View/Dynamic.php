@@ -17,22 +17,25 @@ class Dynamic extends View
         $this->storeContent($this->_path, (string)$content);
     }
 
+    #[\Override]
     public function isExists($name = null, $path = null)
     {
         return true;
     }
 
+    #[\Override]
     public function render( $asString = false, $path = null )
     {
         return parent::render($asString, $path ?: $this->path);
     }
 
+    #[\Override]
     public function getLocation( $name = null, $path = null )
     {
         return $this->_path.$this->_name.'.php';
     }
 
-    private function storeContent($path, $content)
+    private function storeContent($path, $content): void
     {
         if( !file_exists($path) )
         {

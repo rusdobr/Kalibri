@@ -7,17 +7,17 @@ namespace Kalibri\Logger {
 	 */
 	abstract class Base
 	{
-		const L_WARNING = 'Warning';
-		const L_DEBUG   = 'Debug';
-		const L_ERROR   = 'Error';
-		const L_INFO    = 'Info';
-		const L_EXCEPTION = 'Exception';
+		public const L_WARNING = 'Warning';
+		public const L_DEBUG   = 'Debug';
+		public const L_ERROR   = 'Error';
+		public const L_INFO    = 'Info';
+		public const L_EXCEPTION = 'Exception';
 
-		const DEFAULT_DATE_FORMAT = 'Y-m-d H:i:s';
+		public const DEFAULT_DATE_FORMAT = 'Y-m-d H:i:s';
 
-		protected $_messages = array();
-		protected $_excludedLevels = array();		
-		protected $_options = array();
+		protected $_messages = [];
+		protected $_excludedLevels = [];		
+		protected $_options = [];
 		protected $_uniq;
 		
 //------------------------------------------------------------------------------------------------//
@@ -55,7 +55,7 @@ namespace Kalibri\Logger {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function init( array $options = null )
+		public function init( array $options = null ): void
 		{
 			if( $options )
 			{
@@ -102,9 +102,9 @@ namespace Kalibri\Logger {
 			foreach( $this->_messages as $msg )
 			{
 				$str .= str_replace( 
-					array('%date', '%level', '%class', '%msg', '%uniq'), 
-					array( $msg['date'], $msg['level'], $msg['class'], $msg['msg'], $this->_uniq ),
-					$format 
+					['%date', '%level', '%class', '%msg', '%uniq'], 
+					[$msg['date'], $msg['level'], $msg['class'], $msg['msg'], $this->_uniq],
+					(string) $format 
 				);
 			}
 
@@ -135,13 +135,13 @@ namespace Kalibri\Logger {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function excludeLevel( $name )
+		public function excludeLevel( $name ): void
 		{
 			$this->_excludedLevels[ $name ] = true;
 		}
 
 //------------------------------------------------------------------------------------------------//
-		public function excludeLevels( array $levels )
+		public function excludeLevels( array $levels ): void
 		{
 			$this->_excludedLevels = \array_merge( $this->_excludedLevels, $levels );
 		}

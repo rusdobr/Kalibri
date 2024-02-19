@@ -9,11 +9,12 @@ namespace Kalibri\Validator {
      */
     class Boolean extends Base
     {
-        const RULE_TRUE = 'true';
-        const RULE_FALSE = 'false';
-        const RULE_EXACT_TRUE_OR_FALSE = 'true or false';
-        const RULE_EXACT_1_OR_0 = '1 or 0';
+        public const RULE_TRUE = 'true';
+        public const RULE_FALSE = 'false';
+        public const RULE_EXACT_TRUE_OR_FALSE = 'true or false';
+        public const RULE_EXACT_1_OR_0 = '1 or 0';
 
+        #[\Override]
         public static function validate( $value, array $rules = null )
         {
             $isValid = filter_var( $value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE ) !== null;

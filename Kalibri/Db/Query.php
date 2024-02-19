@@ -8,24 +8,24 @@ namespace Kalibri\Db {
 	 */
 	class Query
 	{
-		const FIELD_ANY = '*';
-		const ORDER_DIR_ASC = 'asc';
-		const ORDER_DIR_DESC = 'desc';
+		public const FIELD_ANY = '*';
+		public const ORDER_DIR_ASC = 'asc';
+		public const ORDER_DIR_DESC = 'desc';
 
-		const OP_AND = 'and';
-		const OP_OR = 'or';
-		const OP_NOT = 'not';
-		const OP_LARGER = '>';
-		const OP_SMALLER = '<';
-		const OP_LARGER_OR_EQUAL = '>=';
-		const OP_SMALLER_OR_EQUAL = '<=';
+		public const OP_AND = 'and';
+		public const OP_OR = 'or';
+		public const OP_NOT = 'not';
+		public const OP_LARGER = '>';
+		public const OP_SMALLER = '<';
+		public const OP_LARGER_OR_EQUAL = '>=';
+		public const OP_SMALLER_OR_EQUAL = '<=';
 
-		const F_UPDATE = 'update';
-		const F_SELECT = 'select';
-		const F_INSERT = 'insert';
-		const F_DELETE = 'delete';
-		const F_COUNT  = 'count';
-		const F_RENAME = 'rename';
+		public const F_UPDATE = 'update';
+		public const F_SELECT = 'select';
+		public const F_INSERT = 'insert';
+		public const F_DELETE = 'delete';
+		public const F_COUNT  = 'count';
+		public const F_RENAME = 'rename';
 
 		/**
 		 * @var array
@@ -42,16 +42,7 @@ namespace Kalibri\Db {
 //------------------------------------------------------------------------------------------------//
 		public function __construct()
 		{
-			$this->_data = array(
-				'limit'=>NULL,
-				'table_name'=>'',
-				'fields'=>array(),
-				'function'=>'',
-				'where'=>array(),
-				'join'=>array(),
-				'order_by'=>array(),
-				'group_by'=>array()
-			);
+			$this->_data = ['limit'=>NULL, 'table_name'=>'', 'fields'=>[], 'function'=>'', 'where'=>[], 'join'=>[], 'order_by'=>[], 'group_by'=>[]];
 
 			$this->_connectName = \Kalibri::config()->get('db.default');
 		}
@@ -178,7 +169,7 @@ namespace Kalibri\Db {
 		public function &rename( $oldName, $newName )
 		{
 			$this->_data['function'] = 'rename';
-			$this->_data['table_name'] = array( $oldName => $newName );
+			$this->_data['table_name'] = [$oldName => $newName];
 
 			return $this;
 		}
@@ -207,25 +198,17 @@ namespace Kalibri\Db {
 				$operation = !empty($value)? $value: 'and';
 
 				$group = \count( $this->_data['where'] );
-				$this->_data['where'][ $group ] = array();
+				$this->_data['where'][ $group ] = [];
 
 				foreach( $fields as $fieldName=>$_value )
 				{
 					if( \is_array( $_value ) && \count( $_value ) == 2 )
 					{
-						$this->_data['where'][$group][] = array(
-							'field'=>$fieldName,
-							'op'=>$_value[1],
-							'value'=>$_value[0]
-						);
+						$this->_data['where'][$group][] = ['field'=>$fieldName, 'op'=>$_value[1], 'value'=>$_value[0]];
 					}
 					elseif( !\is_array( $_value ) )
 					{
-						$this->_data['where'][$group][] = array(
-							'field'=>$fieldName,
-							'op'=>'=',
-							'value'=>$_value
-						);
+						$this->_data['where'][$group][] = ['field'=>$fieldName, 'op'=>'=', 'value'=>$_value];
 					}
 
 					$this->_data['where'][$group][] = $operation;
@@ -236,7 +219,7 @@ namespace Kalibri\Db {
 			else
 			{
 				$operation = !empty( $operation )? $operation: '=';
-				$this->_data['where'][] = array('field'=>$fields, 'op'=>$operation, 'value'=>$value);
+				$this->_data['where'][] = ['field'=>$fields, 'op'=>$operation, 'value'=>$value];
 			}
 
 			return $this;
@@ -256,7 +239,7 @@ namespace Kalibri\Db {
 		{
 			$operation = \strtolower( $operation );
 
-			if( \in_array( $operation, array(self::OP_OR, self::OP_AND, self::OP_NOT) ) )
+			if( \in_array( $operation, [self::OP_OR, self::OP_AND, self::OP_NOT] ) )
 			{
 				$this->_data['where'][] = $operation;
 
@@ -277,10 +260,7 @@ namespace Kalibri\Db {
 		 */
 		public function limit( $count, $offset = null  )
 		{	
-			$this->_data['limit'] = array(
-				'offset'=> $offset? $offset: 0,
-				'count'=> $count? $count: 1
-			);
+			$this->_data['limit'] = ['offset'=> $offset ?: 0, 'count'=> $count ?: 1];
 
 			return $this;
 		}
@@ -303,7 +283,7 @@ namespace Kalibri\Db {
 				throw new \Kalibri\Exception\Invalid\Param("Invalid direction in order statement '$direction'");
 			}
 
-			$this->_data['order_by'] = array('field'=>$field, 'dir'=>$direction );
+			$this->_data['order_by'] = ['field'=>$field, 'dir'=>$direction];
 
 			return $this;
 		}
@@ -417,7 +397,7 @@ namespace Kalibri\Db {
 
 			if( $alias )
 			{
-				$this->_data['table_name'] = array( $alias => $tableName );
+				$this->_data['table_name'] = [$alias => $tableName];
 				return;
 			}
 

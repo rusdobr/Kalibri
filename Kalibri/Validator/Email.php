@@ -9,6 +9,7 @@ namespace Kalibri\Validator {
      */
     class Email extends Base
     {
+        #[\Override]
         public static function validate( $value, array $rules = null )
         {
             return (bool)filter_var( $value, FILTER_VALIDATE_EMAIL );

@@ -9,10 +9,11 @@ namespace Kalibri\Controller {
 		 * 
 		 * @var array
 		 */
-		protected $response = array();
+		protected $response = [];
 
 //------------------------------------------------------------------------------------------------//
-		public function _render( $asString = false )
+		#[\Override]
+  public function _render( $asString = false )
 		{
 			header('Content-Type: application/json; charset=UTF-8');
 			$this->_isRendered = true;
@@ -27,7 +28,7 @@ namespace Kalibri\Controller {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		protected function send( $data, $code = 0 )
+		protected function send( $data, $code = 0 ): never
 		{
 			$this->response['code'] = $code;
 			$this->response['data'] = $data;
@@ -37,7 +38,7 @@ namespace Kalibri\Controller {
 		}
 
 //------------------------------------------------------------------------------------------------//
-		protected function sendCode( $code )
+		protected function sendCode( $code ): never
 		{
 			$this->response['code'] = $code;
 			$this->_render();

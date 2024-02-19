@@ -9,7 +9,7 @@ class Auth extends Page
 		$this->autoFindView( true );
 	}
 
-	public function login()
+	public function login(): void
 	{
 		if( \Kalibri::auth()->getProfile() )
 		{
@@ -31,14 +31,14 @@ class Auth extends Page
 		$this->page()->setTitle( tr('Sign in') );
 	}
 
-	public function logout()
+	public function logout(): void
 	{
 		$this->autoFindView( false );
 		\Kalibri::auth()->logout();
 		\Url::redirect( \Kalibri::config()->get('page.home', '/') );
 	}
 
-	public function register()
+	public function register(): void
 	{
 		if( \Kalibri::auth()->getProfile() )
 		{
@@ -48,7 +48,7 @@ class Auth extends Page
 		$this->page()->setTitle( tr('Sign up') );
 		if( isset( $_POST['login'], $_POST['password'], $_POST['re-password'] ) )
 		{
-			$errors = array();
+			$errors = [];
 
 			if( empty( $_POST['password'] ) )
 			{
@@ -60,11 +60,9 @@ class Auth extends Page
 				$errors[] = tr('Password and Re-password should match.');
 			}
 
-			if( strlen( $_POST['password'] ) < \Kalibri::config()->get('auth.min-password-length') )
+			if( strlen( (string) $_POST['password'] ) < \Kalibri::config()->get('auth.min-password-length') )
 			{
-				$errors[] = tr('Password should be minimum :min-length letters.', array(
-					'min-length'=>\Kalibri::config()->get('auth.min-password-length')
-				));
+				$errors[] = tr('Password should be minimum :min-length letters.', ['min-length'=>\Kalibri::config()->get('auth.min-password-length')]);
 			}
 
 			if( empty( $_POST['login'] ) )

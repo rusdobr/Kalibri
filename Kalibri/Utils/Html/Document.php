@@ -8,11 +8,9 @@ namespace Kalibri\Utils\Html
 		protected $url;
 		protected $doctype;
 		protected $isFetched = false;
-		protected $selfClosing = array(
-			'br', 'meta', 'hr', 'img', 'input', 'link', 'base', 'embed', 'spacer'
-		);
-		protected $ids = array();
-		protected $classes = array();
+		protected $selfClosing = ['br', 'meta', 'hr', 'img', 'input', 'link', 'base', 'embed', 'spacer'];
+		protected $ids = [];
+		protected $classes = [];
 
 		/**
 		* @var Node
@@ -67,23 +65,22 @@ namespace Kalibri\Utils\Html
 			$this->process();
 		}
 
-		public function process()
+		public function process(): void
 		{
 			if( !$this->raw )
 			{
 				throw new \Exception('Empty data');
 			}
 
-			$this->raw = preg_replace( array(
-				'/<!--.*?-->/', '/<script.*?>.*?<\/script>/', '/<style.*?>.*?<\/style>/'), 
+			$this->raw = preg_replace( ['/<!--.*?-->/', '/<script.*?>.*?<\/script>/', '/<style.*?>.*?<\/style>/'], 
 				'', 
-				str_replace( array("\t", "\n", "\r"), array(' '), trim( $this->raw ) ) 
+				str_replace( ["\t", "\n", "\r"], [' '], trim( (string) $this->raw ) ) 
 			);
 
 			if( $this->raw[0] == '<' && $this->raw[1] == '!' )
 			{
-				$this->doctype = substr( $this->raw, 0, strpos( $this->raw, '>')+1 );
-				$this->raw = substr( $this->raw, strlen( $this->doctype ) );
+				$this->doctype = substr( (string) $this->raw, 0, strpos( (string) $this->raw, '>')+1 );
+				$this->raw = substr( (string) $this->raw, strlen( $this->doctype ) );
 			}
 
 			// Read root tag
@@ -120,7 +117,7 @@ namespace Kalibri\Utils\Html
 			
 			if( !is_array( $classDef ) ) 
 			{
-				$classes = explode(' ', $classDef);
+				$classes = explode(' ', (string) $classDef);
 			}
 			
 			if( is_array( $classes ) && count( $classes ) )
@@ -129,7 +126,7 @@ namespace Kalibri\Utils\Html
 				{
 					if( !isset( $this->classes[ $name ] ) )
 					{
-						$this->classes[ $name ] = array();
+						$this->classes[ $name ] = [];
 					}
 
 					$this->classes[ $name ][] = &$node;
@@ -146,12 +143,12 @@ namespace Kalibri\Utils\Html
 		 */
 		public function getElementById( $id )
 		{
-			return isset( $this->ids[ $id ] )? $this->ids[ $id ]: null;
+			return $this->ids[ $id ] ?? null;
 		}
 
 		public function getElementsByTagName( $name )
 		{
-			return $this->root? $this->root->getElementsByTagName( $name ): array();
+			return $this->root? $this->root->getElementsByTagName( $name ): [];
 		}
 
 		/**
@@ -165,13 +162,13 @@ namespace Kalibri\Utils\Html
 		{
 			if( is_array( $class ) )
             {
-                $elements = array();
+                $elements = [];
                 $classToFind = count( $class )? current( $class ): null;
 
                 // Single class not found, so we can't find element matching all classes in the list
                 if( !$classToFind || !isset( $this->classes[ $classToFind ] ) )
                 {
-                    return array();
+                    return [];
                 }
 
                 foreach( $this->classes[ $classToFind ] as $candidat )
@@ -183,11 +180,11 @@ namespace Kalibri\Utils\Html
                     }
                 }
 
-                return count( $elements )? $elements: array();
+                return count( $elements )? $elements: [];
             }
 
             // Match single class
-            return isset( $this->classes[ $class ] )? $this->classes[ $class ]: array();
+            return $this->classes[ $class ] ?? [];
 		}
 
 		public function getIds()
@@ -202,8 +199,8 @@ namespace Kalibri\Utils\Html
 
 		public function find( $selector )
 		{
-			$selectors = explode(',', trim( $selector) );
-			$current = $found = $elements = array();
+			$selectors = explode(',', trim( (string) $selector) );
+			$current = $found = $elements = [];
 			
 			foreach( $selectors as $strPath )
 			{
@@ -211,11 +208,11 @@ namespace Kalibri\Utils\Html
                 $firstStep = array_shift( $path );
                 $findChild = count( $path ) > 0;
                 $conditions = Node::prepareConditions( $firstStep );
-				$elements = array();
+				$elements = [];
 
                 if( isset( $conditions['attr']['id'] ) )
 				{
-					$elements = array( $this->getElementById( $conditions['attr']['id'] ));
+					$elements = [$this->getElementById( $conditions['attr']['id'] )];
 				}
 				elseif( isset( $conditions['attr']['class'] ) )
 				{

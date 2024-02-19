@@ -26,7 +26,7 @@ abstract class Entity implements JsonSerializable
 				str_replace( 
 				[ \Kalibri::app()->getNamespace().'\\App\\Model\\Entity\\', 'Kalibri\\Model\\Entity\\' ],
 				'', 
-				get_class( $this ) 
+				static::class 
 			));
 	    }
 
@@ -143,13 +143,13 @@ abstract class Entity implements JsonSerializable
 
 	    if( !$this->_withMagic )
 	    {
-		    \Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+		    \Kalibri::error()->show( 'Method not available: '.static::class.'::'.$name );
 	    }
 
 	    $type = null;
 	    $fieldName = null;
 
-	    if( strpos($name, 'get') === 0 || strpos($name, 'set') === 0 )
+	    if( str_starts_with($name, 'get') || str_starts_with($name, 'set') )
 	    {
             $type = substr( $name, 0, 3 );
             $fieldName = substr( $name, 3 );
@@ -170,7 +170,7 @@ abstract class Entity implements JsonSerializable
 	    }
 	    else
 	    {
-	    	\Kalibri::error()->show( 'Method not available: '.get_class($this).'::'.$name );
+	    	\Kalibri::error()->show( 'Method not available: '.static::class.'::'.$name );
 	    }
 
 	    return null;
@@ -189,6 +189,7 @@ abstract class Entity implements JsonSerializable
      * @return mixed data which can be serialized by <b>json_encode</b>,
      * which is a value of any type other than a resource.
      */
+    #[\Override]
     function jsonSerialize()
     {
         return $this->getAllData();

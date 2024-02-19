@@ -10,18 +10,19 @@ namespace Kalibri\Validator
      */
     class Number extends Base
     {
-        const RULE_EQUAL = '=';
-        const RULE_LESS = '<';
-        const RULE_LESS_EQUAL = '<=';
-        const RULE_GREATER = '>';
-        const RULE_GREATER_EQUAL = '>=';
-        const RULE_INTEGER = 'int';
-        const RULE_FLOAT = 'float';
-        const RULE_BINARY = 'bin';
-        const RULE_OCTAL = 'octal';
-        const RULE_HEX = 'hex';
-        const RULE_UNSIGNED = 'unsigned';
+        public const RULE_EQUAL = '=';
+        public const RULE_LESS = '<';
+        public const RULE_LESS_EQUAL = '<=';
+        public const RULE_GREATER = '>';
+        public const RULE_GREATER_EQUAL = '>=';
+        public const RULE_INTEGER = 'int';
+        public const RULE_FLOAT = 'float';
+        public const RULE_BINARY = 'bin';
+        public const RULE_OCTAL = 'octal';
+        public const RULE_HEX = 'hex';
+        public const RULE_UNSIGNED = 'unsigned';
 
+        #[\Override]
         public static function validate( $value, array $rules = null )
         {
             $isValid = is_numeric( $value );
@@ -82,27 +83,21 @@ namespace Kalibri\Validator
 
         protected static function normalizeRules( array $rules )
         {
-            $withParam = array(
-                self::RULE_LESS_EQUAL,
-                self::RULE_LESS,
-                self::RULE_GREATER_EQUAL,
-                self::RULE_GREATER,
-                self::RULE_EQUAL
-            );
+            $withParam = [self::RULE_LESS_EQUAL, self::RULE_LESS, self::RULE_GREATER_EQUAL, self::RULE_GREATER, self::RULE_EQUAL];
 
             $withParamCount = count( $withParam );
-            $normalized = array();
+            $normalized = [];
 
             foreach( $rules as $rule )
             {
                 $added = false;
                 for( $i=0; $i < $withParamCount; $i++ )
                 {
-                    if( strpos( $rule, $withParam[ $i ] ) === 0 )
+                    if( str_starts_with((string) $rule, $withParam[ $i ]) )
                     {
-                        $normalized[ $withParam[$i] ] = str_replace( $withParam[$i], '', $rule );
+                        $normalized[ $withParam[$i] ] = str_replace( $withParam[$i], '', (string) $rule );
                         // Convert string to numeric
-                        $normalized[ $withParam[$i] ] = strpos( $normalized[ $withParam[$i] ], '.' ) !== false
+                        $normalized[ $withParam[$i] ] = str_contains( $normalized[ $withParam[$i] ], '.' )
                             ? floatval( $normalized[ $withParam[$i] ] )
                             : intval( $normalized[ $withParam[$i] ] );
                         $added = true;
