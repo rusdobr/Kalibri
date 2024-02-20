@@ -1,5 +1,5 @@
 {
-    "name": "tenebras/kalibri",
+    "name": "rusdobr/kalibri",
     "type": "framework",
     "description": "Lightweight PHP framework",
     "keywords": ["framework","lightweight"],
@@ -10,9 +10,14 @@
             "name": "Alexander Kostynenko",
             "homepage": "https://github.com/tenebras",
             "role": "Developer"
+        },
+        {
+            "name": "Ruslan Dobrovolskyy",
+            "homepage": "https://github.com/rusdobr",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=8.1"
     }
 }
