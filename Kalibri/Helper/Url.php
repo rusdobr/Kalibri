@@ -47,7 +47,7 @@ namespace Kalibri\Helper {
             self::$baseUrl = self::$base.self::$entry;
             self::$baseDomainedUrl = 'http://%d%'.$config['base-host'].'/'.$config['entry'];
 
-            if( self::$entry[ strlen( (string) self::$entry ) -1 ] == '/' )
+            if(!empty(self::$entry) && self::$entry[ strlen( (string) self::$entry ) -1 ] == '/' )
             {
                 self::$baseDomainedUrl = substr( self::$baseDomainedUrl, 0, -1 );
                 self::$baseUrl = substr( self::$baseUrl, 0, -1 );
